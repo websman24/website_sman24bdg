@@ -10,13 +10,32 @@ use Illuminate\Support\Str;
 class NewsService
 {
     /**
-     * Get paginated news with category and author.
+     * Get paginated news with category and author, supporting search and filters.
      */
-    public function getPaginatedNews(int $perPage = 10): LengthAwarePaginator
+    public function getPaginatedNews(int $perPage = 10, ?string $search = null, ?string $status = null, ?int $categoryId = null): LengthAwarePaginator
     {
-        return News::with(['category', 'author'])
-            ->latest('published_at')
-            ->paginate($perPage);
+        $query = News::with(['category', 'author']);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('excerpt', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        return $query->latest('published_at')
+            ->latest('created_at')
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     public function __construct(

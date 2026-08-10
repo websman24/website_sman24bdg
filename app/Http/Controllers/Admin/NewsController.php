@@ -19,10 +19,16 @@ class NewsController extends Controller
     /**
      * Display a listing of the news.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $newsList = $this->newsService->getPaginatedNews(10);
-        return view('admin.news.index', compact('newsList'));
+        $search = $request->query('search');
+        $status = $request->query('status');
+        $categoryId = $request->query('category_id') ? (int)$request->query('category_id') : null;
+
+        $newsList = $this->newsService->getPaginatedNews(10, $search, $status, $categoryId);
+        $categories = NewsCategory::all();
+
+        return view('admin.news.index', compact('newsList', 'categories', 'search', 'status', 'categoryId'));
     }
 
     /**
