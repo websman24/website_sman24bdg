@@ -55,6 +55,36 @@ class AnnouncementController extends Controller
     }
 
     /**
+     * Show form to edit announcement.
+     */
+    public function edit(Announcement $announcement): View
+    {
+        return view('admin.announcements.edit', compact('announcement'));
+    }
+
+    /**
+     * Update announcement.
+     */
+    public function update(Request $request, Announcement $announcement): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+            'is_pinned' => ['nullable', 'boolean'],
+            'status' => ['required', 'in:draft,published'],
+        ], [
+            'title.required' => 'Judul pengumuman wajib diisi.',
+            'content.required' => 'Konten pengumuman wajib diisi.',
+        ]);
+
+        $validated['is_pinned'] = $request->boolean('is_pinned');
+        $this->announcementService->updateAnnouncement($announcement, $validated);
+
+        return redirect()->route('admin.announcements.index')
+            ->with('success', 'Pengumuman berhasil diperbarui.');
+    }
+
+    /**
      * Destroy announcement.
      */
     public function destroy(Announcement $announcement): RedirectResponse

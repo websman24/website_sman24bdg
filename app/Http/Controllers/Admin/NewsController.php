@@ -60,6 +60,44 @@ class NewsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified news article.
+     */
+    public function edit(News $news): View
+    {
+        $categories = NewsCategory::all();
+        return view('admin.news.edit', compact('news', 'categories'));
+    }
+
+    /**
+     * Update the specified news article.
+     */
+    public function update(Request $request, News $news): RedirectResponse
+    {
+        $validated = $request->validate([
+            'category_id' => ['required', 'exists:news_categories,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'excerpt' => ['nullable', 'string'],
+            'content' => ['required', 'string'],
+            'status' => ['required', 'in:draft,published'],
+            'thumbnail_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ], [
+            'category_id.required' => 'Kategori berita wajib dipilih.',
+            'title.required' => 'Judul berita wajib diisi.',
+            'content.required' => 'Konten berita wajib diisi.',
+            'thumbnail_file.image' => 'Berkas thumbnail harus berupa gambar.',
+        ]);
+
+        if ($request->hasFile('thumbnail_file')) {
+            $validated['thumbnail_file'] = $request->file('thumbnail_file');
+        }
+
+        $this->newsService->updateNews($news, $validated);
+
+        return redirect()->route('admin.news.index')
+            ->with('success', 'Berita berhasil diperbarui.');
+    }
+
+    /**
      * Remove the specified news article.
      */
     public function destroy(News $news): RedirectResponse

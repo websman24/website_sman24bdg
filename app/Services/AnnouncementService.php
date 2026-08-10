@@ -32,6 +32,18 @@ class AnnouncementService
     }
 
     /**
+     * Update announcement.
+     */
+    public function updateAnnouncement(Announcement $announcement, array $data): bool
+    {
+        if (isset($data['title']) && $data['title'] !== $announcement->title) {
+            $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
+        }
+
+        return $announcement->update($data);
+    }
+
+    /**
      * Delete announcement.
      */
     public function deleteAnnouncement(Announcement $announcement): bool

@@ -49,6 +49,14 @@ class NewsService
             $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
         }
 
+        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof \Illuminate\Http\UploadedFile) {
+            if ($news->thumbnail) {
+                $this->fileStorageService->deleteFile($news->thumbnail);
+            }
+            $data['thumbnail'] = $this->fileStorageService->uploadImage($data['thumbnail_file'], 'news');
+            unset($data['thumbnail_file']);
+        }
+
         return $news->update($data);
     }
 

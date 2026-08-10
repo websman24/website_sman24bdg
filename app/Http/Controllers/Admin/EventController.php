@@ -41,6 +41,31 @@ class EventController extends Controller
             ->with('success', 'Agenda sekolah berhasil ditambahkan.');
     }
 
+    public function edit(Event $event): View
+    {
+        return view('admin.events.edit', compact('event'));
+    }
+
+    public function update(Request $request, Event $event): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
+            'start_date' => ['required', 'date'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:upcoming,ongoing,completed,cancelled'],
+        ]);
+
+        if ($validated['title'] !== $event->title) {
+            $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
+        }
+
+        $event->update($validated);
+
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Agenda sekolah berhasil diperbarui.');
+    }
+
     public function destroy(Event $event): RedirectResponse
     {
         $event->delete();
