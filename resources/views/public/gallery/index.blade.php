@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" x-data="{ activeTab: 'photos' }">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" x-data="{ activeTab: 'photos', videoModal: false, videoTitle: '', videoEmbedUrl: '' }">
     <!-- Navigation Tabs Switcher -->
     <div class="flex items-center justify-between border-b border-slate-200 pb-4">
         <div class="flex gap-3">
@@ -85,24 +85,46 @@
         @endif
     </div>
 
-    <!-- TAB 2: VIDEO YOUTUBE EMBED -->
+    <!-- TAB 2: VIDEO YOUTUBE EMBED (THUMBNAIL & FLYOFF OVERLAY POPUP PLAYER) -->
     <div x-show="activeTab === 'videos'" class="space-y-8" x-cloak>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             @forelse($videos as $vid)
-                <x-card :hover="false" class="p-0 overflow-hidden space-y-0">
-                    <div class="aspect-video w-full bg-slate-900 border-b border-slate-200">
-                        <iframe src="https://www.youtube.com/embed/{{ $vid->youtube_id }}" title="{{ $vid->title }}" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <x-card :hover="true" class="p-0 overflow-hidden space-y-0 cursor-pointer group flex flex-col justify-between"
+                        @click="videoTitle = '{{ addslashes($vid->title) }}'; videoEmbedUrl = 'https://www.youtube.com/embed/{{ $vid->youtube_id }}?autoplay=1'; videoModal = true">
+                    <div>
+                        <!-- Thumbnail Card with Play Overlay -->
+                        <div class="aspect-video w-full bg-slate-900 relative overflow-hidden">
+                            <img src="https://img.youtube.com/vi/{{ $vid->youtube_id }}/hqdefault.jpg" alt="{{ $vid->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            
+                            <!-- Red YouTube Play Button Icon Overlay -->
+                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                <div class="w-16 h-16 rounded-full bg-rose-600/90 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-rose-600 transition-all duration-300 border-2 border-white/80">
+                                    <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            @if($vid->is_featured)
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-extrabold bg-amber-500 text-emerald-950 shadow-md uppercase">
+                                    ⭐ Video Utama
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="p-6 space-y-2">
+                            <h3 class="font-bold text-slate-900 text-base leading-snug group-hover:text-emerald-800 transition-colors">
+                                {{ $vid->title }}
+                            </h3>
+                            @if($vid->description)
+                                <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">{{ $vid->description }}</p>
+                            @endif
+                        </div>
                     </div>
-                    <div class="p-6 space-y-2">
-                        @if($vid->is_featured)
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 uppercase">
-                                ⭐ Video Utama
-                            </span>
-                        @endif
-                        <h3 class="font-bold text-slate-900 text-base leading-snug">{{ $vid->title }}</h3>
-                        @if($vid->description)
-                            <p class="text-xs text-slate-600 leading-relaxed">{{ $vid->description }}</p>
-                        @endif
+
+                    <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-emerald-800 font-extrabold">
+                        <span>Putar Video Layar Popup</span>
+                        <span>▶</span>
                     </div>
                 </x-card>
             @empty
@@ -112,6 +134,28 @@
                     <p class="text-xs text-slate-500">Video resmi SMAN 24 Bandung akan ditampilkan di halaman ini.</p>
                 </div>
             @endforelse
+        </div>
+    </div>
+
+    <!-- YOUTUBE VIDEO FLYOFF / LIGHTBOX POPUP MODAL -->
+    <div x-show="videoModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
+         @keydown.escape.window="videoModal = false; videoEmbedUrl = ''">
+        <div class="relative max-w-4xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-800 space-y-3 p-4 sm:p-6"
+             @click.away="videoModal = false; videoEmbedUrl = ''">
+            <div class="flex items-center justify-between px-2 text-white border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-rose-500 text-lg">▶️</span>
+                    <h3 class="text-sm font-bold text-white leading-snug line-clamp-1" x-text="videoTitle"></h3>
+                </div>
+                <button @click="videoModal = false; videoEmbedUrl = ''" class="w-8 h-8 rounded-full bg-slate-800 text-white font-bold hover:bg-rose-600 transition-colors flex items-center justify-center text-sm">
+                    ✕
+                </button>
+            </div>
+            <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+                <template x-if="videoModal">
+                    <iframe :src="videoEmbedUrl" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </template>
+            </div>
         </div>
     </div>
 </div>
