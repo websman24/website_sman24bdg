@@ -38,7 +38,13 @@ Route::resource('sliders', SliderController::class);
 Route::resource('news-categories', NewsCategoryController::class);
 Route::resource('news', NewsController::class);
 Route::resource('announcements', AnnouncementController::class);
+// Excel Import & Template Routes
+Route::get('/teachers/template', [TeacherController::class, 'downloadTemplate'])->name('teachers.template');
+Route::post('/teachers/import', [TeacherController::class, 'import'])->name('teachers.import');
 Route::resource('teachers', TeacherController::class);
+
+Route::get('/staff/template', [StaffController::class, 'downloadTemplate'])->name('staff.template');
+Route::post('/staff/import', [StaffController::class, 'import'])->name('staff.import');
 Route::resource('staff', StaffController::class);
 Route::resource('documents', DocumentController::class);
 Route::resource('events', EventController::class);

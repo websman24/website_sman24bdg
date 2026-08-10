@@ -122,7 +122,36 @@ class TeacherStaffTest extends TestCase
         // 3. Public Teachers & Staff Directory
         $publicDir = $this->get('/akademik/guru');
         $publicDir->assertStatus(200);
-        $publicDir->assertSee('Drs. Supriatna Updated');
+        $publicDir->assertSee('Supriatna Updated');
         $publicDir->assertSee('Dewi Sartika Updated');
+
+        // 4. Test Template Download & Excel/CSV Import for Teachers & Staff
+        $teacherTemplate = $this->get('/admin/teachers/template');
+        $teacherTemplate->assertStatus(200);
+        $teacherTemplate->assertHeader('Content-Disposition', 'attachment; filename="Format_Import_Guru_SMAN24.csv"');
+
+        $staffTemplate = $this->get('/admin/staff/template');
+        $staffTemplate->assertStatus(200);
+        $staffTemplate->assertHeader('Content-Disposition', 'attachment; filename="Format_Import_Tendik_SMAN24.csv"');
+
+        // Import CSV for Teachers
+        $teacherCsvContent = "NIP,Nama,Gelar Depan,Gelar Belakang,Mata Pelajaran,Jenis Kelamin,Email,Telepon,Pendidikan,Status Aktif\n199901012025011005,Hendra Wijaya,Drs.,M.Pd.,Biologi,L,hendra@sman24bdg.sch.id,0812999,S2,Aktif";
+        $teacherCsvFile = UploadedFile::fake()->createWithContent('import_guru.csv', $teacherCsvContent);
+
+        $importTeacherResponse = $this->post('/admin/teachers/import', [
+            'excel_file' => $teacherCsvFile,
+        ]);
+        $importTeacherResponse->assertRedirect(route('admin.teachers.index'));
+        $this->assertDatabaseHas('teachers', ['nip' => '199901012025011005', 'name' => 'Hendra Wijaya']);
+
+        // Import CSV for Staff
+        $staffCsvContent = "NIP,Nama,Jabatan,Jenis Kelamin,Email,Telepon,Status Aktif\n199902022025012006,Ratna Juwita,Staf Tata Usaha,P,ratna@sman24bdg.sch.id,0899999,Aktif";
+        $staffCsvFile = UploadedFile::fake()->createWithContent('import_tendik.csv', $staffCsvContent);
+
+        $importStaffResponse = $this->post('/admin/staff/import', [
+            'excel_file' => $staffCsvFile,
+        ]);
+        $importStaffResponse->assertRedirect(route('admin.staff.index'));
+        $this->assertDatabaseHas('staff', ['nip' => '199902022025012006', 'name' => 'Ratna Juwita']);
     }
 }

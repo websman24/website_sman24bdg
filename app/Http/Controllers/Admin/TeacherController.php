@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
+use App\Services\ExcelImportService;
 use App\Services\TeacherService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TeacherController extends Controller
 {
     public function __construct(
-        protected TeacherService $teacherService
+        protected TeacherService $teacherService,
+        protected ExcelImportService $excelImportService
     ) {}
 
     /**
@@ -129,5 +132,53 @@ class TeacherController extends Controller
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Data pendidik berhasil dihapus.');
+    }
+
+    /**
+     * Import teachers from Excel/CSV file.
+     */
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'excel_file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt', 'max:5120'],
+        ], [
+            'excel_file.required' => 'Berkas Excel / CSV wajib diunggah.',
+            'excel_file.mimes' => 'Format berkas harus .xlsx, .xls, atau .csv.',
+        ]);
+
+        $result = $this->excelImportService->importTeachers($request->file('excel_file'));
+
+        $msg = "Impor selesai: {$result['imported']} data baru ditambahkan";
+        if ($result['updated'] > 0) {
+            $msg .= ", {$result['updated']} data diperbarui";
+        }
+        if ($result['skipped'] > 0) {
+            $msg .= ", {$result['skipped']} baris dilewati (format tidak lengkap)";
+        }
+
+        return redirect()->route('admin.teachers.index')->with('success', $msg . '.');
+    }
+
+    /**
+     * Download Excel/CSV template for teachers.
+     */
+    public function downloadTemplate(): StreamedResponse
+    {
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="Format_Import_Guru_SMAN24.csv"',
+        ];
+
+        return response()->stream(function () {
+            $file = fopen('php://output', 'w');
+            // Add UTF-8 BOM for Excel compatibility
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            fputcsv($file, ['NIP', 'Nama', 'Gelar Depan', 'Gelar Belakang', 'Mata Pelajaran', 'Jenis Kelamin', 'Email', 'Telepon', 'Pendidikan', 'Status Aktif']);
+            fputcsv($file, ['198001012006041002', 'Budi Santoso', 'Drs.', 'M.Pd.', 'Matematika', 'L', 'budi.santoso@sman24bdg.sch.id', '08123456789', 'S2 Pendidikan Matematika', 'Aktif']);
+            fputcsv($file, ['198505122010012003', 'Siti Aminah', 'S.Pd.', '', 'Fisika', 'P', 'siti.aminah@sman24bdg.sch.id', '08987654321', 'S1 Fisika', 'Aktif']);
+
+            fclose($file);
+        }, 200, $headers);
     }
 }

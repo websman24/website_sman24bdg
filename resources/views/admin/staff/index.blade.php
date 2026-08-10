@@ -4,20 +4,65 @@
 @section('breadcrumb', 'Tenaga Kependidikan')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="{ showImportModal: false }">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div>
             <h2 class="text-xl font-bold text-slate-900">Manajemen Tenaga Kependidikan (Tendik)</h2>
             <p class="text-xs text-slate-500 mt-1">Kelola data staf tata usaha, laboratorium, perpustakaan, dan kebersihan SMAN 24 Bandung.</p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+            <button @click="showImportModal = true" type="button" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-sm transition-all">
+                📥 Impor Excel / CSV
+            </button>
             <a href="{{ route('admin.teachers.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
-                👨‍🏫 Kelola Data Guru
+                👨‍🏫 Kelola Guru
             </a>
             <a href="{{ route('admin.staff.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-sm transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Tendik Baru
             </a>
+        </div>
+    </div>
+
+    <!-- Modal Impor Excel Tendik -->
+    <div x-show="showImportModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200" @click.away="showImportModal = false">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Impor Data Tendik dari Excel / CSV</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Unggah file .xlsx atau .csv sesuai format kolom database staf.</p>
+                </div>
+                <button @click="showImportModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+            </div>
+
+            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-amber-900">📄 Format Kolom Database Tendik:</span>
+                    <a href="{{ route('admin.staff.template') }}" class="text-xs font-extrabold text-amber-800 hover:underline">
+                        ⬇️ Download Template Format (.csv)
+                    </a>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-relaxed font-mono">
+                    NIP, Nama, Jabatan, Jenis Kelamin (L/P), Email, Telepon, Status Aktif
+                </p>
+            </div>
+
+            <form action="{{ route('admin.staff.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                @csrf
+                <div>
+                    <label for="excel_file" class="block text-xs font-bold text-slate-700 mb-2">Pilih Berkas Excel / CSV (.xlsx, .csv)</label>
+                    <input type="file" id="excel_file" name="excel_file" accept=".xlsx,.xls,.csv" required class="form-input-custom bg-white">
+                </div>
+
+                <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
+                    <button @click="showImportModal = false" type="button" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-600 font-bold text-xs hover:bg-slate-50">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-md">
+                        Mulai Impor Data
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
