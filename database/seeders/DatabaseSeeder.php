@@ -234,5 +234,13 @@ class DatabaseSeeder extends Seeder
             ['key' => 'school_motto'],
             ['value' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global', 'group' => 'general', 'type' => 'text', 'label' => 'Motto Sekolah']
         );
+        Setting::updateOrCreate(
+            ['key' => 'principal_name'],
+            ['value' => 'Drs. H. Solihin, M.Pd.', 'group' => 'general', 'type' => 'text', 'label' => 'Nama Kepala Sekolah']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'principal_title'],
+            ['value' => 'Kepala SMA Negeri 24 Bandung', 'group' => 'general', 'type' => 'text', 'label' => 'Jabatan Kepala Sekolah']
+        );
     }
 }

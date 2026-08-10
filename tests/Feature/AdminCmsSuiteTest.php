@@ -34,15 +34,22 @@ class AdminCmsSuiteTest extends TestCase
         $settingsResponse = $this->get('/admin/settings');
         $settingsResponse->assertStatus(200);
 
+        $principalPhoto = \Illuminate\Http\UploadedFile::fake()->image('principal.jpg', 600, 600);
+
         $updateSettings = $this->post('/admin/settings', [
             'school_name' => 'SMA Negeri 24 Bandung Custom',
             'school_phone' => '(022) 7800540-UPDATED',
+            'principal_name' => 'Drs. H. Solihin, M.Pd.',
+            'principal_title' => 'Kepala SMAN 24 Bandung',
+            'principal_photo_file' => $principalPhoto,
         ]);
         $updateSettings->assertRedirect(route('admin.settings.index'));
         $this->assertEquals('(022) 7800540-UPDATED', \App\Models\Setting::getValue('school_phone'));
+        $this->assertEquals('Drs. H. Solihin, M.Pd.', \App\Models\Setting::getValue('principal_name'));
 
         $publicHome = $this->get('/');
         $publicHome->assertSee('(022) 7800540-UPDATED');
+        $publicHome->assertSee('Drs. H. Solihin, M.Pd.');
 
         // 3. Profiles Update
         $profile = SchoolProfile::create([

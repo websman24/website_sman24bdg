@@ -79,14 +79,38 @@
                 <p class="text-slate-600 text-xs sm:text-sm mt-2">{{ $schoolInfo['address'] }}</p>
             </div>
 
-            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 space-y-4">
-                <div class="flex items-center gap-3 text-emerald-800 font-bold text-lg">
-                    <span class="text-2xl">🏛️</span>
-                    <h3>{{ $profiles['visi_misi']->title ?? 'Visi dan Misi Sekolah' }}</h3>
-                </div>
-                <p class="text-slate-700 text-sm leading-relaxed">
-                    {{ $profiles['visi_misi']->content ?? 'Terwujudnya sekolah berkarakter, unggul dalam prestasi akademik dan non-akademik, serta berwawasan global.' }}
-                </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <!-- Sambutan Kepala Sekolah Card -->
+                <x-card :hover="false" class="bg-gradient-to-br from-emerald-900 to-slate-900 text-white space-y-4">
+                    <div class="flex items-center gap-4 border-b border-emerald-800/80 pb-4">
+                        @if(!empty($schoolInfo['principal_photo']))
+                            <img src="{{ asset($schoolInfo['principal_photo']) }}" alt="{{ $schoolInfo['principal_name'] }}" class="w-16 h-16 rounded-full object-cover border-2 border-amber-400 shadow-md">
+                        @else
+                            <div class="w-16 h-16 rounded-full bg-emerald-800 flex items-center justify-center text-amber-400 font-extrabold text-xl border-2 border-amber-400 shadow-md">
+                                👔
+                            </div>
+                        @endif
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Sambutan Pimpinan</span>
+                            <h3 class="font-bold text-white text-base leading-tight">{{ $schoolInfo['principal_name'] }}</h3>
+                            <p class="text-xs text-emerald-200 mt-0.5">{{ $schoolInfo['principal_title'] }}</p>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed italic">
+                        "{{ $profiles['sambutan_kepala_sekolah']->content ?? 'Selamat datang di website resmi SMA Negeri 24 Bandung. Kami berkomitmen untuk terus meningkatkan mutu pendidikan, membangun karakter peserta didik yang berakhlak mulia, cerdas, dan siap bersaing di tingkat global.' }}"
+                    </p>
+                </x-card>
+
+                <!-- Visi & Misi Card -->
+                <x-card :hover="false" class="bg-slate-50 space-y-4">
+                    <div class="flex items-center gap-3 text-emerald-800 font-bold text-lg border-b border-slate-200 pb-3">
+                        <span class="text-2xl">🎯</span>
+                        <h3>{{ $profiles['visi_misi']->title ?? 'Visi dan Misi Sekolah' }}</h3>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed whitespace-pre-line">
+                        {{ $profiles['visi_misi']->content ?? 'Terwujudnya sekolah berkarakter, unggul dalam prestasi akademik dan non-akademik, serta berwawasan global.' }}
+                    </p>
+                </x-card>
             </div>
         </div>
     </section>

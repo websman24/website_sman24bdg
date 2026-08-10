@@ -13,6 +13,30 @@
 </div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+
+    <!-- Sambutan Kepala Sekolah Card -->
+    <x-card :hover="false" class="bg-gradient-to-br from-emerald-900 to-slate-900 text-white space-y-6">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 border-b border-emerald-800/80 pb-6">
+            @if(\App\Models\Setting::getValue('principal_photo'))
+                <img src="{{ asset(\App\Models\Setting::getValue('principal_photo')) }}" alt="{{ \App\Models\Setting::getValue('principal_name', 'Kepala Sekolah') }}" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-amber-400 shadow-lg flex-shrink-0">
+            @else
+                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-emerald-800 flex items-center justify-center text-amber-400 font-extrabold text-4xl border-4 border-amber-400 shadow-lg flex-shrink-0">
+                    👔
+                </div>
+            @endif
+            <div class="space-y-2 text-center sm:text-left">
+                <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-emerald-950 inline-block">Sambutan Pimpinan</span>
+                <h2 class="text-2xl font-extrabold text-white">{{ \App\Models\Setting::getValue('principal_name', 'Drs. H. Solihin, M.Pd.') }}</h2>
+                <p class="text-xs text-emerald-200 font-medium">{{ \App\Models\Setting::getValue('principal_title', 'Kepala SMA Negeri 24 Bandung') }}</p>
+            </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-200 leading-relaxed italic space-y-3">
+            <p>
+                "{{ $profiles['sambutan_kepala_sekolah']->content ?? 'Selamat datang di website resmi SMA Negeri 24 Bandung. Kami berkomitmen untuk terus meningkatkan mutu pendidikan, membangun karakter peserta didik yang berakhlak mulia, cerdas, dan siap bersaing di tingkat global.' }}"
+            </p>
+        </div>
+    </x-card>
+
     <!-- Sejarah / Identity Card -->
     <x-card :hover="false" class="space-y-4">
         <div class="flex items-center gap-3 border-b border-slate-100 pb-3">

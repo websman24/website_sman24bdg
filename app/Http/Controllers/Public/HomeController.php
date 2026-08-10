@@ -26,6 +26,9 @@ class HomeController extends Controller
             'email' => \App\Models\Setting::getValue('school_email', 'info@sman24bdg.sch.id'),
             'accreditation' => \App\Models\Setting::getValue('school_accreditation', 'A (Unggul)'),
             'motto' => \App\Models\Setting::getValue('school_motto', 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global'),
+            'principal_name' => \App\Models\Setting::getValue('principal_name', 'Drs. H. Solihin, M.Pd.'),
+            'principal_title' => \App\Models\Setting::getValue('principal_title', 'Kepala SMA Negeri 24 Bandung'),
+            'principal_photo' => \App\Models\Setting::getValue('principal_photo'),
         ];
 
         $latestNews = News::with('category')
