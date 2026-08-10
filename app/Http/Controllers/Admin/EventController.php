@@ -144,4 +144,27 @@ class EventController extends Controller
 
         return redirect()->route('admin.events.index')->with('success', 'Agenda berhasil dihapus.');
     }
+
+    /**
+     * Bulk delete selected events.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $ids = $request->input('ids', []);
+
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.events.index')->with('error', 'Tidak ada agenda kegiatan yang dipilih.');
+        }
+
+        $events = Event::whereIn('id', $ids)->get();
+        foreach ($events as $event) {
+            if ($event->banner) {
+                $this->fileStorageService->deleteFile($event->banner);
+            }
+            $event->delete();
+        }
+
+        return redirect()->route('admin.events.index')
+            ->with('success', count($events) . ' agenda kegiatan berhasil dihapus secara massal.');
+    }
 }

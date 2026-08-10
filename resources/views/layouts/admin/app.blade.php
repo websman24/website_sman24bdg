@@ -38,9 +38,13 @@
             <!-- User Info Card -->
             <div class="p-4 mx-4 mt-4 bg-emerald-900/30 rounded-2xl border border-emerald-700/40 shadow-inner">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-extrabold text-white text-sm shrink-0 border border-emerald-500/40 shadow-md">
-                        {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                    </div>
+                    @if(auth()->user() && auth()->user()->avatar)
+                        <img src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-10 h-10 rounded-full object-cover border-2 border-amber-400 shrink-0">
+                    @else
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-extrabold text-white text-sm shrink-0 border border-emerald-500/40 shadow-md">
+                            {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                        </div>
+                    @endif
                     <div class="overflow-hidden text-xs">
                         <p class="font-bold text-white truncate">{{ auth()->user()->name ?? 'Administrator' }}</p>
                         <p class="text-slate-400 truncate text-[11px]">{{ auth()->user()->email ?? 'admin@sman24bdg.sch.id' }}</p>
@@ -117,9 +121,12 @@
                     </a>
                 </div>
 
-                <!-- Group: Pengaturan -->
+                <!-- Group: Pengaturan & Pengguna -->
                 <div class="space-y-1">
-                    <div class="px-3 text-[10px] font-extrabold uppercase tracking-widest text-amber-400/80">Konfigurasi</div>
+                    <div class="px-3 text-[10px] font-extrabold uppercase tracking-widest text-amber-400/80">Sistem & Pengguna</div>
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.users.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>🔑 Pengguna & Hak Akses</span>
+                    </a>
                     <a href="{{ route('admin.settings.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.settings.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>⚙️ Pengaturan Website</span>
                     </a>
@@ -171,10 +178,15 @@
             </div>
 
             <!-- Page Flash Notifications -->
-            <div class="p-6 pb-0">
+            <div class="p-6 pb-0 space-y-3">
                 @if(session('success'))
                     <x-alert type="success">
                         <span class="font-bold">{{ session('success') }}</span>
+                    </x-alert>
+                @endif
+                @if(session('error'))
+                    <x-alert type="error">
+                        <span class="font-bold">{{ session('error') }}</span>
                     </x-alert>
                 @endif
                 @if(session('warning'))

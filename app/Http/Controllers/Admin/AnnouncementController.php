@@ -102,4 +102,24 @@ class AnnouncementController extends Controller
         return redirect()->route('admin.announcements.index')
             ->with('success', 'Pengumuman berhasil dihapus.');
     }
+
+    /**
+     * Bulk delete selected announcements.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $ids = $request->input('ids', []);
+
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.announcements.index')->with('error', 'Tidak ada pengumuman yang dipilih.');
+        }
+
+        $items = Announcement::whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            $this->announcementService->deleteAnnouncement($item);
+        }
+
+        return redirect()->route('admin.announcements.index')
+            ->with('success', count($items) . ' pengumuman berhasil dihapus secara massal.');
+    }
 }

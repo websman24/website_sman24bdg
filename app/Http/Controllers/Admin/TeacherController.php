@@ -135,6 +135,26 @@ class TeacherController extends Controller
     }
 
     /**
+     * Bulk delete selected teacher records.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $ids = $request->input('ids', []);
+
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.teachers.index')->with('error', 'Tidak ada data pendidik yang dipilih.');
+        }
+
+        $teachers = Teacher::whereIn('id', $ids)->get();
+        foreach ($teachers as $teacher) {
+            $this->teacherService->deleteTeacher($teacher);
+        }
+
+        return redirect()->route('admin.teachers.index')
+            ->with('success', count($teachers) . ' data pendidik berhasil dihapus secara massal.');
+    }
+
+    /**
      * Import teachers from Excel/CSV file.
      */
     public function import(Request $request): RedirectResponse

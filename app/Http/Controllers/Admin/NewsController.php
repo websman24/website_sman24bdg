@@ -113,4 +113,24 @@ class NewsController extends Controller
         return redirect()->route('admin.news.index')
             ->with('success', 'Berita berhasil dihapus.');
     }
+
+    /**
+     * Bulk delete selected news articles.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $ids = $request->input('ids', []);
+
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.news.index')->with('error', 'Tidak ada data berita yang dipilih.');
+        }
+
+        $newsItems = News::whereIn('id', $ids)->get();
+        foreach ($newsItems as $news) {
+            $this->newsService->deleteNews($news);
+        }
+
+        return redirect()->route('admin.news.index')
+            ->with('success', count($newsItems) . ' berita berhasil dihapus secara massal.');
+    }
 }
