@@ -2,27 +2,27 @@
 
 namespace App\Services;
 
-use App\Models\Teacher;
+use App\Models\Staff;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class TeacherService
+class StaffService
 {
     public function __construct(
         protected FileStorageService $fileStorageService
     ) {}
 
     /**
-     * Get paginated teachers with search & filter.
+     * Get paginated staff records with search & filter.
      */
-    public function getPaginatedTeachers(int $perPage = 15, ?string $search = null, ?string $status = null, ?string $gender = null): LengthAwarePaginator
+    public function getPaginatedStaff(int $perPage = 15, ?string $search = null, ?string $status = null, ?string $gender = null): LengthAwarePaginator
     {
-        $query = Teacher::query();
+        $query = Staff::query();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('nip', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%");
+                  ->orWhere('position', 'like', "%{$search}%");
             });
         }
 
@@ -41,43 +41,43 @@ class TeacherService
     }
 
     /**
-     * Create teacher record.
+     * Create staff record.
      */
-    public function createTeacher(array $data): Teacher
+    public function createStaff(array $data): Staff
     {
         if (isset($data['photo_file']) && $data['photo_file'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'teachers');
+            $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'staff');
             unset($data['photo_file']);
         }
 
-        return Teacher::create($data);
+        return Staff::create($data);
     }
 
     /**
-     * Update teacher record.
+     * Update staff record.
      */
-    public function updateTeacher(Teacher $teacher, array $data): bool
+    public function updateStaff(Staff $staff, array $data): bool
     {
         if (isset($data['photo_file']) && $data['photo_file'] instanceof \Illuminate\Http\UploadedFile) {
-            if ($teacher->photo) {
-                $this->fileStorageService->deleteFile($teacher->photo);
+            if ($staff->photo) {
+                $this->fileStorageService->deleteFile($staff->photo);
             }
-            $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'teachers');
+            $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'staff');
             unset($data['photo_file']);
         }
 
-        return $teacher->update($data);
+        return $staff->update($data);
     }
 
     /**
-     * Delete teacher record.
+     * Delete staff record.
      */
-    public function deleteTeacher(Teacher $teacher): bool
+    public function deleteStaff(Staff $staff): bool
     {
-        if ($teacher->photo) {
-            $this->fileStorageService->deleteFile($teacher->photo);
+        if ($staff->photo) {
+            $this->fileStorageService->deleteFile($staff->photo);
         }
 
-        return $teacher->delete();
+        return $staff->delete();
     }
 }

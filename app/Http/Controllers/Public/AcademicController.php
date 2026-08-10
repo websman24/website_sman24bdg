@@ -17,9 +17,14 @@ class AcademicController extends Controller
         $teachers = Teacher::where('is_active', true)
             ->orderBy('order_position')
             ->orderBy('name')
-            ->paginate(12);
+            ->get();
 
-        return view('public.academic.teachers', compact('teachers'));
+        $staffMembers = \App\Models\Staff::where('is_active', true)
+            ->orderBy('order_position')
+            ->orderBy('name')
+            ->get();
+
+        return view('public.academic.teachers', compact('teachers', 'staffMembers'));
     }
 
     /**

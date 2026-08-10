@@ -12,32 +12,85 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        @forelse($teachers as $teacher)
-            <x-card :hover="true" class="text-center space-y-3">
-                <div class="w-20 h-20 mx-auto rounded-full bg-emerald-800 text-white font-extrabold text-2xl flex items-center justify-center shadow-md">
-                    {{ strtoupper(substr($teacher->name, 0, 1)) }}
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-900 text-sm">{{ $teacher->full_name }}</h3>
-                    <p class="text-xs text-slate-500 font-mono mt-0.5">NIP: {{ $teacher->nip ?? '-' }}</p>
-                    <span class="inline-block mt-2 px-3 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
-                        {{ $teacher->subject }}
-                    </span>
-                </div>
-            </x-card>
-        @empty
-            <div class="col-span-4 py-12 text-center text-slate-400 text-xs">
-                Belum ada data guru terdaftar.
-            </div>
-        @endforelse
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-data="{ activeTab: 'teachers' }">
+    
+    <!-- Tab Controls -->
+    <div class="flex justify-center border-b border-slate-200">
+        <div class="flex gap-4">
+            <button @click="activeTab = 'teachers'" :class="activeTab === 'teachers' ? 'border-emerald-800 text-emerald-800 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="py-3 px-6 text-sm border-b-2 transition-colors flex items-center gap-2">
+                <span>👨‍🏫 Guru & Pendidik</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">{{ $teachers->count() }}</span>
+            </button>
+            <button @click="activeTab = 'staff'" :class="activeTab === 'staff' ? 'border-emerald-800 text-emerald-800 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="py-3 px-6 text-sm border-b-2 transition-colors flex items-center gap-2">
+                <span>👔 Tenaga Kependidikan (Tendik)</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-900 font-bold">{{ $staffMembers->count() }}</span>
+            </button>
+        </div>
     </div>
 
-    @if($teachers->hasPages())
-        <div class="pt-8 flex justify-center">
-            {{ $teachers->links() }}
+    <!-- Tab 1: Teachers Grid -->
+    <div x-show="activeTab === 'teachers'" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @forelse($teachers as $teacher)
+                <x-card :hover="true" class="text-center space-y-4 p-6 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        @if($teacher->photo)
+                            <img src="{{ asset($teacher->photo) }}" alt="{{ $teacher->full_name }}" class="w-24 h-24 mx-auto rounded-2xl object-cover border-2 border-emerald-800 shadow-md">
+                        @else
+                            <div class="w-24 h-24 mx-auto rounded-2xl bg-emerald-800 text-amber-400 font-black text-3xl flex items-center justify-center border-2 border-amber-400 shadow-md">
+                                {{ strtoupper(substr($teacher->name, 0, 1)) }}
+                            </div>
+                        @endif
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm leading-snug">{{ $teacher->full_name }}</h3>
+                            <p class="text-[11px] text-slate-500 font-mono mt-0.5">NIP: {{ $teacher->nip ?? '-' }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200">
+                            📚 {{ $teacher->subject }}
+                        </span>
+                    </div>
+                </x-card>
+            @empty
+                <div class="col-span-4 py-12 text-center text-slate-400 text-xs">
+                    Belum ada data guru terdaftar.
+                </div>
+            @endforelse
         </div>
-    @endif
+    </div>
+
+    <!-- Tab 2: Staff Grid -->
+    <div x-show="activeTab === 'staff'" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @forelse($staffMembers as $staff)
+                <x-card :hover="true" class="text-center space-y-4 p-6 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        @if($staff->photo)
+                            <img src="{{ asset($staff->photo) }}" alt="{{ $staff->name }}" class="w-24 h-24 mx-auto rounded-2xl object-cover border-2 border-amber-500 shadow-md">
+                        @else
+                            <div class="w-24 h-24 mx-auto rounded-2xl bg-amber-500 text-emerald-950 font-black text-3xl flex items-center justify-center border-2 border-amber-400 shadow-md">
+                                {{ strtoupper(substr($staff->name, 0, 1)) }}
+                            </div>
+                        @endif
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm leading-snug">{{ $staff->name }}</h3>
+                            <p class="text-[11px] text-slate-500 font-mono mt-0.5">NIP: {{ $staff->nip ?? '-' }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                            👔 {{ $staff->position }}
+                        </span>
+                    </div>
+                </x-card>
+            @empty
+                <div class="col-span-4 py-12 text-center text-slate-400 text-xs">
+                    Belum ada data tenaga kependidikan terdaftar.
+                </div>
+            @endforelse
+        </div>
+    </div>
+
 </div>
 @endsection

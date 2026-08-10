@@ -90,7 +90,10 @@
                         <span>🏛️ Profil Sekolah</span>
                     </a>
                     <a href="{{ route('admin.teachers.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.teachers.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
-                        <span>👨‍🏫 Guru & Tendik</span>
+                        <span>👨‍🏫 Data Guru & Pendidik</span>
+                    </a>
+                    <a href="{{ route('admin.staff.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.staff.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>👔 Tenaga Kependidikan</span>
                     </a>
                     <a href="{{ route('admin.achievements.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.achievements.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>🏆 Prestasi Siswa</span>
