@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('achievements', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->enum('category', ['akademik', 'non_akademik'])->default('akademik')->index();
+            $table->enum('level', ['kota', 'provinsi', 'nasional', 'internasional'])->default('kota')->index();
+            $table->string('winner_name');
+            $table->string('event_name');
+            $table->year('achievement_year')->index();
+            $table->text('description')->nullable();
+            $table->string('photo')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('achievements');
+    }
+};

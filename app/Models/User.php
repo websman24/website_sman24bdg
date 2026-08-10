@@ -23,6 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'avatar',
+        'is_active',
     ];
 
     /**
@@ -62,5 +64,30 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function news()
+    {
+        return $this->hasMany(News::class, 'author_id');
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class, 'author_id');
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'author_id');
+    }
+
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class, 'author_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'author_id');
     }
 }
