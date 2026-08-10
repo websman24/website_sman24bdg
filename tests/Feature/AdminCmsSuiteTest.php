@@ -35,10 +35,14 @@ class AdminCmsSuiteTest extends TestCase
         $settingsResponse->assertStatus(200);
 
         $updateSettings = $this->post('/admin/settings', [
-            'school_name' => 'SMA Negeri 24 Bandung',
-            'school_phone' => '(022) 7800540',
+            'school_name' => 'SMA Negeri 24 Bandung Custom',
+            'school_phone' => '(022) 7800540-UPDATED',
         ]);
         $updateSettings->assertRedirect(route('admin.settings.index'));
+        $this->assertEquals('(022) 7800540-UPDATED', \App\Models\Setting::getValue('school_phone'));
+
+        $publicHome = $this->get('/');
+        $publicHome->assertSee('(022) 7800540-UPDATED');
 
         // 3. Profiles Update
         $profile = SchoolProfile::create([

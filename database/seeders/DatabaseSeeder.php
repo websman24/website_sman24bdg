@@ -218,5 +218,21 @@ class DatabaseSeeder extends Seeder
             ['key' => 'school_phone'],
             ['value' => '(022) 7800540', 'group' => 'contact', 'type' => 'text', 'label' => 'Telepon Sekolah']
         );
+        Setting::updateOrCreate(
+            ['key' => 'school_email'],
+            ['value' => 'info@sman24bdg.sch.id', 'group' => 'contact', 'type' => 'text', 'label' => 'Email Sekolah']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'school_npsn'],
+            ['value' => '20219736', 'group' => 'general', 'type' => 'text', 'label' => 'NPSN Sekolah']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'school_accreditation'],
+            ['value' => 'A (Unggul)', 'group' => 'general', 'type' => 'text', 'label' => 'Akreditasi Sekolah']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'school_motto'],
+            ['value' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global', 'group' => 'general', 'type' => 'text', 'label' => 'Motto Sekolah']
+        );
     }
 }

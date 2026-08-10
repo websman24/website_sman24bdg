@@ -23,18 +23,18 @@
             <div class="flex items-center gap-4">
                 <span class="flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    Jl. A.H. Nasution No. 27, Kota Bandung
+                    {{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung') }}
                 </span>
                 <span class="hidden md:flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                    (022) 7800540
+                    {{ \App\Models\Setting::getValue('school_phone', '(022) 7800540') }}
                 </span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="px-2 py-0.5 rounded bg-emerald-900 text-amber-300 font-semibold text-[10px]">
-                    NPSN: 20219736
+                    NPSN: {{ \App\Models\Setting::getValue('school_npsn', '20219736') }}
                 </span>
-                <span class="text-slate-300 text-[11px]">Akreditasi: <strong>A (Unggul)</strong></span>
+                <span class="text-slate-300 text-[11px]">Akreditasi: <strong>{{ \App\Models\Setting::getValue('school_accreditation', 'A (Unggul)') }}</strong></span>
             </div>
         </div>
     </div>
@@ -50,8 +50,8 @@
                         24
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-extrabold text-slate-900 text-base tracking-tight group-hover:text-emerald-800 transition-colors">
-                            SMAN 24 BANDUNG
+                        <span class="font-extrabold text-slate-900 text-base tracking-tight group-hover:text-emerald-800 transition-colors uppercase">
+                            {{ \App\Models\Setting::getValue('school_name', 'SMAN 24 BANDUNG') }}
                         </span>
                         <span class="text-[10px] text-slate-500 font-medium tracking-wide">
                             Official School Portal
@@ -151,12 +151,12 @@
                         <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center text-emerald-950 font-extrabold text-lg">
                             24
                         </div>
-                        <span class="font-extrabold text-white text-lg tracking-tight">
-                            SMA NEGERI 24 BANDUNG
+                        <span class="font-extrabold text-white text-lg tracking-tight uppercase">
+                            {{ \App\Models\Setting::getValue('school_name', 'SMA NEGERI 24 BANDUNG') }}
                         </span>
                     </div>
                     <p class="text-xs text-slate-400 max-w-md leading-relaxed">
-                        Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614. Sekolah berkarakter, unggul dalam prestasi akademik & non-akademik.
+                        {{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614') }}. Sekolah berkarakter, unggul dalam prestasi akademik & non-akademik.
                     </p>
                 </div>
 
@@ -184,7 +184,7 @@
             </div>
 
             <div class="border-t border-emerald-900 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2">
-                <p>&copy; {{ date('Y') }} SMA Negeri 24 Bandung. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }}. All rights reserved.</p>
                 <p class="text-[11px]">Designed with Laravel 12 & Tailwind CSS v4</p>
             </div>
         </div>
