@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::post('/settings', [SettingController::class, 'update'])->name('settings.u
 Route::resource('profiles', SchoolProfileController::class)->only(['index', 'update']);
 
 // CMS Resource Routes
+Route::resource('sliders', SliderController::class);
 Route::resource('news', NewsController::class);
 Route::resource('announcements', AnnouncementController::class);
 Route::resource('teachers', TeacherController::class);

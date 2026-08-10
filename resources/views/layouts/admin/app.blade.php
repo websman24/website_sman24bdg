@@ -66,6 +66,9 @@
                 <!-- Group: Konten Publikasi -->
                 <div class="space-y-1">
                     <div class="px-3 text-[10px] font-extrabold uppercase tracking-widest text-amber-400/80">Konten Publikasi</div>
+                    <a href="{{ route('admin.sliders.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.sliders.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>🖼️ Hero Image Slider</span>
+                    </a>
                     <a href="{{ route('admin.news.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.news.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>📰 Berita Sekolah</span>
                     </a>

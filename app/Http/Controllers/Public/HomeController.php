@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Extracurricular;
 use App\Models\News;
 use App\Models\SchoolProfile;
+use App\Models\Slider;
 use App\Models\Teacher;
 use Illuminate\View\View;
 
@@ -30,6 +31,10 @@ class HomeController extends Controller
             'principal_title' => \App\Models\Setting::getValue('principal_title', 'Kepala SMA Negeri 24 Bandung'),
             'principal_photo' => \App\Models\Setting::getValue('principal_photo'),
         ];
+
+        $sliders = Slider::where('is_active', true)
+            ->orderBy('order_position', 'asc')
+            ->get();
 
         $latestNews = News::with('category')
             ->where('status', 'published')
@@ -67,6 +72,7 @@ class HomeController extends Controller
 
         return view('public.home', compact(
             'schoolInfo',
+            'sliders',
             'latestNews',
             'pinnedAnnouncements',
             'upcomingEvents',

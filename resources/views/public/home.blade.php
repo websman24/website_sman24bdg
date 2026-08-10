@@ -5,7 +5,98 @@
 @section('content')
 <div class="space-y-0">
     
-    <!-- Hero Section (Premium Radial Gradient & Glassmorphism) -->
+    <!-- Hero Image Carousel Slider (Dynamic from Admin) -->
+    @if(isset($sliders) && $sliders->count() > 0)
+        <section class="relative bg-slate-950 text-white overflow-hidden border-b border-emerald-800/80"
+                 x-data="{
+                    activeSlide: 0,
+                    slidesCount: {{ $sliders->count() }},
+                    timer: null,
+                    startAutoplay() {
+                        this.timer = setInterval(() => {
+                            this.nextSlide();
+                        }, 5000);
+                    },
+                    stopAutoplay() {
+                        clearInterval(this.timer);
+                    },
+                    nextSlide() {
+                        this.activeSlide = (this.activeSlide + 1) % this.slidesCount;
+                    },
+                    prevSlide() {
+                        this.activeSlide = (this.activeSlide - 1 + this.slidesCount) % this.slidesCount;
+                    }
+                 }"
+                 x-init="startAutoplay()"
+                 @mouseenter="stopAutoplay()"
+                 @mouseleave="startAutoplay()">
+            
+            <!-- Slides Container -->
+            <div class="relative h-[480px] sm:h-[560px] lg:h-[620px] w-full">
+                @foreach($sliders as $index => $slide)
+                    <div x-show="activeSlide === {{ $index }}"
+                         x-transition:enter="transition ease-out duration-700"
+                         x-transition:enter-start="opacity-0 scale-105"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-500"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute inset-0 w-full h-full">
+                        
+                        <!-- Background Image with Gradient Dark Overlay -->
+                        <img src="{{ asset($slide->image_path) }}" alt="{{ $slide->title }}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-emerald-950/70"></div>
+
+                        <!-- Content Overlay -->
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                                <div class="max-w-2xl space-y-4">
+                                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/90 border border-amber-400/50 text-amber-400 text-xs font-extrabold shadow-lg">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                                        INFORMASI UNGGULAN
+                                    </div>
+                                    <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+                                        {{ $slide->title }}
+                                    </h2>
+                                    @if($slide->subtitle)
+                                        <p class="text-sm sm:text-base text-slate-200 leading-relaxed max-w-xl drop-shadow">
+                                            {{ $slide->subtitle }}
+                                        </p>
+                                    @endif
+                                    @if($slide->button_text)
+                                        <div class="pt-2">
+                                            <x-button href="{{ $slide->button_url ?? route('profile') }}" variant="secondary" class="shadow-xl">
+                                                {{ $slide->button_text }} &rarr;
+                                            </x-button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Navigation Controls (Prev/Next) -->
+            <button @click="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-900/60 hover:bg-emerald-800 text-white transition-all backdrop-blur-md border border-white/20 z-20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button @click="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-900/60 hover:bg-emerald-800 text-white transition-all backdrop-blur-md border border-white/20 z-20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+            <!-- Dots Indicators -->
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-20">
+                @foreach($sliders as $index => $slide)
+                    <button @click="activeSlide = {{ $index }}"
+                            class="h-2.5 rounded-full transition-all duration-300"
+                            :class="activeSlide === {{ $index }} ? 'w-8 bg-amber-400' : 'w-2.5 bg-white/40 hover:bg-white/70'"></button>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    <!-- Hero Section (Fallback / Intro) -->
     <section class="relative hero-gradient hero-pattern-bg text-white py-20 lg:py-28 overflow-hidden border-b border-emerald-800/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">

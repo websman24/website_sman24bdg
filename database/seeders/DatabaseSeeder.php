@@ -242,5 +242,30 @@ class DatabaseSeeder extends Seeder
             ['key' => 'principal_title'],
             ['value' => 'Kepala SMA Negeri 24 Bandung', 'group' => 'general', 'type' => 'text', 'label' => 'Jabatan Kepala Sekolah']
         );
+
+        // 17. Default Hero Sliders
+        \App\Models\Slider::updateOrCreate(
+            ['title' => 'Selamat Datang di SMA Negeri 24 Bandung'],
+            [
+                'subtitle' => 'Sekolah Berkarakter, Unggul dalam Prestasi Akademik & Non-Akademik, Berwawasan Global.',
+                'image_path' => 'storage/uploads/sliders/sample_slider1.jpg',
+                'button_text' => 'Jelajahi Profil Sekolah',
+                'button_url' => '/profil',
+                'order_position' => 1,
+                'is_active' => true,
+            ]
+        );
+
+        \App\Models\Slider::updateOrCreate(
+            ['title' => 'Penerimaan Murid Baru (SPMB) 2026/2027'],
+            [
+                'subtitle' => 'Informasi Resmi Pendaftaran, Syarat Berkas, dan Alur Verifikasi Daftar Ulang.',
+                'image_path' => 'storage/uploads/sliders/sample_slider2.jpg',
+                'button_text' => 'Layanan SPMB',
+                'button_url' => '/spmb/pendaftar',
+                'order_position' => 2,
+                'is_active' => true,
+            ]
+        );
     }
 }
