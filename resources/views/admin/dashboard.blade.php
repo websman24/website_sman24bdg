@@ -32,83 +32,83 @@
         </div>
     </div>
 
-    <!-- 2. 4 KARTU STATISTIK UTAMA: Berita | Agenda | Guru | Galeri -->
+    <!-- 2. 4 KARTU STATISTIK UTAMA: Background Berwarna Khusus -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <!-- 📰 Card 1: Berita Artikel (Emerald Theme) -->
-        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-emerald-500/40 hover:bg-emerald-50/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 space-y-4 group">
+        <!-- 📰 Card 1: Berita Artikel (Rich Emerald Gradient Background) -->
+        <div class="bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-950 p-6 rounded-3xl text-white border border-emerald-500/40 shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 space-y-4 group">
             <div class="flex items-center justify-between">
                 <div class="space-y-1">
-                    <span class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider block">Berita & Artikel</span>
-                    <div class="text-3xl font-black text-slate-900 group-hover:text-emerald-900 transition-colors">{{ number_format($stats['total_news'] ?? 0) }}</div>
+                    <span class="text-xs font-extrabold text-emerald-200 uppercase tracking-wider block">Berita & Artikel</span>
+                    <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform">{{ number_format($stats['total_news'] ?? 0) }}</div>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-emerald-950 text-amber-300 font-black text-2xl flex items-center justify-center shadow-lg border border-emerald-700/60 group-hover:scale-110 transition-transform">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-950/80 text-amber-300 font-black text-2xl flex items-center justify-center shadow-inner border border-emerald-500/40 group-hover:rotate-6 transition-transform">
                     📰
                 </div>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-500">Status Terbit: <strong class="text-emerald-800">{{ $stats['published_news'] ?? 0 }}</strong></span>
-                <a href="{{ route('admin.news.index') }}" class="font-extrabold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 group-hover:underline">
+            <div class="pt-3 border-t border-emerald-600/40 flex items-center justify-between text-xs text-emerald-100">
+                <span>Terbit: <strong class="text-white">{{ $stats['published_news'] ?? 0 }}</strong></span>
+                <a href="{{ route('admin.news.index') }}" class="font-extrabold text-amber-300 hover:text-white flex items-center gap-1 group-hover:underline">
                     <span>Kelola</span>
                     <span>&rarr;</span>
                 </a>
             </div>
         </div>
 
-        <!-- 📅 Card 2: Agenda Sekolah (Indigo/Purple Theme) -->
-        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-indigo-500/40 hover:bg-indigo-50/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 space-y-4 group">
+        <!-- 📅 Card 2: Agenda Sekolah (Rich Indigo/Violet Gradient Background) -->
+        <div class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-slate-950 p-6 rounded-3xl text-white border border-indigo-500/40 shadow-xl shadow-indigo-950/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 space-y-4 group">
             <div class="flex items-center justify-between">
                 <div class="space-y-1">
-                    <span class="text-xs font-extrabold text-indigo-700 uppercase tracking-wider block">Agenda Sekolah</span>
-                    <div class="text-3xl font-black text-indigo-950 group-hover:text-indigo-900 transition-colors">{{ number_format($stats['total_events'] ?? 0) }}</div>
+                    <span class="text-xs font-extrabold text-indigo-200 uppercase tracking-wider block">Agenda Sekolah</span>
+                    <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform">{{ number_format($stats['total_events'] ?? 0) }}</div>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-indigo-950 text-indigo-200 font-black text-2xl flex items-center justify-center shadow-lg border border-indigo-700/60 group-hover:scale-110 transition-transform">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-950/80 text-indigo-200 font-black text-2xl flex items-center justify-center shadow-inner border border-indigo-500/40 group-hover:rotate-6 transition-transform">
                     📅
                 </div>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-500">Mendatang: <strong class="text-indigo-700">{{ $stats['upcoming_events'] ?? 0 }}</strong></span>
-                <a href="{{ route('admin.events.index') }}" class="font-extrabold text-indigo-700 hover:text-indigo-950 flex items-center gap-1 group-hover:underline">
+            <div class="pt-3 border-t border-indigo-600/40 flex items-center justify-between text-xs text-indigo-100">
+                <span>Mendatang: <strong class="text-white">{{ $stats['upcoming_events'] ?? 0 }}</strong></span>
+                <a href="{{ route('admin.events.index') }}" class="font-extrabold text-amber-300 hover:text-white flex items-center gap-1 group-hover:underline">
                     <span>Kelola</span>
                     <span>&rarr;</span>
                 </a>
             </div>
         </div>
 
-        <!-- 👨‍🏫 Card 3: Guru & Tendik (Cyan/Teal Theme) -->
-        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-cyan-500/40 hover:bg-cyan-50/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 space-y-4 group">
+        <!-- 👨‍🏫 Card 3: Guru & Tendik (Rich Cyan/Teal Gradient Background) -->
+        <div class="bg-gradient-to-br from-teal-700 via-cyan-900 to-slate-950 p-6 rounded-3xl text-white border border-cyan-500/40 shadow-xl shadow-cyan-950/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 space-y-4 group">
             <div class="flex items-center justify-between">
                 <div class="space-y-1">
-                    <span class="text-xs font-extrabold text-cyan-800 uppercase tracking-wider block">Guru & Tendik</span>
-                    <div class="text-3xl font-black text-slate-900 group-hover:text-cyan-950 transition-colors">{{ number_format(($stats['total_teachers'] ?? 0) + ($stats['total_staff'] ?? 0)) }}</div>
+                    <span class="text-xs font-extrabold text-cyan-200 uppercase tracking-wider block">Guru & Tendik</span>
+                    <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform">{{ number_format(($stats['total_teachers'] ?? 0) + ($stats['total_staff'] ?? 0)) }}</div>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-cyan-950 text-cyan-300 font-black text-2xl flex items-center justify-center shadow-lg border border-cyan-700/60 group-hover:scale-110 transition-transform">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-950/80 text-cyan-300 font-black text-2xl flex items-center justify-center shadow-inner border border-cyan-500/40 group-hover:rotate-6 transition-transform">
                     👨‍🏫
                 </div>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-500">Guru: <strong class="text-cyan-800">{{ $stats['total_teachers'] ?? 0 }}</strong> | Tendik: <strong>{{ $stats['total_staff'] ?? 0 }}</strong></span>
-                <a href="{{ route('admin.teachers.index') }}" class="font-extrabold text-cyan-800 hover:text-cyan-950 flex items-center gap-1 group-hover:underline">
+            <div class="pt-3 border-t border-cyan-600/40 flex items-center justify-between text-xs text-cyan-100">
+                <span>Guru: <strong class="text-white">{{ $stats['total_teachers'] ?? 0 }}</strong> | Tendik: <strong class="text-white">{{ $stats['total_staff'] ?? 0 }}</strong></span>
+                <a href="{{ route('admin.teachers.index') }}" class="font-extrabold text-amber-300 hover:text-white flex items-center gap-1 group-hover:underline">
                     <span>Kelola</span>
                     <span>&rarr;</span>
                 </a>
             </div>
         </div>
 
-        <!-- 🖼️ Card 4: Galeri Media (Amber/Gold Theme) -->
-        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-amber-500/40 hover:bg-amber-50/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 space-y-4 group">
+        <!-- 🖼️ Card 4: Galeri Media (Rich Amber/Gold Gradient Background) -->
+        <div class="bg-gradient-to-br from-amber-600 via-amber-700 to-slate-950 p-6 rounded-3xl text-white border border-amber-500/40 shadow-xl shadow-amber-950/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 space-y-4 group">
             <div class="flex items-center justify-between">
                 <div class="space-y-1">
-                    <span class="text-xs font-extrabold text-amber-700 uppercase tracking-wider block">Galeri Foto</span>
-                    <div class="text-3xl font-black text-amber-950 group-hover:text-amber-900 transition-colors">{{ number_format($stats['total_galleries'] ?? 0) }}</div>
+                    <span class="text-xs font-extrabold text-amber-200 uppercase tracking-wider block">Galeri Foto</span>
+                    <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform">{{ number_format($stats['total_galleries'] ?? 0) }}</div>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-amber-950 text-amber-400 font-black text-2xl flex items-center justify-center shadow-lg border border-amber-700/60 group-hover:scale-110 transition-transform">
+                <div class="w-14 h-14 rounded-2xl bg-amber-950/80 text-amber-300 font-black text-2xl flex items-center justify-center shadow-inner border border-amber-500/40 group-hover:rotate-6 transition-transform">
                     🖼️
                 </div>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-500">Total Foto: <strong class="text-amber-700">{{ $stats['total_photos'] ?? 0 }}</strong></span>
-                <a href="{{ route('admin.galleries.index') }}" class="font-extrabold text-amber-700 hover:text-amber-950 flex items-center gap-1 group-hover:underline">
+            <div class="pt-3 border-t border-amber-600/40 flex items-center justify-between text-xs text-amber-100">
+                <span>Total Foto: <strong class="text-white">{{ $stats['total_photos'] ?? 0 }}</strong></span>
+                <a href="{{ route('admin.galleries.index') }}" class="font-extrabold text-amber-300 hover:text-white flex items-center gap-1 group-hover:underline">
                     <span>Kelola</span>
                     <span>&rarr;</span>
                 </a>
@@ -116,48 +116,48 @@
         </div>
     </div>
 
-    <!-- 3. STATISTIK TAMBAHAN (SEKUNDER) -->
+    <!-- 3. STATISTIK SEKUNDER: KARTU BERWARNA VOLL GRADIENT -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
-        <!-- Pengumuman Card -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-rose-300 hover:bg-rose-50/40 transition-all shadow-xs hover:shadow-md flex items-center justify-between">
+        <!-- Pengumuman Card (Rose Gradient) -->
+        <div class="bg-gradient-to-br from-rose-600 to-rose-800 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-rose-500/40">
             <div>
-                <span class="text-[10px] font-extrabold uppercase text-rose-700 block">Pengumuman</span>
-                <span class="text-xl font-black text-slate-900">{{ number_format($stats['total_announcements'] ?? 0) }}</span>
+                <span class="text-[10px] font-extrabold uppercase text-rose-200 block">Pengumuman</span>
+                <span class="text-xl font-black text-white">{{ number_format($stats['total_announcements'] ?? 0) }}</span>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-lg border border-rose-200">
+            <div class="w-10 h-10 rounded-xl bg-rose-950/50 text-white font-bold flex items-center justify-center text-lg border border-rose-400/40">
                 📢
             </div>
         </div>
 
-        <!-- Prestasi Card -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-amber-300 hover:bg-amber-50/40 transition-all shadow-xs hover:shadow-md flex items-center justify-between">
+        <!-- Prestasi Card (Amber Gradient) -->
+        <div class="bg-gradient-to-br from-amber-500 to-amber-700 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-amber-400/40">
             <div>
-                <span class="text-[10px] font-extrabold uppercase text-amber-700 block">Prestasi Siswa</span>
-                <span class="text-xl font-black text-slate-900">{{ number_format($stats['total_achievements'] ?? 0) }}</span>
+                <span class="text-[10px] font-extrabold uppercase text-amber-100 block">Prestasi Siswa</span>
+                <span class="text-xl font-black text-white">{{ number_format($stats['total_achievements'] ?? 0) }}</span>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-lg border border-amber-200">
+            <div class="w-10 h-10 rounded-xl bg-amber-950/50 text-amber-300 font-bold flex items-center justify-center text-lg border border-amber-400/40">
                 🏆
             </div>
         </div>
 
-        <!-- Dokumen Card -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-sky-300 hover:bg-sky-50/40 transition-all shadow-xs hover:shadow-md flex items-center justify-between">
+        <!-- Dokumen Card (Sky Blue Gradient) -->
+        <div class="bg-gradient-to-br from-sky-600 to-blue-800 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-sky-400/40">
             <div>
-                <span class="text-[10px] font-extrabold uppercase text-sky-700 block">Dokumen SPMB</span>
-                <span class="text-xl font-black text-slate-900">{{ number_format($stats['total_documents'] ?? 0) }}</span>
+                <span class="text-[10px] font-extrabold uppercase text-sky-200 block">Dokumen SPMB</span>
+                <span class="text-xl font-black text-white">{{ number_format($stats['total_documents'] ?? 0) }}</span>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-800 font-bold flex items-center justify-center text-lg border border-sky-200">
+            <div class="w-10 h-10 rounded-xl bg-sky-950/50 text-sky-200 font-bold flex items-center justify-center text-lg border border-sky-400/40">
                 📁
             </div>
         </div>
 
-        <!-- Pengguna Card -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-emerald-300 hover:bg-emerald-50/40 transition-all shadow-xs hover:shadow-md flex items-center justify-between">
+        <!-- Pengguna Card (Emerald Teal Gradient) -->
+        <div class="bg-gradient-to-br from-emerald-800 to-slate-900 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-emerald-500/40">
             <div>
-                <span class="text-[10px] font-extrabold uppercase text-emerald-800 block">Pengguna Admin</span>
-                <span class="text-xl font-black text-slate-900">{{ number_format($stats['total_users'] ?? 0) }}</span>
+                <span class="text-[10px] font-extrabold uppercase text-emerald-200 block">Pengguna Admin</span>
+                <span class="text-xl font-black text-white">{{ number_format($stats['total_users'] ?? 0) }}</span>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-lg border border-emerald-200">
+            <div class="w-10 h-10 rounded-xl bg-emerald-950/50 text-amber-300 font-bold flex items-center justify-center text-lg border border-emerald-400/40">
                 🔑
             </div>
         </div>
