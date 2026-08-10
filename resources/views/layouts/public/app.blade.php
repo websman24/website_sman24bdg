@@ -4,265 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>@yield('title', 'SMA Negeri 24 Bandung - Official Website')</title>
+    <meta name="description" content="@yield('meta_description', 'Official Website SMA Negeri 24 Bandung - Jl. A.H. Nasution No. 27, Kota Bandung.')">
 
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Official Website SMA Negeri 24 Bandung - Jl. A.H. Nasution No. 27, Kota Bandung. Sekolah Berakreditasi A, Unggul, Berkarakter, Berbudaya, dan Berwawasan Global.">
-    <meta name="keywords" content="SMAN 24 Bandung, SMA Negeri 24 Bandung, Sekolah Bandung, Pendidikan, SMA Bandung, SMAN24, SPMB">
-
-    <!-- Fonts & Assets -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased font-sans">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <!-- Top Info Bar -->
-    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 border-b border-emerald-900 hidden sm:block">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-6">
+    <!-- Topbar Contact & Announcement Info -->
+    <div class="bg-emerald-950 text-emerald-100 text-xs py-2 px-4 border-b border-emerald-900">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
                 <span class="flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Jl. A.H. Nasution No. 27, Kota Bandung
                 </span>
-                <span class="flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h32a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
+                <span class="hidden md:flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     (022) 7800540
                 </span>
             </div>
-            <div class="flex items-center gap-4">
-                <span>NPSN: 20219736</span>
-                <span class="text-amber-400 font-semibold">Akreditasi A</span>
+            <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded bg-emerald-900 text-amber-300 font-semibold text-[10px]">
+                    NPSN: 20219736
+                </span>
+                <span class="text-slate-300 text-[11px]">Akreditasi: <strong>A (Unggul)</strong></span>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header x-data="{ mobileMenuOpen: false, scrolled: false }" 
-            @scroll.window="scrolled = (window.pageYOffset > 20)"
-            :class="{ 'glass-panel shadow-md py-2.5': scrolled, 'bg-emerald-900 text-white py-3.5': !scrolled }"
-            class="sticky top-0 z-50 transition-all duration-300">
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center h-20">
                 
-                <!-- Brand Logo & Name -->
+                <!-- School Logo & Title -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center font-extrabold text-emerald-950 text-xl shadow-lg group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-800 flex items-center justify-center text-amber-400 font-extrabold text-lg shadow-md group-hover:bg-emerald-900 transition-colors">
                         24
                     </div>
-                    <div>
-                        <span class="block text-base sm:text-lg font-extrabold tracking-tight" :class="{ 'text-emerald-950': scrolled, 'text-white': !scrolled }">
+                    <div class="flex flex-col">
+                        <span class="font-extrabold text-slate-900 text-base tracking-tight group-hover:text-emerald-800 transition-colors">
                             SMAN 24 BANDUNG
                         </span>
-                        <span class="block text-[11px] font-medium opacity-80" :class="{ 'text-slate-600': scrolled, 'text-emerald-200': !scrolled }">
-                            Kota Bandung, Jawa Barat
+                        <span class="text-[10px] text-slate-500 font-medium tracking-wide">
+                            Official School Portal
                         </span>
                     </div>
                 </a>
 
-                <!-- Desktop Nav (Includes SPMB Dropdown with Pendaftar & Daftar Ulang) -->
-                <nav class="hidden lg:flex items-center space-x-5 font-semibold text-xs">
-                    <a href="{{ route('home') }}" class="hover:text-amber-400 transition-colors py-1 text-amber-400 border-b-2 border-amber-400">Beranda</a>
-                    <a href="#profil" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Profil</a>
-                    <a href="#akademik" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Akademik</a>
-                    <a href="#kesiswaan" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Kesiswaan</a>
-                    <a href="#informasi" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Informasi</a>
-                    <a href="#galeri" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Galeri</a>
-                    <a href="#download" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Download</a>
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-700">
+                    <a href="{{ route('home') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('home') ? 'text-emerald-800 font-extrabold' : '' }}">Beranda</a>
+                    <a href="{{ route('profile') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('profile') ? 'text-emerald-800 font-extrabold' : '' }}">Profil</a>
+                    <a href="{{ route('academic.teachers') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('academic.*') ? 'text-emerald-800 font-extrabold' : '' }}">Akademik</a>
+                    <a href="{{ route('student.extracurriculars') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('student.*') ? 'text-emerald-800 font-extrabold' : '' }}">Kesiswaan</a>
+                    <a href="{{ route('news.index') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('news.*') ? 'text-emerald-800 font-extrabold' : '' }}">Informasi</a>
+                    <a href="{{ route('gallery.index') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('gallery.*') ? 'text-emerald-800 font-extrabold' : '' }}">Galeri</a>
+                    <a href="{{ route('download.index') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('download.*') ? 'text-emerald-800 font-extrabold' : '' }}">Download</a>
                     
-                    <!-- SPMB Dropdown -->
-                    <div x-data="{ spmbOpen: false }" @click.away="spmbOpen = false" class="relative">
-                        <button @click="spmbOpen = !spmbOpen" 
-                                class="hover:text-amber-400 transition-colors py-1 text-amber-300 font-bold inline-flex items-center gap-1 focus:outline-none"
-                                :class="{ 'text-amber-600': scrolled }">
+                    <!-- SPMB Dropdown Menu -->
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('spmb.*') ? 'text-emerald-800 font-extrabold' : '' }}">
                             <span>SPMB</span>
-                            <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': spmbOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
+                            <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div x-show="spmbOpen" x-collapse 
-                             class="absolute left-0 mt-2 w-44 bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-xs">
-                            <a href="#spmb-pendaftar" @click="spmbOpen = false" class="flex items-center gap-2 px-3.5 py-2 hover:bg-emerald-50 hover:text-emerald-800 font-semibold transition-colors">
-                                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             class="absolute left-0 mt-0 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
+                            <a href="{{ route('spmb.pendaftar') }}" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-800">
                                 Pendaftar
                             </a>
-                            <a href="#spmb-daftar-ulang" @click="spmbOpen = false" class="flex items-center gap-2 px-3.5 py-2 hover:bg-emerald-50 hover:text-emerald-800 font-semibold transition-colors border-t border-slate-100">
-                                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <a href="{{ route('spmb.daftar_ulang') }}" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-800">
                                 Daftar Ulang
                             </a>
                         </div>
                     </div>
 
-                    <a href="#kontak" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Kontak</a>
-                </nav>
+                    <a href="{{ route('contact') }}" class="hover:text-emerald-800 transition-colors {{ request()->routeIs('contact') ? 'text-emerald-800 font-extrabold' : '' }}">Kontak</a>
 
-                <!-- Action Button / Login -->
-                <div class="hidden lg:flex items-center gap-3">
                     @auth
-                        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-amber-500 text-emerald-950 hover:bg-amber-400 transition-all shadow-sm">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs shadow-sm transition-all">
                             Dashboard Admin
                         </a>
                     @else
-                        <a href="{{ route('admin.login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white transition-all shadow-sm">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+                        <a href="{{ route('login') }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-sm transition-all">
                             Login Portal
                         </a>
                     @endauth
-                </div>
+                </nav>
 
                 <!-- Mobile Menu Button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-emerald-800 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div x-show="mobileMenuOpen" x-collapse class="lg:hidden bg-emerald-950 border-t border-emerald-800 px-4 pt-3 pb-6 space-y-2 text-white text-xs font-medium">
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg bg-emerald-900 text-amber-400 font-bold">Beranda</a>
-            <a href="#profil" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Profil</a>
-            <a href="#akademik" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Akademik</a>
-            <a href="#kesiswaan" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Kesiswaan</a>
-            <a href="#informasi" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Informasi</a>
-            <a href="#galeri" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Galeri</a>
-            <a href="#download" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Download</a>
-            
-            <!-- Mobile SPMB Accordion -->
-            <div x-data="{ mobileSpmbOpen: false }" class="space-y-1">
-                <button @click="mobileSpmbOpen = !mobileSpmbOpen" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-emerald-900 text-amber-300 font-bold">
-                    <span>SPMB</span>
-                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': mobileSpmbOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </button>
-                <div x-show="mobileSpmbOpen" x-collapse class="pl-4 space-y-1 text-slate-300">
-                    <a href="#spmb-pendaftar" @click="mobileMenuOpen = false" class="block px-3 py-1.5 rounded-lg hover:bg-emerald-900 text-xs">Pendaftar</a>
-                    <a href="#spmb-daftar-ulang" @click="mobileMenuOpen = false" class="block px-3 py-1.5 rounded-lg hover:bg-emerald-900 text-xs">Daftar Ulang</a>
-                </div>
+        <!-- Mobile Drawer Menu -->
+        <div x-show="mobileMenuOpen" class="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="{{ route('home') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Beranda</a>
+            <a href="{{ route('profile') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Profil</a>
+            <a href="{{ route('academic.teachers') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Akademik</a>
+            <a href="{{ route('student.extracurriculars') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Kesiswaan</a>
+            <a href="{{ route('news.index') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Informasi</a>
+            <a href="{{ route('gallery.index') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Galeri</a>
+            <a href="{{ route('download.index') }}" class="block py-2 text-sm font-bold text-slate-800 border-b border-slate-100">Download</a>
+            <div class="py-2 border-b border-slate-100 space-y-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block">SPMB</span>
+                <a href="{{ route('spmb.pendaftar') }}" class="block pl-4 py-1 text-sm font-semibold text-slate-700">Pendaftar</a>
+                <a href="{{ route('spmb.daftar_ulang') }}" class="block pl-4 py-1 text-sm font-semibold text-slate-700">Daftar Ulang</a>
             </div>
-
-            <a href="#kontak" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Kontak</a>
-            <div class="pt-3 border-t border-emerald-800">
+            <a href="{{ route('contact') }}" class="block py-2 text-sm font-bold text-slate-800">Kontak</a>
+            <div class="pt-2">
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="block w-full text-center px-4 py-2.5 rounded-xl bg-amber-500 text-emerald-950 font-bold">Dashboard Admin</a>
+                    <a href="{{ route('admin.dashboard') }}" class="block w-full text-center px-4 py-2.5 rounded-xl bg-emerald-800 text-white font-bold text-xs">Dashboard Admin</a>
                 @else
-                    <a href="{{ route('admin.login') }}" class="block w-full text-center px-4 py-2.5 rounded-xl bg-emerald-700 text-white font-bold">Login Portal</a>
+                    <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2.5 rounded-xl bg-amber-500 text-emerald-950 font-bold text-xs">Login Portal</a>
                 @endauth
             </div>
         </div>
     </header>
 
-    <!-- Flash Notifications -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-        @if(session('success'))
-            <div class="p-4 mb-4 text-xs text-emerald-800 rounded-xl bg-emerald-100 border border-emerald-200 flex items-center gap-3" role="alert">
-                <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                <span>{{ session('success') }}</span>
-            </div>
-        @endif
-
-        @if(session('info'))
-            <div class="p-4 mb-4 text-xs text-sky-800 rounded-xl bg-sky-100 border border-sky-200 flex items-center gap-3" role="alert">
-                <svg class="w-4 h-4 text-sky-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-                <span>{{ session('info') }}</span>
-            </div>
-        @endif
-
-        @if(session('warning'))
-            <div class="p-4 mb-4 text-xs text-amber-800 rounded-xl bg-amber-100 border border-amber-200 flex items-center gap-3" role="alert">
-                <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                <span>{{ session('warning') }}</span>
-            </div>
-        @endif
-    </div>
-
-    <!-- Content Slot -->
+    <!-- Page Content Container -->
     <main class="flex-grow">
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 border-t border-slate-800 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+    <!-- Global Footer -->
+    <footer class="bg-emerald-950 text-slate-300 border-t border-emerald-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 
-                <!-- Col 1: School Identity -->
-                <div class="space-y-4 md:col-span-1">
+                <!-- Col 1: Identity -->
+                <div class="space-y-4 md:col-span-2">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center font-extrabold text-emerald-950 text-lg">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center text-emerald-950 font-extrabold text-lg">
                             24
                         </div>
-                        <span class="text-lg font-bold text-white tracking-tight">SMAN 24 Bandung</span>
+                        <span class="font-extrabold text-white text-lg tracking-tight">
+                            SMA NEGERI 24 BANDUNG
+                        </span>
                     </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Sekolah Menengah Atas Negeri 24 Bandung melahirkan generasi berkarakter, berbudaya, dan berwawasan global.
+                    <p class="text-xs text-slate-400 max-w-md leading-relaxed">
+                        Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614. Sekolah berkarakter, unggul dalam prestasi akademik & non-akademik.
                     </p>
-                    <div class="flex items-center gap-2 pt-1">
-                        <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-700/60">
-                            Akreditasi A
-                        </span>
-                        <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-950 text-amber-400 border border-amber-700/60">
-                            Sekolah Penggerak
-                        </span>
-                    </div>
                 </div>
 
                 <!-- Col 2: Navigation Links -->
                 <div>
-                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Navigasi Utama</h3>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-4">Navigasi Utama</h4>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="{{ route('home') }}" class="hover:text-amber-400 transition-colors">Beranda</a></li>
-                        <li><a href="#profil" class="hover:text-amber-400 transition-colors">Profil Sekolah</a></li>
-                        <li><a href="#akademik" class="hover:text-amber-400 transition-colors">Akademik & Fasilitas</a></li>
-                        <li><a href="#kesiswaan" class="hover:text-amber-400 transition-colors">Kesiswaan & Ekstrakurikuler</a></li>
-                        <li><a href="#informasi" class="hover:text-amber-400 transition-colors">Informasi & Pengumuman</a></li>
+                        <li><a href="{{ route('home') }}" class="hover:text-amber-400">Beranda</a></li>
+                        <li><a href="{{ route('profile') }}" class="hover:text-amber-400">Profil Sekolah</a></li>
+                        <li><a href="{{ route('academic.teachers') }}" class="hover:text-amber-400">Guru & Pendidik</a></li>
+                        <li><a href="{{ route('news.index') }}" class="hover:text-amber-400">Berita & Informasi</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 3: Media & SPMB Links -->
+                <!-- Col 3: SPMB & Access -->
                 <div>
-                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Layanan SPMB & Publikasi</h3>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-4">Layanan SPMB</h4>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="#spmb-pendaftar" class="hover:text-amber-400 transition-colors text-amber-300 font-semibold">Pendaftaran SPMB</a></li>
-                        <li><a href="#spmb-daftar-ulang" class="hover:text-amber-400 transition-colors text-amber-300 font-semibold">Daftar Ulang SPMB</a></li>
-                        <li><a href="#galeri" class="hover:text-amber-400 transition-colors">Galeri Foto Dokumentasi</a></li>
-                        <li><a href="#download" class="hover:text-amber-400 transition-colors">Pusat Unduhan Dokumen</a></li>
-                        <li><a href="{{ route('admin.login') }}" class="hover:text-amber-400 transition-colors">Login Admin Portal</a></li>
+                        <li><a href="{{ route('spmb.pendaftar') }}" class="hover:text-amber-400">Pendaftar SPMB</a></li>
+                        <li><a href="{{ route('spmb.daftar_ulang') }}" class="hover:text-amber-400">Daftar Ulang SPMB</a></li>
+                        <li><a href="{{ route('download.index') }}" class="hover:text-amber-400">Pusat Unduhan Dokumen</a></li>
                     </ul>
-                </div>
-
-                <!-- Col 4: School Address -->
-                <div>
-                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Alamat Sekolah</h3>
-                    <div class="space-y-3 text-xs">
-                        <p class="flex items-start gap-2 text-slate-300">
-                            <svg class="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614</span>
-                        </p>
-                        <p class="flex items-center gap-2 text-slate-300">
-                            <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h32a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
-                            <span>(022) 7800540</span>
-                        </p>
-                        <p class="flex items-center gap-2 text-slate-300">
-                            <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            <span>info@sman24bdg.sch.id</span>
-                        </p>
-                    </div>
                 </div>
 
             </div>
 
-            <!-- Bottom Copyright -->
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+            <div class="border-t border-emerald-900 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2">
                 <p>&copy; {{ date('Y') }} SMA Negeri 24 Bandung. All rights reserved.</p>
-                <div class="flex items-center gap-4">
-                    <span>Jl. A.H. Nasution No. 27, Kota Bandung</span>
-                </div>
+                <p class="text-[11px]">Designed with Laravel 12 & Tailwind CSS v4</p>
             </div>
         </div>
     </footer>

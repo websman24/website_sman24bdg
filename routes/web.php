@@ -1,31 +1,65 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Public\AcademicController;
+use App\Http\Controllers\Public\ContactController;
+use App\Http\Controllers\Public\DownloadController;
+use App\Http\Controllers\Public\GalleryController;
 use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\NewsController;
+use App\Http\Controllers\Public\ProfileController;
+use App\Http\Controllers\Public\SpmbController;
+use App\Http\Controllers\Public\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes
+| Public Web Routes - SMAN 24 Bandung
 |--------------------------------------------------------------------------
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/profil', [ProfileController::class, 'index'])->name('profile');
 
-// Alias for default Laravel auth redirect
-Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
+// News & Articles Routes
+Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
+Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+// Academic & Teachers Directory Routes
+Route::get('/akademik/guru', [AcademicController::class, 'teachers'])->name('academic.teachers');
+Route::get('/akademik/kalender', [AcademicController::class, 'calendar'])->name('academic.calendar');
+
+// Student & Extracurriculars Routes
+Route::get('/kesiswaan/ekstrakurikuler', [StudentController::class, 'extracurriculars'])->name('student.extracurriculars');
+Route::get('/kesiswaan/prestasi', [StudentController::class, 'achievements'])->name('student.achievements');
+
+// Media & Gallery Routes
+Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index');
+Route::get('/galeri/{slug}', [GalleryController::class, 'show'])->name('gallery.show');
+
+// Downloads & Documents Routes
+Route::get('/download', [DownloadController::class, 'index'])->name('download.index');
+Route::post('/download/{document}', [DownloadController::class, 'download'])->name('download.file');
+
+// SPMB Routes
+Route::get('/spmb/pendaftar', [SpmbController::class, 'pendaftar'])->name('spmb.pendaftar');
+Route::get('/spmb/daftar-ulang', [SpmbController::class, 'daftarUlang'])->name('spmb.daftar_ulang');
+
+// Contact Route
+Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 
 /*
 |--------------------------------------------------------------------------
-| Admin Auth Routes (/admin/login & /admin/logout)
+| Authentication Routes
 |--------------------------------------------------------------------------
 */
+Route::middleware('guest')->group(function () {
+    Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/admin/login', [AuthController::class, 'login']);
+});
 
-Route::prefix('admin')->group(function () {
-    Route::middleware('guest')->group(function () {
-        Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
-        Route::post('/login', [AuthController::class, 'login']);
-    });
+Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout')->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 });
