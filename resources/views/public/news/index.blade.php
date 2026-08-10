@@ -33,7 +33,12 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         @forelse($newsList as $news)
             <x-card :hover="true" class="flex flex-col justify-between p-0 overflow-hidden">
-                <div class="p-6 space-y-3">
+                @if($news->thumbnail)
+                    <div class="w-full h-48 overflow-hidden bg-slate-100 relative group">
+                        <img src="{{ asset($news->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                @endif
+                <div class="p-6 space-y-3 flex-1">
                     <div class="flex items-center justify-between text-xs">
                         <span class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 text-[10px]">
                             {{ $news->category->name ?? 'Umum' }}

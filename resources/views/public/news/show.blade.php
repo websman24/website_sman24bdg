@@ -20,8 +20,16 @@
 </div>
 
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-    <x-card :hover="false" class="p-8 space-y-6 text-slate-800 text-sm leading-relaxed whitespace-pre-line">
-        {{ $news->content }}
+    <x-card :hover="false" class="p-6 sm:p-8 space-y-6 text-slate-800 text-sm leading-relaxed">
+        @if($news->thumbnail)
+            <div class="w-full max-h-96 rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                <img src="{{ asset($news->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover">
+            </div>
+        @endif
+
+        <div class="whitespace-pre-line leading-relaxed text-slate-700 text-sm sm:text-base">
+            {{ $news->content }}
+        </div>
     </x-card>
 
     @if($relatedNews->isNotEmpty())

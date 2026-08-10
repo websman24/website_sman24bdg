@@ -283,24 +283,31 @@
                 <div class="lg:col-span-2 space-y-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         @forelse($latestNews as $news)
-                            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover-effect">
-                                <div class="space-y-3">
-                                    <div class="flex items-center justify-between text-xs">
-                                        <span class="px-3 py-1 rounded-full font-bold bg-emerald-800 text-white text-[10px] uppercase shadow-xs">
-                                            {{ $news->category->name ?? 'Umum' }}
-                                        </span>
-                                        <span class="text-slate-400 text-[11px] font-mono">{{ $news->published_at?->format('d M Y') }}</span>
+                            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover-effect overflow-hidden">
+                                @if($news->thumbnail)
+                                    <div class="w-full h-44 overflow-hidden bg-slate-100 relative group">
+                                        <img src="{{ asset($news->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                     </div>
-                                    <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2">
-                                        <a href="{{ route('news.show', $news->slug) }}" class="hover:text-emerald-800 transition-colors">
-                                            {{ $news->title }}
-                                        </a>
-                                    </h4>
-                                    <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed">{{ $news->excerpt }}</p>
-                                </div>
-                                <div class="pt-4 mt-4 border-t border-slate-100 flex justify-between items-center text-xs">
-                                    <span class="text-slate-400 text-[11px]">👁️ {{ $news->views_count }} views</span>
-                                    <a href="{{ route('news.show', $news->slug) }}" class="font-bold text-emerald-800 hover:underline">Baca &rarr;</a>
+                                @endif
+                                <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between text-xs">
+                                            <span class="px-3 py-1 rounded-full font-bold bg-emerald-800 text-white text-[10px] uppercase shadow-xs">
+                                                {{ $news->category->name ?? 'Umum' }}
+                                            </span>
+                                            <span class="text-slate-400 text-[11px] font-mono">{{ $news->published_at?->format('d M Y') }}</span>
+                                        </div>
+                                        <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2">
+                                            <a href="{{ route('news.show', $news->slug) }}" class="hover:text-emerald-800 transition-colors">
+                                                {{ $news->title }}
+                                            </a>
+                                        </h4>
+                                        <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed">{{ $news->excerpt }}</p>
+                                    </div>
+                                    <div class="pt-4 mt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                                        <span class="text-slate-400 text-[11px]">👁️ {{ $news->views_count }} views</span>
+                                        <a href="{{ route('news.show', $news->slug) }}" class="font-bold text-emerald-800 hover:underline">Baca &rarr;</a>
+                                    </div>
                                 </div>
                             </div>
                         @empty
