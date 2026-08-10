@@ -50,5 +50,8 @@ Route::resource('documents', DocumentController::class);
 Route::resource('events', EventController::class);
 Route::resource('achievements', AchievementController::class);
 Route::resource('extracurriculars', ExtracurricularController::class);
+Route::post('/galleries/{gallery}/items', [GalleryController::class, 'addItem'])->name('galleries.items.add');
+Route::delete('/galleries/{gallery}/items/{item}', [GalleryController::class, 'deleteItem'])->name('galleries.items.delete');
+Route::post('/galleries/{gallery}/items/{item}/cover', [GalleryController::class, 'setCover'])->name('galleries.items.cover');
 Route::resource('galleries', GalleryController::class);
 Route::resource('videos', VideoController::class);

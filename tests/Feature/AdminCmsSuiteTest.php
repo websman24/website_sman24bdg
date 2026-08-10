@@ -102,7 +102,8 @@ class AdminCmsSuiteTest extends TestCase
             'title' => 'Album Purna Krida 2026',
             'description' => 'Dokumentasi acara pelepasan siswa',
         ]);
-        $galStore->assertRedirect(route('admin.galleries.index'));
+        $gallery = \App\Models\Gallery::where('title', 'Album Purna Krida 2026')->first();
+        $galStore->assertRedirect(route('admin.galleries.show', $gallery));
         $this->assertDatabaseHas('galleries', ['title' => 'Album Purna Krida 2026']);
 
         // 8. Video Store

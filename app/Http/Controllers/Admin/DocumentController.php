@@ -16,12 +16,17 @@ class DocumentController extends Controller
     ) {}
 
     /**
-     * Display listing of documents.
+     * Display listing of documents with search and category filter.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $documents = $this->documentService->getPaginatedDocuments(15);
-        return view('admin.documents.index', compact('documents'));
+        $search = $request->query('search');
+        $category = $request->query('category');
+
+        $documents = $this->documentService->getPaginatedDocuments(15, $search, $category);
+        $categories = Document::select('category')->distinct()->pluck('category');
+
+        return view('admin.documents.index', compact('documents', 'categories', 'search', 'category'));
     }
 
     /**
@@ -45,14 +50,43 @@ class DocumentController extends Controller
         ], [
             'title.required' => 'Judul dokumen wajib diisi.',
             'category.required' => 'Kategori dokumen wajib dipilih.',
-            'document_file.file' => 'Berkas harus berupa file yang valid.',
             'document_file.mimes' => 'Format file yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, ZIP.',
         ]);
 
         $this->documentService->createDocument($validated, auth()->id());
 
         return redirect()->route('admin.documents.index')
-            ->with('success', 'Dokumen publik / SPMB berhasil ditambahkan.');
+            ->with('success', 'Dokumen publik berhasil ditambahkan ke pusat unduhan.');
+    }
+
+    /**
+     * Show form to edit document.
+     */
+    public function edit(Document $document): View
+    {
+        return view('admin.documents.edit', compact('document'));
+    }
+
+    /**
+     * Update document record.
+     */
+    public function update(Request $request, Document $document): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'category' => ['required', 'string', 'max:100'],
+            'description' => ['nullable', 'string'],
+            'document_file' => ['nullable', 'file', 'mimes:pdf,doc,docx,xls,xlsx,zip', 'max:10240'],
+        ], [
+            'title.required' => 'Judul dokumen wajib diisi.',
+            'category.required' => 'Kategori dokumen wajib dipilih.',
+            'document_file.mimes' => 'Format file yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, ZIP.',
+        ]);
+
+        $this->documentService->updateDocument($document, $validated);
+
+        return redirect()->route('admin.documents.index')
+            ->with('success', 'Informasi dokumen berhasil diperbarui.');
     }
 
     /**

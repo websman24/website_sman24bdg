@@ -12,13 +12,24 @@ class DocumentService
     ) {}
 
     /**
-     * Get paginated documents.
+     * Get paginated documents with search and category filter.
      */
-    public function getPaginatedDocuments(int $perPage = 15): LengthAwarePaginator
+    public function getPaginatedDocuments(int $perPage = 15, ?string $search = null, ?string $category = null): LengthAwarePaginator
     {
-        return Document::with('author')
-            ->latest()
-            ->paginate($perPage);
+        $query = Document::with('author');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($category) {
+            $query->where('category', $category);
+        }
+
+        return $query->latest()->paginate($perPage)->withQueryString();
     }
 
     /**
@@ -41,6 +52,25 @@ class DocumentService
         }
 
         return Document::create($data);
+    }
+
+    /**
+     * Update document record.
+     */
+    public function updateDocument(Document $document, array $data): bool
+    {
+        if (isset($data['document_file']) && $data['document_file'] instanceof \Illuminate\Http\UploadedFile) {
+            if ($document->file_path) {
+                $this->fileStorageService->deleteFile($document->file_path);
+            }
+            $uploadInfo = $this->fileStorageService->uploadDocument($data['document_file'], 'documents');
+            $data['file_path'] = $uploadInfo['file_path'];
+            $data['file_size'] = $uploadInfo['file_size'];
+            $data['file_type'] = $uploadInfo['file_type'];
+            unset($data['document_file']);
+        }
+
+        return $document->update($data);
     }
 
     /**
