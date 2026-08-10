@@ -47,9 +47,9 @@
         <div class="bg-slate-900 p-8 rounded-2xl text-white shadow-sm flex flex-col justify-between space-y-6">
             <div class="space-y-3">
                 <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-emerald-950">Lokasi Kampus</span>
-                <h3 class="text-xl font-bold">SMA Negeri 24 Bandung</h3>
+                <h3 class="text-xl font-bold">{{ $contact['name'] }}</h3>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    Terletak strategis di Jalan A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614.
+                    Terletak strategis di {{ $contact['address'] }}.
                 </p>
             </div>
             <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center text-xs text-slate-400">

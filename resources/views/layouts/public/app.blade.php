@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>@yield('title', 'SMA Negeri 24 Bandung - Official Website')</title>
-    <meta name="description" content="@yield('meta_description', 'Official Website SMA Negeri 24 Bandung - Jl. A.H. Nasution No. 27, Kota Bandung.')">
+    <meta name="description" content="@yield('meta_description', 'Official Website ' . \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') . ' - ' . \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung') . '.')">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

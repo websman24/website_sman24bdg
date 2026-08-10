@@ -14,7 +14,7 @@
     <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h2 class="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Alur & Lokasi Daftar Ulang</h2>
         <div class="space-y-3 text-slate-700 text-sm leading-relaxed">
-            <p>1. Hadir langsung ke lokasi verifikasi di <strong>Kampus SMAN 24 Bandung, Jl. A.H. Nasution No. 27, Kota Bandung</strong>.</p>
+            <p>1. Hadir langsung ke lokasi verifikasi di <strong>Kampus {{ \App\Models\Setting::getValue('school_name', 'SMAN 24 Bandung') }}, {{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung') }}</strong>.</p>
             <p>2. Membawa bukti cetak tanda lulus seleksi SPMB dan kelengkapan dokumen fisik (IJAZAH/SKL, KK, Akta Kelahiran, Pasfoto).</p>
             <p>3. Melakukan verifikasi data dengan panitia SPMB di Aula Sekolah.</p>
         </div>

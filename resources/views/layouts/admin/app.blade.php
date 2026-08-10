@@ -138,7 +138,7 @@
                     </button>
                     <div>
                         <h1 class="text-sm sm:text-base font-bold text-slate-900">Portal Administrasi Website</h1>
-                        <p class="text-[11px] text-slate-500 hidden sm:block">SMA Negeri 24 Bandung - Jl. A.H. Nasution No. 27, Kota Bandung</p>
+                        <p class="text-[11px] text-slate-500 hidden sm:block">{{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }} - {{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung') }}</p>
                     </div>
                 </div>
 
@@ -180,10 +180,10 @@
             <!-- Footer -->
             <footer class="bg-white border-t border-slate-200 px-6 py-4 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div>
-                    &copy; {{ date('Y') }} <strong>SMA Negeri 24 Bandung</strong>. All rights reserved.
+                    &copy; {{ date('Y') }} <strong>{{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }}</strong>. All rights reserved.
                 </div>
                 <div class="text-[11px] text-slate-400">
-                    Jl. A.H. Nasution No. 27, Kota Bandung
+                    {{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung') }}
                 </div>
             </footer>
         </div>

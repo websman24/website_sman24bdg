@@ -75,8 +75,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-10">
                 <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Profil Sekolah</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">SMA Negeri 24 Bandung</h2>
-                <p class="text-slate-600 text-xs sm:text-sm mt-2">Jl. A.H. Nasution No. 27, Kota Bandung.</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">{{ $schoolInfo['name'] }}</h2>
+                <p class="text-slate-600 text-xs sm:text-sm mt-2">{{ $schoolInfo['address'] }}</p>
             </div>
 
             <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 space-y-4">
@@ -235,7 +235,7 @@
                     </div>
                     <div class="pt-2">
                         <div class="bg-emerald-950/80 p-4 rounded-xl border border-emerald-800 text-xs text-emerald-200">
-                            <strong>Status Layanan:</strong> Verifikasi daftar ulang dilakukan di kampus SMAN 24 Bandung, Jl. A.H. Nasution No. 27.
+                            <strong>Status Layanan:</strong> Verifikasi daftar ulang dilakukan di kampus {{ $schoolInfo['name'] }}, {{ $schoolInfo['address'] }}.
                         </div>
                     </div>
                 </div>
@@ -250,11 +250,11 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div class="space-y-4">
                         <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-emerald-950">Kontak Sekolah</span>
-                        <h3 class="text-2xl font-extrabold">SMA Negeri 24 Bandung</h3>
+                        <h3 class="text-2xl font-extrabold">{{ $schoolInfo['name'] }}</h3>
                         <div class="space-y-2 text-xs sm:text-sm text-slate-300 pt-2">
-                            <p><strong>Alamat:</strong> Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat</p>
-                            <p><strong>Telepon:</strong> (022) 7800540</p>
-                            <p><strong>Email:</strong> info@sman24bdg.sch.id</p>
+                            <p><strong>Alamat:</strong> {{ $schoolInfo['address'] }}</p>
+                            <p><strong>Telepon:</strong> {{ $schoolInfo['phone'] }}</p>
+                            <p><strong>Email:</strong> {{ $schoolInfo['email'] }}</p>
                         </div>
                     </div>
 

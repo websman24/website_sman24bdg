@@ -20,12 +20,12 @@ class HomeController extends Controller
     public function index(): View
     {
         $schoolInfo = [
-            'name' => 'SMA Negeri 24 Bandung',
-            'address' => 'Jl. A.H. Nasution No. 27, Kota Bandung',
-            'phone' => '(022) 7800540',
-            'email' => 'info@sman24bdg.sch.id',
-            'accreditation' => 'A (Unggul)',
-            'motto' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global',
+            'name' => \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung'),
+            'address' => \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung'),
+            'phone' => \App\Models\Setting::getValue('school_phone', '(022) 7800540'),
+            'email' => \App\Models\Setting::getValue('school_email', 'info@sman24bdg.sch.id'),
+            'accreditation' => \App\Models\Setting::getValue('school_accreditation', 'A (Unggul)'),
+            'motto' => \App\Models\Setting::getValue('school_motto', 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global'),
         ];
 
         $latestNews = News::with('category')
