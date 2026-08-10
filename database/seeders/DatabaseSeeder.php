@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Sambutan Kepala Sekolah SMAN 24 Bandung',
                 'content' => 'Selamat datang di Website Resmi SMA Negeri 24 Bandung. Kami berkomitmen memberikan layanan pendidikan terbaik bagi putra-putri bangsa di Kota Bandung.',
-                'meta_json' => ['headmaster_name' => 'Dr. H. Ahmad Fauzi, M.Pd.', 'nip' => '197505122000031001'],
+                'meta_json' => ['headmaster_name' => 'Drs. H. Solihin, M.Pd.', 'nip' => '197505122000031001'],
                 'is_published' => true,
             ]
         );

@@ -56,12 +56,15 @@
                             <p class="text-slate-300 leading-relaxed italic">
                                 "{{ $profiles['sambutan_kepala_sekolah']->content ?? $schoolInfo['motto'] }}"
                             </p>
-                            @if(isset($profiles['sambutan_kepala_sekolah']->meta_json['headmaster_name']))
-                                <div class="pt-2 border-t border-slate-800 text-right">
-                                    <span class="font-bold text-amber-400 block">{{ $profiles['sambutan_kepala_sekolah']->meta_json['headmaster_name'] }}</span>
-                                    <span class="text-[10px] text-slate-400">Kepala SMAN 24 Bandung</span>
+                            <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+                                @if(!empty($schoolInfo['principal_photo']))
+                                    <img src="{{ asset($schoolInfo['principal_photo']) }}" alt="{{ $schoolInfo['principal_name'] }}" class="w-10 h-10 rounded-full object-cover border border-amber-400">
+                                @endif
+                                <div class="text-right">
+                                    <span class="font-bold text-amber-400 block text-xs">{{ $schoolInfo['principal_name'] }}</span>
+                                    <span class="text-[10px] text-slate-400">{{ $schoolInfo['principal_title'] }}</span>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
