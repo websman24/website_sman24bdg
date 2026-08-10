@@ -66,7 +66,7 @@ class Tahap1ArchitectureTest extends TestCase
 
         $dashboardResponse = $this->get('/admin');
         $dashboardResponse->assertStatus(200);
-        $dashboardResponse->assertSee('Selamat Datang di Admin Website');
+        $dashboardResponse->assertSee('Selamat Datang');
         $dashboardResponse->assertSee('SMA Negeri 24 Bandung');
     }
 

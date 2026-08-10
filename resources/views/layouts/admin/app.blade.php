@@ -69,21 +69,47 @@
                     <a href="{{ route('admin.announcements.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.announcements.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>Pengumuman</span>
                     </a>
+                    <a href="{{ route('admin.events.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.events.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Agenda Sekolah</span>
+                    </a>
                 </div>
 
                 <!-- Group: Sekolah -->
                 <div class="space-y-1">
                     <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Sekolah</div>
+                    <a href="{{ route('admin.profiles.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.profiles.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Profil Sekolah</span>
+                    </a>
                     <a href="{{ route('admin.teachers.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.teachers.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>Guru & Tendik</span>
+                    </a>
+                    <a href="{{ route('admin.achievements.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.achievements.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Prestasi</span>
+                    </a>
+                    <a href="{{ route('admin.extracurriculars.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.extracurriculars.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Ekstrakurikuler</span>
                     </a>
                 </div>
 
                 <!-- Group: Media & Dokumen -->
                 <div class="space-y-1">
                     <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Media & Dokumen</div>
+                    <a href="{{ route('admin.galleries.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.galleries.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Galeri Foto</span>
+                    </a>
+                    <a href="{{ route('admin.videos.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.videos.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Video YouTube</span>
+                    </a>
                     <a href="{{ route('admin.documents.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.documents.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>Dokumen & SPMB</span>
+                    </a>
+                </div>
+
+                <!-- Group: Pengaturan -->
+                <div class="space-y-1">
+                    <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Pengaturan</div>
+                    <a href="{{ route('admin.settings.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-colors {{ request()->routeIs('admin.settings.*') ? 'bg-emerald-800 text-white font-bold' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>Pengaturan Website</span>
                     </a>
                 </div>
 
@@ -135,10 +161,14 @@
             <!-- Page Flash Notifications -->
             <div class="p-6 pb-0">
                 @if(session('success'))
-                    <div class="p-4 mb-2 text-xs text-emerald-800 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-3 shadow-sm">
-                        <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                        <span class="font-medium">{{ session('success') }}</span>
-                    </div>
+                    <x-alert type="success">
+                        <span class="font-bold">{{ session('success') }}</span>
+                    </x-alert>
+                @endif
+                @if(session('warning'))
+                    <x-alert type="warning">
+                        <span class="font-bold">{{ session('warning') }}</span>
+                    </x-alert>
                 @endif
             </div>
 
