@@ -7,63 +7,81 @@
 <div class="space-y-8">
     
     <!-- Welcome Banner Card -->
-    <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
-        <div class="relative z-10 space-y-2">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700 text-amber-400 text-xs font-semibold">
-                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                Portal Administrasi Resmi
+    <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden border border-emerald-900/60">
+        <div class="relative z-10 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/80 border border-amber-400/40 text-amber-400 text-xs font-extrabold shadow-inner">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                PORTAL ADMINISTRASI CMS TERPADU
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h2 class="text-2xl sm:text-4xl font-black tracking-tight">
                 Selamat Datang, {{ auth()->user()->name ?? 'Administrator' }}!
             </h2>
             <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-                Kelola konten publikasi berita, pengumuman, data pendidik, galeri media, serta berkas SPMB SMA Negeri 24 Bandung dari panel administrasi terpadu.
+                Kelola seluruh data publikasi berita, pengumuman, agenda sekolah, profil pendidik, album galeri media, serta berkas SPMB {{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }} secara terintegrasi.
             </p>
         </div>
     </div>
 
     <!-- Real-time Statistics Metric Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
         <!-- News Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Berita</span>
-            <div class="text-2xl font-extrabold text-slate-900">{{ $stats['total_news'] ?? 0 }}</div>
-            <a href="{{ route('admin.news.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Berita</span>
+                <span class="p-2 rounded-xl bg-emerald-50 text-emerald-800 text-base">📰</span>
+            </div>
+            <div class="text-2xl font-black text-slate-900">{{ $stats['total_news'] ?? 0 }}</div>
+            <a href="{{ route('admin.news.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Berita &rarr;</a>
         </div>
 
         <!-- Announcement Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pengumuman</span>
-            <div class="text-2xl font-extrabold text-amber-600">{{ $stats['total_announcements'] ?? 0 }}</div>
-            <a href="{{ route('admin.announcements.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Pengumuman</span>
+                <span class="p-2 rounded-xl bg-amber-50 text-amber-600 text-base">📢</span>
+            </div>
+            <div class="text-2xl font-black text-amber-600">{{ $stats['total_announcements'] ?? 0 }}</div>
+            <a href="{{ route('admin.announcements.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Pengumuman &rarr;</a>
         </div>
 
         <!-- Teacher Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Guru & Tendik</span>
-            <div class="text-2xl font-extrabold text-slate-900">{{ $stats['total_teachers'] ?? 0 }}</div>
-            <a href="{{ route('admin.teachers.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Guru & Tendik</span>
+                <span class="p-2 rounded-xl bg-emerald-50 text-emerald-800 text-base">👨‍🏫</span>
+            </div>
+            <div class="text-2xl font-black text-slate-900">{{ $stats['total_teachers'] ?? 0 }}</div>
+            <a href="{{ route('admin.teachers.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Data Guru &rarr;</a>
         </div>
 
         <!-- Document Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Dokumen SPMB</span>
-            <div class="text-2xl font-extrabold text-sky-700">{{ $stats['total_documents'] ?? 0 }}</div>
-            <a href="{{ route('admin.documents.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Dokumen SPMB</span>
+                <span class="p-2 rounded-xl bg-sky-50 text-sky-700 text-base">📁</span>
+            </div>
+            <div class="text-2xl font-black text-sky-700">{{ $stats['total_documents'] ?? 0 }}</div>
+            <a href="{{ route('admin.documents.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Berkas &rarr;</a>
         </div>
 
         <!-- Event Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Agenda</span>
-            <div class="text-2xl font-extrabold text-emerald-800">{{ $stats['total_events'] ?? 0 }}</div>
-            <a href="{{ route('admin.events.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Agenda</span>
+                <span class="p-2 rounded-xl bg-purple-50 text-purple-700 text-base">🗓️</span>
+            </div>
+            <div class="text-2xl font-black text-purple-700">{{ $stats['total_events'] ?? 0 }}</div>
+            <a href="{{ route('admin.events.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Agenda &rarr;</a>
         </div>
 
         <!-- Achievement Stat -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Prestasi</span>
-            <div class="text-2xl font-extrabold text-purple-700">{{ $stats['total_achievements'] ?? 0 }}</div>
-            <a href="{{ route('admin.achievements.index') }}" class="text-[11px] font-bold text-emerald-800 hover:underline block">Kelola &rarr;</a>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 card-hover-effect">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">Prestasi</span>
+                <span class="p-2 rounded-xl bg-amber-50 text-amber-700 text-base">🏆</span>
+            </div>
+            <div class="text-2xl font-black text-amber-700">{{ $stats['total_achievements'] ?? 0 }}</div>
+            <a href="{{ route('admin.achievements.index') }}" class="text-[11px] font-extrabold text-emerald-800 hover:underline block">Kelola Prestasi &rarr;</a>
         </div>
     </div>
 
@@ -72,17 +90,17 @@
         <!-- Latest News Table -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-slate-900 text-sm">Berita Terbaru</h3>
-                <a href="{{ route('admin.news.create') }}" class="text-xs font-bold text-emerald-800 hover:underline">+ Tambah Berita</a>
+                <h3 class="font-extrabold text-slate-900 text-sm">📰 Berita Publikasi Terbaru</h3>
+                <a href="{{ route('admin.news.create') }}" class="text-xs font-extrabold text-emerald-800 hover:underline">+ Tambah Berita</a>
             </div>
             <div class="space-y-3">
                 @forelse($latestNews as $item)
-                    <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 last:border-0">
+                    <div class="flex items-center justify-between text-xs py-2 border-b border-slate-100 last:border-0">
                         <span class="font-bold text-slate-800 truncate max-w-xs">{{ $item->title }}</span>
-                        <span class="text-[10px] text-slate-400">{{ $item->created_at->format('d M Y') }}</span>
+                        <span class="text-[10px] font-mono text-slate-400">{{ $item->created_at->format('d M Y') }}</span>
                     </div>
                 @empty
-                    <div class="text-xs text-slate-400 py-4 text-center">Belum ada berita.</div>
+                    <div class="text-xs text-slate-400 py-6 text-center">Belum ada berita dipublikasikan.</div>
                 @endforelse
             </div>
         </div>
@@ -90,17 +108,17 @@
         <!-- Latest Announcements Table -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-slate-900 text-sm">Pengumuman Terakhir</h3>
-                <a href="{{ route('admin.announcements.create') }}" class="text-xs font-bold text-emerald-800 hover:underline">+ Tambah Pengumuman</a>
+                <h3 class="font-extrabold text-slate-900 text-sm">📢 Pengumuman Terakhir</h3>
+                <a href="{{ route('admin.announcements.create') }}" class="text-xs font-extrabold text-emerald-800 hover:underline">+ Tambah Pengumuman</a>
             </div>
             <div class="space-y-3">
                 @forelse($latestAnnouncements as $item)
-                    <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 last:border-0">
+                    <div class="flex items-center justify-between text-xs py-2 border-b border-slate-100 last:border-0">
                         <span class="font-bold text-slate-800 truncate max-w-xs">{{ $item->title }}</span>
-                        <span class="text-[10px] text-slate-400">{{ $item->created_at->format('d M Y') }}</span>
+                        <span class="text-[10px] font-mono text-slate-400">{{ $item->created_at->format('d M Y') }}</span>
                     </div>
                 @empty
-                    <div class="text-xs text-slate-400 py-4 text-center">Belum ada pengumuman.</div>
+                    <div class="text-xs text-slate-400 py-6 text-center">Belum ada pengumuman terdaftar.</div>
                 @endforelse
             </div>
         </div>
