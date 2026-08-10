@@ -355,14 +355,23 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($teachers as $teacher)
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3 card-hover-effect">
-                        <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-800 text-white font-black text-xl flex items-center justify-center shadow-md border-2 border-amber-400/40">
-                            {{ strtoupper(substr($teacher->name, 0, 1)) }}
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm text-center space-y-3 card-hover-effect flex flex-col items-center justify-between">
+                        <div class="space-y-3 w-full">
+                            @if($teacher->photo)
+                                <img src="{{ asset($teacher->photo) }}" alt="{{ $teacher->full_name }}" class="w-20 h-20 mx-auto rounded-2xl object-cover shadow-md border-2 border-emerald-800">
+                            @else
+                                <div class="w-20 h-20 mx-auto rounded-2xl bg-emerald-800 text-amber-400 font-black text-2xl flex items-center justify-center shadow-md border-2 border-amber-400/40">
+                                    {{ strtoupper(substr($teacher->name, 0, 1)) }}
+                                </div>
+                            @endif
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm leading-snug">{{ $teacher->full_name }}</h4>
+                                <p class="text-[11px] text-slate-400 font-mono mt-0.5">NIP: {{ $teacher->nip ?? '-' }}</p>
+                            </div>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-900 text-sm">{{ $teacher->full_name }}</h4>
-                            <span class="inline-block mt-1.5 px-3 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800">
-                                {{ $teacher->subject }}
+                            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-900 border border-amber-200">
+                                📚 {{ $teacher->subject }}
                             </span>
                         </div>
                     </div>
