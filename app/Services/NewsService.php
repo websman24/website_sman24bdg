@@ -19,6 +19,10 @@ class NewsService
             ->paginate($perPage);
     }
 
+    public function __construct(
+        protected FileStorageService $fileStorageService
+    ) {}
+
     /**
      * Create news article.
      */
@@ -27,6 +31,11 @@ class NewsService
         $data['author_id'] = $authorId;
         $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
         $data['published_at'] = $data['published_at'] ?? now();
+
+        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['thumbnail'] = $this->fileStorageService->uploadImage($data['thumbnail_file'], 'news');
+            unset($data['thumbnail_file']);
+        }
 
         return News::create($data);
     }
@@ -48,6 +57,10 @@ class NewsService
      */
     public function deleteNews(News $news): bool
     {
+        if ($news->thumbnail) {
+            $this->fileStorageService->deleteFile($news->thumbnail);
+        }
+
         return $news->delete();
     }
 }

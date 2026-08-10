@@ -45,10 +45,12 @@ class NewsController extends Controller
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
+            'thumbnail_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ], [
             'category_id.required' => 'Kategori berita wajib dipilih.',
             'title.required' => 'Judul berita wajib diisi.',
             'content.required' => 'Konten berita wajib diisi.',
+            'thumbnail_file.image' => 'Berkas thumbnail harus berupa gambar.',
         ]);
 
         $this->newsService->createNews($validated, auth()->id());

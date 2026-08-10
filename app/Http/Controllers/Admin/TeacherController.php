@@ -46,10 +46,12 @@ class TeacherController extends Controller
             'gender' => ['required', 'in:L,P'],
             'email' => ['nullable', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'photo_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ], [
             'name.required' => 'Nama guru wajib diisi.',
             'subject.required' => 'Mata pelajaran yang diampu wajib diisi.',
             'nip.unique' => 'NIP sudah terdaftar.',
+            'photo_file.image' => 'Foto harus berupa berkas gambar.',
         ]);
 
         $this->teacherService->createTeacher($validated);

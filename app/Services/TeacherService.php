@@ -7,6 +7,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TeacherService
 {
+    public function __construct(
+        protected FileStorageService $fileStorageService
+    ) {}
+
     /**
      * Get paginated teachers.
      */
@@ -22,6 +26,11 @@ class TeacherService
      */
     public function createTeacher(array $data): Teacher
     {
+        if (isset($data['photo_file']) && $data['photo_file'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'teachers');
+            unset($data['photo_file']);
+        }
+
         return Teacher::create($data);
     }
 
@@ -30,6 +39,10 @@ class TeacherService
      */
     public function deleteTeacher(Teacher $teacher): bool
     {
+        if ($teacher->photo) {
+            $this->fileStorageService->deleteFile($teacher->photo);
+        }
+
         return $teacher->delete();
     }
 }

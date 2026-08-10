@@ -1,81 +1,64 @@
 # Website Resmi SMA Negeri 24 Bandung
 
-[![Laravel Version](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
-[![Database](https://img.shields.io/badge/MySQL-8.0%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
-
-Aplikasi **Website Resmi SMA Negeri 24 Bandung** yang berlokasi di **Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614**. 
-
-Aplikasi ini dikembangkan dengan arsitektur modular, rapi, aman, responsif, dan mudah dipelihara untuk menyajikan informasi publik sekolah serta portal administrasi sekolah.
+Portal Website Resmi **SMA Negeri 24 Bandung** (*Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614*). Aplikasi ini dikembangkan menggunakan **Laravel 12**, **PHP 8.2+**, **Tailwind CSS v4**, **Alpine.js**, dan **Vite** dengan arsitektur clean code, Eloquent relationships, unit & feature testing otomatis, serta Portal Admin CMS terpadu.
 
 ---
 
-## 📌 Status Tahap Pengembangan
+## 📌 Fitur Utama Aplikasi
 
-- [x] **Tahap 1: Setup & Arsitektur Dasar Proyek (Selesai)**
-  - Setup Laravel 12 & MySQL database `website_sman24bdg`.
-  - Sistem autentikasi dasar (Login, Logout, Hashing Bcrypt, Proteksi CSRF, Session handling, Validasi FormRequest).
-  - Layer Arsitektur Modular (Controllers, Services, Requests, Middleware, Models).
-  - Pemisahan Routing publik (`routes/web.php`) & portal admin (`routes/admin.php`).
-  - Layout Website Publik responsif (10 menu navigasi) & Layout Admin profesional (Sidebar, Header, Breadcrumb, Content, Footer).
-  - Automated Testing (`php artisan test`) & Frontend Build (`npm run build`).
-- [ ] **Tahap 2: Manajemen Konten & Data Sekolah (Tahap Berikutnya)**
-  - CRUD Berita, Pengumuman, Agenda Sekolah.
-  - Direktori Profil, Guru, dan Tenaga Kependidikan.
-- [ ] **Tahap 3: Modul Media & Informasi PPDB (Tahap Mendatang)**
-  - Galeri Dokumentasi Foto & Pusat Unduhan Dokumen.
-  - Informasi & Portal Pendaftaran PPDB Online.
+1. **Website Publik (Public Frontend)**:
+   - **Profil Sekolah**: Sejarah Singkat, Visi & Misi, dan Identitas Sekolah.
+   - **Berita & Informasi**: Pencarian berita, filter per kategori, paginasi, hitung jumlah tayangan (*views counter*), dan berita terkait.
+   - **Akademik**: Direktori Guru & Tenaga Kependidikan (NIP, Gelar, Mapel) dan Kalender Akademik per Semester.
+   - **Kesiswaan**: Daftar Ekstrakurikuler (jadwal & pembina) dan Prestasi Siswa (Tingkat Kota, Provinsi, Nasional, Internasional).
+   - **Galeri Media**: Album foto kegiatan dan embed galeri video YouTube resmi sekolah.
+   - **Pusat Unduhan**: Unduh berkas dokumen & formulir resmi dengan pelacak jumlah unduhan (*download counter*).
+   - **Layanan SPMB**: Informasi pendaftaran murid baru & alur verifikasi daftar ulang.
+   - **Kontak & Lokasi**: Informasi telepon `(022) 7800540`, email `info@sman24bdg.sch.id`, alamat kampus, dan peta lokasi.
 
----
-
-## 📋 Persyaratan Sistem (Requirements)
-
-Sebelum menjalankan project di local environment, pastikan perangkat Anda memenuhi persyaratan berikut:
-
-- **PHP**: `>= 8.2` (dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`)
-- **Database**: MySQL `>= 8.0` / MariaDB `>= 10.4`
-- **Package Manager PHP**: Composer `>= 2.x`
-- **Node.js Environment**: Node.js `>= 18.x` & NPM `>= 9.x`
-- **VCS**: Git
+2. **Portal Administrasi CMS (`/admin`)**:
+   - **Pengaturan Website Dinamis**: Kelola Nama Sekolah, Alamat, Telepon, Email, NPSN, dan Akreditasi.
+   - **Manajemen Konten CMS**: Berita, Pengumuman, Agenda Sekolah, Profil Sekolah, Guru & Tendik, Prestasi, Ekstrakurikuler, Galeri Foto, Video YouTube, dan Dokumen SPMB.
+   - **Upload Handling**: Upload foto guru, thumbnail berita, dan berkas PDF/DOCX/ZIP.
+   - **Real-time Dashboard Metrics**: Statistik angka riil dari MySQL untuk publikasi dan aktivitas.
 
 ---
 
-## 🚀 Panduan Instalasi & Pengoperasian
+## 📋 Requirements
 
-### 1. Clone Repository
+- **PHP**: `^8.2` (dengan ekstensi `pdo_mysql`, `mbstring`, `fileinfo`, `openssl`, `curl`)
+- **Composer**: `^2.x`
+- **Node.js**: `^18.x` atau `^20.x` & **npm**: `^9.x`
+- **Database**: MySQL `^8.0` / MariaDB `^10.4` (XAMPP Server)
+- **Web Server**: Apache / Nginx (XAMPP)
+
+---
+
+## 🚀 Instalasi & Konfigurasi
+
+### 1. Clone Repositori
 ```bash
-git clone <repository_url> website_sman24bdg
+git clone https://github.com/websman24/website_sman24bdg.git
 cd website_sman24bdg
 ```
 
-### 2. Install Dependensi (PHP & Node.js)
+### 2. Install Dependency PHP & Node.js
 ```bash
 composer install
 npm install
 ```
 
 ### 3. Konfigurasi Environment (`.env`)
-Salin file `.env.example` menjadi `.env`:
+Salin berkas `.env.example` ke `.env`:
 ```bash
-# Windows PowerShell
-copy .env.example .env
-
-# Linux / MacOS
 cp .env.example .env
 ```
 
-Generate **APP_KEY** aplikasi:
-```bash
-php artisan key:generate
-```
-
-Pastikan variabel database pada file `.env` sudah dikonfigurasi sesuai dengan MySQL server lokal Anda:
+Pastikan konfigurasi database MySQL pada `.env`:
 ```env
-APP_NAME="SMA Negeri 24 Bandung"
+APP_NAME="SMAN 24 Bandung"
 APP_ENV=local
-APP_KEY=base64:...
+APP_KEY=
 APP_DEBUG=true
 APP_URL=http://localhost:8000
 
@@ -87,134 +70,125 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 4. Konfigurasi Database & Seeder
-Buat database MySQL bernama `website_sman24bdg` di MySQL server lokal (misalnya via phpMyAdmin atau CLI MySQL):
-```sql
-CREATE DATABASE website_sman24bdg CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+### 4. Generate Application Key
+```bash
+php artisan key:generate
 ```
 
-Jalankan migrasi tabel dan seeder akun administrator default:
+### 5. Jalankan Migration & Database Seeder
+Perintah ini akan membuat 17 tabel entitas dan mengisi data awal (termasuk akun admin default & data sekolah):
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-Kredensial **Administrator Default**:
+**Kredensial Login Administrator Default:**
+- **URL Login**: `http://localhost:8000/admin/login`
 - **Email**: `admin@sman24bdg.sch.id`
 - **Password**: `Password24!`
-- **Role**: `admin`
 
-### 5. Kompilasi Asset Frontend (Vite)
-Kompilasi asset Tailwind CSS & JavaScript untuk mode produksi:
+### 6. Link Symbol Storage
 ```bash
-npm run build
+php artisan storage:link
 ```
 
-Jika Anda ingin menjalankan Vite dalam mode pengawasan perubahan (Development Hot Reloading):
+---
+
+## 💻 Menjalankan Aplikasi
+
+### 1. Kompilasi Aset Frontend (Vite)
+Untuk pengembangan lokal:
 ```bash
 npm run dev
 ```
 
-### 6. Menjalankan Server Aplikasi Laravel
-Jalankan development server Laravel:
+Untuk build produksi:
 ```bash
-php artisan serve
-```
-
-Akses aplikasi melalui browser:
-- **Website Utama (Publik)**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **Portal Login Admin**: [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login)
-- **Dashboard Admin**: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
-
----
-
-## 🧪 Pengujian Aplikasi (Testing)
-
-Jalankan suite pengujian otomatis fitur dan arsitektur aplikasi:
-```bash
-php artisan test
-```
-
-Command pemeriksaan status diagnostik lengkap:
-```bash
-php artisan about
-php artisan route:list
-php artisan migrate
-php artisan test
 npm run build
 ```
 
+### 2. Jalankan Laravel Development Server
+```bash
+php artisan serve
+```
+Akses aplikasi melalui browser di [http://localhost:8000](http://localhost:8000).
+
 ---
 
-## 📂 Struktur Direktori Proyek
+## 🧪 Testing & Pemeriksaan Kualitas Kode
 
-```text
+Jalankan test suite otomatis (Unit & Feature Testing):
+```bash
+php artisan test
+```
+
+Lakukan pengecekan status arsitektur & route aplikasi:
+```bash
+php artisan about
+php artisan route:list
+```
+
+---
+
+## 📂 Arsitektur & Struktur Folder Penting
+
+```
 website_sman24bdg/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
-│   │   │   ├── Admin/
-│   │   │   │   └── DashboardController.php      # Controller Dashboard Admin
-│   │   │   ├── Auth/
-│   │   │   │   └── AuthController.php           # Controller Login & Logout
-│   │   │   └── Public/
-│   │   │       └── HomeController.php           # Controller Website Utama
-│   │   ├── Middleware/
-│   │   │   └── AdminMiddleware.php              # Authorization Admin Check
-│   │   └── Requests/
-│   │       └── Auth/
-│   │           └── LoginRequest.php             # Form Request Validation
-│   ├── Models/
-│   │   └── User.php                             # User Model (Role & Helpers)
-│   └── Services/
-│       └── AuthService.php                      # Business Logic Authentication
-├── bootstrap/
-│   └── app.php                                  # Routing & Middleware Registration
+│   │   │   ├── Admin/            # Admin CMS Controllers (News, Teachers, Events, Settings, etc.)
+│   │   │   ├── Auth/             # Admin Authentication Controllers
+│   │   │   └── Public/           # Public Frontend Controllers (Home, Profile, News, SPMB, etc.)
+│   │   └── Middleware/           # Admin Access Middleware
+│   ├── Models/                   # 17 Eloquent Domain Models
+│   └── Services/                 # Business Logic & Upload Services (FileStorageService, NewsService, etc.)
 ├── database/
-│   ├── migrations/                              # Skema Migrasi Database
-│   └── seeders/
-│       └── DatabaseSeeder.php                   # Seeder User Admin Default
+│   ├── factories/                # Eloquent Factories for testing & seeding
+│   ├── migrations/               # 17 Migration Files for MySQL tables
+│   └── seeders/                  # Master DatabaseSeeder
 ├── resources/
 │   ├── css/
-│   │   └── app.css                              # Tailwind CSS v4 Styles
+│   │   └── app.css               # Design System Tokens & Tailwind CSS v4 Utilities
 │   ├── js/
-│   │   └── app.js                              # Alpine.js & JS Bundle
+│   │   └── app.js                # Alpine.js & Frontend Scripts
 │   └── views/
-│       ├── admin/
-│       │   └── dashboard.blade.php              # View Dashboard Admin
-│       ├── auth/
-│       │   └── login.blade.php                  # View Form Login
-│       ├── layouts/
-│       │   ├── admin/
-│       │   │   └── app.blade.php                # Layout Admin Portal
-│       │   └── public/
-│       │       └── app.blade.php                # Layout Website Publik
-│       └── public/
-│           └── home.blade.php                   # View Halaman Depan Publik
+│       ├── admin/                # Admin CMS Views & Dashboard
+│       ├── components/           # Reusable Blade UI Components (button, card, alert, modal, etc.)
+│       ├── layouts/              # Public & Admin Master Layouts
+│       └── public/               # Public Frontend Views (Home, News, SPMB, Profile, etc.)
 ├── routes/
-│   ├── admin.php                                # Route Group Admin (/admin)
-│   └── web.php                                  # Route Group Publik & Auth
-├── .env.example                                 # Template Environment
-├── package.json                                 # Config Dependensi Frontend
-├── vite.config.js                               # Config Bundler Vite
-└── README.md
+│   ├── admin.php                 # Protected Admin CMS Routes
+│   └── web.php                   # Public Website Routes
+└── tests/
+    └── Feature/                  # Automated Test Suite (12 passed, 91 assertions)
 ```
 
 ---
 
-## 🔒 Keamanan (Security Features)
+## 📊 Informasi Tahap Pengembangan
 
-1. **CSRF Protection**: Aktif secara otomatis pada seluruh endpoint form POST (`@csrf`).
-2. **Password Hashing**: Menggunakan driver Bcrypt bawaan Laravel (`Hash::make`).
-3. **Input Validation**: Menggunakan kustom `FormRequest` untuk mencegah masukan tidak sah.
-4. **Isolated Secrets**: Konfigurasi sensitif terisolasi di `.env` yang dikecualikan dari Git repository via `.gitignore`.
-5. **No Raw SQL**: Menggunakan Query Builder dan Eloquent ORM.
+| Tahap | Deskripsi | Status |
+| :--- | :--- | :---: |
+| **Tahap 1** | Setup & Arsitektur Dasar Proyek (Laravel 12, Auth, Layouts, SPMB Header) | **SELESAI** |
+| **Tahap 2** | Database & Model (17 Domain Entities, Migrations, Seeders, Factories) | **SELESAI** |
+| **Tahap 3** | Fitur & Halaman Website Publik (Profile, News, Teachers, Extracurriculars, Gallery, Downloads, SPMB, Contact) | **SELESAI** |
+| **Tahap 3 UI/UX** | Design System & Reusable Component Suite (`<x-button>`, `<x-card>`, `<x-alert>`, `<x-modal>`, `<x-breadcrumb>`) | **SELESAI** |
+| **Tahap 4** | Portal Admin CMS Lengkap & Pengaturan Website Dinamis | **SELESAI** |
+| **Tahap 5** | File Storage Upload Handling, Automated Test Suite & Final README | **SELESAI** |
 
 ---
 
-## 🏫 Identitas Sekolah
+## 📤 Panduan Push ke GitHub Repository (`websman24`)
 
-- **Nama Sekolah**: SMA Negeri 24 Bandung
-- **Alamat**: Jl. A.H. Nasution No. 27, Kota Bandung, Jawa Barat 40614
-- **Telepon**: (022) 7800540
-- **Email**: info@sman24bdg.sch.id
-- **Akreditasi**: A (Unggul)
+Repositori GitHub: [https://github.com/websman24/website_sman24bdg](https://github.com/websman24/website_sman24bdg)
+
+Jalankan perintah berikut di terminal powershell/bash:
+```bash
+git remote add origin https://github.com/websman24/website_sman24bdg.git
+git branch -M main
+git push -u origin main
+```
+*(Gunakan GitHub Personal Access Token jika diminta autentikasi password)*.
+
+---
+&copy; {{ date('Y') }} **SMA Negeri 24 Bandung**. All rights reserved.

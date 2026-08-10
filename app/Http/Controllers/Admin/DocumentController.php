@@ -41,14 +41,13 @@ class DocumentController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'category' => ['required', 'string', 'max:100'],
             'description' => ['nullable', 'string'],
+            'document_file' => ['nullable', 'file', 'mimes:pdf,doc,docx,xls,xlsx,zip', 'max:10240'],
         ], [
             'title.required' => 'Judul dokumen wajib diisi.',
             'category.required' => 'Kategori dokumen wajib dipilih.',
+            'document_file.file' => 'Berkas harus berupa file yang valid.',
+            'document_file.mimes' => 'Format file yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, ZIP.',
         ]);
-
-        $validated['file_path'] = 'documents/sample.pdf';
-        $validated['file_size'] = 1024000;
-        $validated['file_type'] = 'pdf';
 
         $this->documentService->createDocument($validated, auth()->id());
 
