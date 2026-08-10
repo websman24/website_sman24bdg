@@ -181,18 +181,55 @@
         </div>
     </section>
 
-    <!-- Placeholder Section 6: PPDB -->
-    <section id="ppdb" class="py-16 bg-emerald-950 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-emerald-950 inline-block">Informasi PPDB</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold">Penerimaan Peserta Didik Baru (PPDB)</h2>
-            <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto">
-                Informasi kuota, jalur pendaftaran, persyaratan, dan petunjuk teknis PPDB SMA Negeri 24 Bandung.
-            </p>
-            <div class="pt-4">
-                <span class="inline-block px-5 py-2.5 rounded-xl bg-emerald-900 border border-emerald-700 text-xs text-amber-400 font-semibold">
-                    Persiapan Informasi PPDB Tahun Ajaran Baru
-                </span>
+    <!-- SPMB Section (Seleksi Penerimaan Murid Baru: Pendaftar & Daftar Ulang) -->
+    <section id="spmb" class="py-16 bg-emerald-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-emerald-950 inline-block">Layanan SPMB</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold">Seleksi Penerimaan Murid Baru (SPMB)</h2>
+                <p class="text-slate-300 text-xs sm:text-sm">
+                    Pusat layanan pendaftaran dan verifikasi daftar ulang siswa baru SMA Negeri 24 Bandung.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Sub-menu Card 1: Pendaftar -->
+                <div id="spmb-pendaftar" class="bg-emerald-900/60 p-8 rounded-3xl border border-emerald-700/80 space-y-4 hover:border-amber-400/80 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500 text-emerald-950 flex items-center justify-center text-2xl font-bold">
+                        📝
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-amber-400">Pendaftar SPMB</h3>
+                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                            Layanan portal pendaftaran bagi calon murid baru, cek status verifikasi pendaftaran, dan informasi berkas persyaratan SPMB SMA Negeri 24 Bandung.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-950 border border-emerald-700 text-xs text-amber-300 font-semibold">
+                            <span>Status: Placeholder Modul Pendaftar</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sub-menu Card 2: Daftar Ulang -->
+                <div id="spmb-daftar-ulang" class="bg-emerald-900/60 p-8 rounded-3xl border border-emerald-700/80 space-y-4 hover:border-amber-400/80 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-emerald-950 flex items-center justify-center text-2xl font-bold">
+                        ✅
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-300">Daftar Ulang SPMB</h3>
+                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                            Layanan daftar ulang bagi calon peserta didik yang dinyatakan lulus seleksi SPMB SMA Negeri 24 Bandung.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-950 border border-emerald-700 text-xs text-emerald-300 font-semibold">
+                            <span>Status: Placeholder Modul Daftar Ulang</span>
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>

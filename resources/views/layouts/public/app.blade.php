@@ -8,7 +8,7 @@
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Official Website SMA Negeri 24 Bandung - Jl. A.H. Nasution No. 27, Kota Bandung. Sekolah Berakreditasi A, Unggul, Berkarakter, Berbudaya, dan Berwawasan Global.">
-    <meta name="keywords" content="SMAN 24 Bandung, SMA Negeri 24 Bandung, Sekolah Bandung, Pendidikan, SMA Bandung, SMAN24">
+    <meta name="keywords" content="SMAN 24 Bandung, SMA Negeri 24 Bandung, Sekolah Bandung, Pendidikan, SMA Bandung, SMAN24, SPMB">
 
     <!-- Fonts & Assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +61,7 @@
                     </div>
                 </a>
 
-                <!-- Desktop Nav (10 Items) -->
+                <!-- Desktop Nav (Includes SPMB Dropdown with Pendaftar & Daftar Ulang) -->
                 <nav class="hidden lg:flex items-center space-x-5 font-semibold text-xs">
                     <a href="{{ route('home') }}" class="hover:text-amber-400 transition-colors py-1 text-amber-400 border-b-2 border-amber-400">Beranda</a>
                     <a href="#profil" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Profil</a>
@@ -70,7 +70,30 @@
                     <a href="#informasi" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Informasi</a>
                     <a href="#galeri" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Galeri</a>
                     <a href="#download" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Download</a>
-                    <a href="#ppdb" class="hover:text-amber-400 transition-colors py-1 text-amber-300 font-bold" :class="{ 'text-amber-600': scrolled }">PPDB</a>
+                    
+                    <!-- SPMB Dropdown -->
+                    <div x-data="{ spmbOpen: false }" @click.away="spmbOpen = false" class="relative">
+                        <button @click="spmbOpen = !spmbOpen" 
+                                class="hover:text-amber-400 transition-colors py-1 text-amber-300 font-bold inline-flex items-center gap-1 focus:outline-none"
+                                :class="{ 'text-amber-600': scrolled }">
+                            <span>SPMB</span>
+                            <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': spmbOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="spmbOpen" x-collapse 
+                             class="absolute left-0 mt-2 w-44 bg-white text-slate-800 rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-xs">
+                            <a href="#spmb-pendaftar" @click="spmbOpen = false" class="flex items-center gap-2 px-3.5 py-2 hover:bg-emerald-50 hover:text-emerald-800 font-semibold transition-colors">
+                                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                Pendaftar
+                            </a>
+                            <a href="#spmb-daftar-ulang" @click="spmbOpen = false" class="flex items-center gap-2 px-3.5 py-2 hover:bg-emerald-50 hover:text-emerald-800 font-semibold transition-colors border-t border-slate-100">
+                                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Daftar Ulang
+                            </a>
+                        </div>
+                    </div>
+
                     <a href="#kontak" class="hover:text-amber-400 transition-colors py-1" :class="{ 'text-slate-700': scrolled, 'text-slate-200': !scrolled }">Kontak</a>
                 </nav>
 
@@ -108,7 +131,21 @@
             <a href="#informasi" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Informasi</a>
             <a href="#galeri" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Galeri</a>
             <a href="#download" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Download</a>
-            <a href="#ppdb" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900 text-amber-300 font-bold">PPDB</a>
+            
+            <!-- Mobile SPMB Accordion -->
+            <div x-data="{ mobileSpmbOpen: false }" class="space-y-1">
+                <button @click="mobileSpmbOpen = !mobileSpmbOpen" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-emerald-900 text-amber-300 font-bold">
+                    <span>SPMB</span>
+                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': mobileSpmbOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="mobileSpmbOpen" x-collapse class="pl-4 space-y-1 text-slate-300">
+                    <a href="#spmb-pendaftar" @click="mobileMenuOpen = false" class="block px-3 py-1.5 rounded-lg hover:bg-emerald-900 text-xs">Pendaftar</a>
+                    <a href="#spmb-daftar-ulang" @click="mobileMenuOpen = false" class="block px-3 py-1.5 rounded-lg hover:bg-emerald-900 text-xs">Daftar Ulang</a>
+                </div>
+            </div>
+
             <a href="#kontak" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-lg hover:bg-emerald-900">Kontak</a>
             <div class="pt-3 border-t border-emerald-800">
                 @auth
@@ -187,14 +224,14 @@
                     </ul>
                 </div>
 
-                <!-- Col 3: Media & PPDB Links -->
+                <!-- Col 3: Media & SPMB Links -->
                 <div>
-                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Layanan & Publikasi</h3>
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Layanan SPMB & Publikasi</h3>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="#galeri" class="hover:text-amber-400 transition-colors">Galeri Foto & Dokumentasi</a></li>
+                        <li><a href="#spmb-pendaftar" class="hover:text-amber-400 transition-colors text-amber-300 font-semibold">Pendaftaran SPMB</a></li>
+                        <li><a href="#spmb-daftar-ulang" class="hover:text-amber-400 transition-colors text-amber-300 font-semibold">Daftar Ulang SPMB</a></li>
+                        <li><a href="#galeri" class="hover:text-amber-400 transition-colors">Galeri Foto Dokumentasi</a></li>
                         <li><a href="#download" class="hover:text-amber-400 transition-colors">Pusat Unduhan Dokumen</a></li>
-                        <li><a href="#ppdb" class="hover:text-amber-400 transition-colors text-amber-300 font-semibold">Info PPDB Online</a></li>
-                        <li><a href="#kontak" class="hover:text-amber-400 transition-colors">Hubungi Kami</a></li>
                         <li><a href="{{ route('admin.login') }}" class="hover:text-amber-400 transition-colors">Login Admin Portal</a></li>
                     </ul>
                 </div>
