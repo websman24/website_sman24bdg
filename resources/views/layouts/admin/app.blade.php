@@ -72,6 +72,9 @@
                     <a href="{{ route('admin.news.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.news.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>📰 Berita Sekolah</span>
                     </a>
+                    <a href="{{ route('admin.news-categories.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.news-categories.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
+                        <span>🏷️ Kategori Berita</span>
+                    </a>
                     <a href="{{ route('admin.announcements.index') }}" class="flex items-center justify-between px-3.5 py-2 rounded-xl transition-all {{ request()->routeIs('admin.announcements.*') ? 'bg-emerald-800 text-white font-bold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                         <span>📢 Pengumuman</span>
                     </a>

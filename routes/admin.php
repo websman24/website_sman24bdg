@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\Admin\SettingController;
@@ -33,6 +34,7 @@ Route::resource('profiles', SchoolProfileController::class)->only(['index', 'upd
 
 // CMS Resource Routes
 Route::resource('sliders', SliderController::class);
+Route::resource('news-categories', NewsCategoryController::class);
 Route::resource('news', NewsController::class);
 Route::resource('announcements', AnnouncementController::class);
 Route::resource('teachers', TeacherController::class);

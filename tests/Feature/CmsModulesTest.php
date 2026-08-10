@@ -26,9 +26,16 @@ class CmsModulesTest extends TestCase
 
         $this->actingAs($admin);
 
-        // 1. News Index & Create
-        $response = $this->get('/admin/news');
-        $response->assertStatus(200);
+        // 0. News Categories CRUD
+        $catIndex = $this->get('/admin/news-categories');
+        $catIndex->assertStatus(200);
+
+        $catStore = $this->post('/admin/news-categories', [
+            'name' => 'Prestasi & Olahraga',
+            'description' => 'Berita tentang lomba dan prestasi siswa',
+        ]);
+        $catStore->assertRedirect(route('admin.news-categories.index'));
+        $this->assertDatabaseHas('news_categories', ['name' => 'Prestasi & Olahraga']);
 
         $category = NewsCategory::create(['name' => 'Akademik', 'slug' => 'akademik']);
 

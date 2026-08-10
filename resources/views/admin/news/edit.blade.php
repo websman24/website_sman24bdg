@@ -28,7 +28,10 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-                <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Kategori Berita</label>
+                <div class="flex items-center justify-between mb-2">
+                    <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700">Kategori Berita</label>
+                    <a href="{{ route('admin.news-categories.index') }}" target="_blank" class="text-[11px] font-bold text-emerald-700 hover:text-emerald-900 underline">+ Kelola Kategori</a>
+                </div>
                 <select id="category_id" name="category_id" required class="form-input-custom bg-white">
                     <option value="">-- Pilih Kategori --</option>
                     @foreach ($categories as $cat)

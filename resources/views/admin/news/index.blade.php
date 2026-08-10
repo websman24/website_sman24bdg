@@ -10,10 +10,15 @@
             <h2 class="text-xl font-bold text-slate-900">Manajemen Berita & Artikel</h2>
             <p class="text-xs text-slate-500 mt-1">Kelola berita resmi dan artikel SMA Negeri 24 Bandung.</p>
         </div>
-        <a href="{{ route('admin.news.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-sm transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            Tambah Berita Baru
-        </a>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.news-categories.index') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-sm transition-all">
+                🏷️ Kelola Kategori
+            </a>
+            <a href="{{ route('admin.news.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-sm transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah Berita Baru
+            </a>
+        </div>
     </div>
 
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
