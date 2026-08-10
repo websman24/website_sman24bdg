@@ -49,3 +49,62 @@ body {
     transform: translateY(-4px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 }
+
+/* Component System Classes */
+.btn-emerald {
+    background-color: #047857;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+}
+.btn-emerald:hover {
+    background-color: #065f46;
+}
+
+.btn-amber {
+    background-color: #f59e0b;
+    color: #022c22;
+    font-weight: 700;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+}
+.btn-amber:hover {
+    background-color: #d97706;
+}
+
+.card-base {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.form-input-custom {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #cbd5e1;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+.form-input-custom:focus {
+    outline: none;
+    border-color: #047857;
+    box-shadow: 0 0 0 2px rgba(4, 120, 87, 0.2);
+}
+
+.skeleton-loader {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 0.5rem;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
