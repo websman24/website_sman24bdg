@@ -64,6 +64,23 @@
                 </div>
             </div>
 
+            <div>
+                <label for="school_logo_file" class="block text-xs font-bold text-slate-700 mb-1">Logo Sekolah (PNG/JPG/WEBP/SVG, Max 2MB)</label>
+                @if(isset($settings['school_logo']) && $settings['school_logo']->value)
+                    <div class="mb-3 flex items-center gap-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <img src="{{ asset($settings['school_logo']->value) }}" alt="Logo Sekolah" class="w-14 h-14 object-contain rounded-lg p-1 bg-white border border-slate-200 shadow-sm">
+                        <div class="text-xs text-slate-600">
+                            <span class="font-bold text-slate-800 block">Logo Sekolah Aktif</span>
+                            <span class="text-[11px] text-slate-500 font-mono">{{ asset($settings['school_logo']->value) }}</span>
+                        </div>
+                    </div>
+                @endif
+                <input type="file" id="school_logo_file" name="school_logo_file" accept="image/*" class="form-input-custom bg-white">
+                @error('school_logo_file')
+                    <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                     <label for="school_accreditation" class="block text-xs font-bold text-slate-700 mb-1">Akreditasi</label>

@@ -73,5 +73,17 @@ class FileUploadTest extends TestCase
 
         $docResponse->assertRedirect(route('admin.documents.index'));
         $this->assertDatabaseHas('documents', ['title' => 'Panduan Pendaftaran SPMB 2026/2027']);
+
+        // 4. Upload School Logo Setting
+        $logoFile = UploadedFile::fake()->image('school_logo.png', 300, 300);
+        $settingResponse = $this->post('/admin/settings', [
+            'school_name' => 'SMA Negeri 24 Bandung',
+            'school_motto' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global',
+            'school_logo_file' => $logoFile,
+        ]);
+
+        $settingResponse->assertRedirect(route('admin.settings.index'));
+        $this->assertDatabaseHas('settings', ['key' => 'school_logo']);
+        $this->assertDatabaseHas('settings', ['key' => 'school_motto', 'value' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global']);
     }
 }

@@ -46,15 +46,19 @@
                 
                 <!-- School Logo & Title -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3.5 group">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-950 via-emerald-800 to-emerald-700 flex items-center justify-center text-amber-400 font-black text-xl shadow-md group-hover:scale-105 transition-transform border border-amber-400/40">
-                        24
-                    </div>
+                    @if(\App\Models\Setting::getValue('school_logo'))
+                        <img src="{{ asset(\App\Models\Setting::getValue('school_logo')) }}" alt="Logo {{ \App\Models\Setting::getValue('school_name', 'SMAN 24 BANDUNG') }}" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform">
+                    @else
+                        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-950 via-emerald-800 to-emerald-700 flex items-center justify-center text-amber-400 font-black text-xl shadow-md group-hover:scale-105 transition-transform border border-amber-400/40">
+                            24
+                        </div>
+                    @endif
                     <div class="flex flex-col">
                         <span class="font-black text-slate-900 text-base sm:text-lg tracking-tight group-hover:text-emerald-800 transition-colors uppercase font-sans">
                             {{ \App\Models\Setting::getValue('school_name', 'SMAN 24 BANDUNG') }}
                         </span>
                         <span class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">
-                            Official School Portal
+                            {{ \App\Models\Setting::getValue('school_motto', 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global') }}
                         </span>
                     </div>
                 </a>
@@ -148,9 +152,13 @@
                 <!-- Col 1: Identity -->
                 <div class="space-y-4 md:col-span-2">
                     <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-2xl bg-amber-500 flex items-center justify-center text-emerald-950 font-black text-xl shadow-lg border border-amber-400">
-                            24
-                        </div>
+                        @if(\App\Models\Setting::getValue('school_logo'))
+                            <img src="{{ asset(\App\Models\Setting::getValue('school_logo')) }}" alt="Logo {{ \App\Models\Setting::getValue('school_name', 'SMA NEGERI 24 BANDUNG') }}" class="w-12 h-12 object-contain bg-white/10 rounded-xl p-1 border border-white/20">
+                        @else
+                            <div class="w-11 h-11 rounded-2xl bg-amber-500 flex items-center justify-center text-emerald-950 font-black text-xl shadow-lg border border-amber-400">
+                                24
+                            </div>
+                        @endif
                         <span class="font-black text-white text-xl tracking-tight uppercase">
                             {{ \App\Models\Setting::getValue('school_name', 'SMA NEGERI 24 BANDUNG') }}
                         </span>

@@ -31,11 +31,13 @@ class SettingController extends Controller
     {
         $request->validate([
             'principal_photo_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'school_logo_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
         ], [
             'principal_photo_file.image' => 'Foto Kepala Sekolah harus berupa berkas gambar.',
+            'school_logo_file.image' => 'Logo Sekolah harus berupa berkas gambar.',
         ]);
 
-        $inputs = $request->except('_token', '_method', 'principal_photo_file');
+        $inputs = $request->except('_token', '_method', 'principal_photo_file', 'school_logo_file');
 
         if ($request->hasFile('principal_photo_file')) {
             $oldPhoto = Setting::getValue('principal_photo');
@@ -46,6 +48,15 @@ class SettingController extends Controller
             $inputs['principal_photo'] = $photoPath;
         }
 
+        if ($request->hasFile('school_logo_file')) {
+            $oldLogo = Setting::getValue('school_logo');
+            if ($oldLogo) {
+                $this->fileStorageService->deleteFile($oldLogo);
+            }
+            $logoPath = $this->fileStorageService->uploadImage($request->file('school_logo_file'), 'settings');
+            $inputs['school_logo'] = $logoPath;
+        }
+
         foreach ($inputs as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
@@ -54,6 +65,6 @@ class SettingController extends Controller
         }
 
         return redirect()->route('admin.settings.index')
-            ->with('success', 'Pengaturan website dan foto Kepala Sekolah berhasil diperbarui.');
+            ->with('success', 'Pengaturan website, logo sekolah, dan foto Kepala Sekolah berhasil diperbarui.');
     }
 }

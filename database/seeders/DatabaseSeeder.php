@@ -235,6 +235,10 @@ class DatabaseSeeder extends Seeder
             ['value' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global', 'group' => 'general', 'type' => 'text', 'label' => 'Motto Sekolah']
         );
         Setting::updateOrCreate(
+            ['key' => 'school_logo'],
+            ['value' => 'storage/uploads/settings/school_logo.png', 'group' => 'general', 'type' => 'image', 'label' => 'Logo Sekolah']
+        );
+        Setting::updateOrCreate(
             ['key' => 'principal_name'],
             ['value' => 'Drs. H. Solihin, M.Pd.', 'group' => 'general', 'type' => 'text', 'label' => 'Nama Kepala Sekolah']
         );
