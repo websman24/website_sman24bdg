@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
+use App\Models\Document;
+use App\Models\Event;
+use App\Models\Extracurricular;
+use App\Models\News;
+use App\Models\SchoolProfile;
+use App\Models\Teacher;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     /**
-     * Display SMAN 24 Bandung Public Homepage.
+     * Display SMAN 24 Bandung Public Homepage with real dynamic MySQL data.
      */
     public function index(): View
     {
@@ -21,6 +28,49 @@ class HomeController extends Controller
             'motto' => 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global',
         ];
 
-        return view('public.home', compact('schoolInfo'));
+        $latestNews = News::with('category')
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        $pinnedAnnouncements = Announcement::where('status', 'published')
+            ->orderBy('is_pinned', 'desc')
+            ->latest('published_at')
+            ->take(4)
+            ->get();
+
+        $upcomingEvents = Event::where('status', 'upcoming')
+            ->latest('start_date')
+            ->take(3)
+            ->get();
+
+        $teachers = Teacher::where('is_active', true)
+            ->orderBy('order_position')
+            ->take(4)
+            ->get();
+
+        $extracurriculars = Extracurricular::where('is_active', true)
+            ->take(4)
+            ->get();
+
+        $spmbDocuments = Document::where('category', 'SPMB')
+            ->latest()
+            ->get();
+
+        $profiles = SchoolProfile::where('is_published', true)
+            ->get()
+            ->keyBy('key');
+
+        return view('public.home', compact(
+            'schoolInfo',
+            'latestNews',
+            'pinnedAnnouncements',
+            'upcomingEvents',
+            'teachers',
+            'extracurriculars',
+            'spmbDocuments',
+            'profiles'
+        ));
     }
 }

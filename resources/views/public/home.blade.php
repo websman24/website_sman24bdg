@@ -41,35 +41,27 @@
                     </div>
                 </div>
 
-                <!-- Hero Overview Card -->
+                <!-- Hero Dynamic Headmaster Greeting Card -->
                 <div class="lg:col-span-5">
                     <div class="bg-slate-900/90 p-6 rounded-3xl border border-slate-700/80 space-y-4 shadow-xl">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Identitas Sekolah</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Sambutan Kepala Sekolah</span>
                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700">Akreditasi A</span>
                         </div>
 
                         <div class="space-y-3 text-xs">
-                            <div class="flex justify-between py-1 border-b border-slate-800">
-                                <span class="text-slate-400">Nama Sekolah</span>
-                                <span class="font-semibold text-white">SMA Negeri 24 Bandung</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800">
-                                <span class="text-slate-400">NPSN</span>
-                                <span class="font-semibold text-white">20219736</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800">
-                                <span class="text-slate-400">Alamat</span>
-                                <span class="font-semibold text-white text-right">Jl. A.H. Nasution No. 27</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800">
-                                <span class="text-slate-400">Kota / Provinsi</span>
-                                <span class="font-semibold text-white">Kota Bandung, Jawa Barat</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Status Aplikasi</span>
-                                <span class="font-bold text-amber-400">Tahap 1 Ready</span>
-                            </div>
+                            <h3 class="text-sm font-bold text-white">
+                                {{ $profiles['sambutan_kepala_sekolah']->title ?? 'Sambutan Kepala Sekolah' }}
+                            </h3>
+                            <p class="text-slate-300 leading-relaxed italic">
+                                "{{ $profiles['sambutan_kepala_sekolah']->content ?? $schoolInfo['motto'] }}"
+                            </p>
+                            @if(isset($profiles['sambutan_kepala_sekolah']->meta_json['headmaster_name']))
+                                <div class="pt-2 border-t border-slate-800 text-right">
+                                    <span class="font-bold text-amber-400 block">{{ $profiles['sambutan_kepala_sekolah']->meta_json['headmaster_name'] }}</span>
+                                    <span class="text-[10px] text-slate-400">Kepala SMAN 24 Bandung</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -78,110 +70,121 @@
         </div>
     </section>
 
-    <!-- Placeholder Section 1: Profil -->
+    <!-- Dynamic Section 1: Profil & Visi Misi -->
     <section id="profil" class="py-16 bg-white border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Menu Profil</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Profil SMA Negeri 24 Bandung</h2>
-                <p class="text-slate-600 text-xs sm:text-sm mt-2">Visi, Misi, Sejarah, dan Struktur Organisasi Sekolah.</p>
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Profil Sekolah</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">SMA Negeri 24 Bandung</h2>
+                <p class="text-slate-600 text-xs sm:text-sm mt-2">Jl. A.H. Nasution No. 27, Kota Bandung.</p>
             </div>
 
-            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                <div class="text-3xl">🏛️</div>
-                <h3 class="text-base font-bold text-slate-800">Placeholder Konten Profil</h3>
-                <p class="text-xs text-slate-500 max-w-md mx-auto">
-                    Halaman profil sekolah sedang disiapkan. Pada tahap berikutnya, section ini akan menampilkan sejarah sekolah, visi & misi, serta daftar pimpinan sekolah.
+            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 space-y-4">
+                <div class="flex items-center gap-3 text-emerald-800 font-bold text-lg">
+                    <span class="text-2xl">🏛️</span>
+                    <h3>{{ $profiles['visi_misi']->title ?? 'Visi dan Misi Sekolah' }}</h3>
+                </div>
+                <p class="text-slate-700 text-sm leading-relaxed">
+                    {{ $profiles['visi_misi']->content ?? 'Terwujudnya sekolah berkarakter, unggul dalam prestasi akademik dan non-akademik, serta berwawasan global.' }}
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Placeholder Section 2: Akademik -->
-    <section id="akademik" class="py-16 bg-slate-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Menu Akademik</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Program Akademik & Kurikulum</h2>
-                <p class="text-slate-600 text-xs sm:text-sm mt-2">Kurikulum Merdeka, Kalender Pendidikan, dan Fasilitas Pembelajaran.</p>
-            </div>
-
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                <div class="text-3xl">📚</div>
-                <h3 class="text-base font-bold text-slate-800">Placeholder Konten Akademik</h3>
-                <p class="text-xs text-slate-500 max-w-md mx-auto">
-                    Modul program akademik, jadwal pelajaran, dan direktori pembelajaran guru akan diimplementasikan pada tahap selanjutnya.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Placeholder Section 3: Kesiswaan -->
-    <section id="kesiswaan" class="py-16 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Menu Kesiswaan</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Kegiatan Siswa & Ekstrakurikuler</h2>
-                <p class="text-slate-600 text-xs sm:text-sm mt-2">OSIS, MPK, Ekstrakurikuler, dan Prestasi Siswa.</p>
-            </div>
-
-            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                <div class="text-3xl">⚽</div>
-                <h3 class="text-base font-bold text-slate-800">Placeholder Konten Kesiswaan</h3>
-                <p class="text-xs text-slate-500 max-w-md mx-auto">
-                    Daftar kegiatan OSIS, ekstrakurikuler (Paskibra, Pramuka, PMR, Olahraga, Seni), serta dokumentasi prestasi siswa.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Placeholder Section 4: Informasi -->
+    <!-- Dynamic Section 2: Berita Terbaru & Pengumuman (Real Data) -->
     <section id="informasi" class="py-16 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Menu Informasi</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Berita, Pengumuman & Agenda</h2>
-                <p class="text-slate-600 text-xs sm:text-sm mt-2">Pusat kabar dan kegiatan terbaru SMA Negeri 24 Bandung.</p>
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Kabar Sekolah</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Berita & Pengumuman Terbaru</h2>
+                </div>
+                <a href="{{ route('admin.login') }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 inline-flex items-center gap-1">
+                    Kelola Informasi &rarr;
+                </a>
             </div>
 
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                <div class="text-3xl">📰</div>
-                <h3 class="text-base font-bold text-slate-800">Placeholder Berita & Pengumuman</h3>
-                <p class="text-xs text-slate-500 max-w-md mx-auto">
-                    Integrasi sistem manajemen konten (CMS berita, agenda kegiatan, pengumuman sekolah) siap dikembangkan pada tahap selanjutnya.
-                </p>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Berita Grid (2 Columns) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Berita Terbaru</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        @forelse($latestNews as $news)
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between card-hover-effect">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs">
+                                        <span class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 text-[10px]">
+                                            {{ $news->category->name ?? 'Umum' }}
+                                        </span>
+                                        <span class="text-slate-400 text-[11px]">{{ $news->published_at?->format('d M Y') }}</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2">{{ $news->title }}</h4>
+                                    <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed">{{ $news->excerpt }}</p>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-2 bg-white p-8 rounded-2xl border border-slate-200 text-center text-xs text-slate-400">
+                                Belum ada berita dipublikasikan.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- Pengumuman Pinned (1 Column) -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Pengumuman Tersemat</h3>
+                    <div class="space-y-4">
+                        @forelse($pinnedAnnouncements as $ann)
+                            <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">📌 Pengumuman</span>
+                                    <span class="text-[10px] text-slate-400">{{ $ann->created_at->format('d M Y') }}</span>
+                                </div>
+                                <h5 class="font-bold text-slate-900 text-sm leading-snug">{{ $ann->title }}</h5>
+                                <p class="text-slate-600 text-xs line-clamp-2 leading-relaxed">{{ $ann->content }}</p>
+                            </div>
+                        @empty
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 text-center text-xs text-slate-400">
+                                Belum ada pengumuman tersemat.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Placeholder Section 5: Galeri & Download -->
-    <section id="galeri" class="py-16 bg-white border-b border-slate-200">
+    <!-- Dynamic Section 3: Direktori Guru (Real Data) -->
+    <section id="akademik" class="py-16 bg-white border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                <!-- Galeri Box -->
-                <div id="download" class="bg-slate-50 p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                    <div class="text-3xl">🖼️</div>
-                    <h3 class="text-base font-bold text-slate-800">Placeholder Galeri Foto</h3>
-                    <p class="text-xs text-slate-500">
-                        Dokumentasi foto kegiatan sekolah, acara resmi, dan fasilitas SMAN 24 Bandung.
-                    </p>
-                </div>
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Tenaga Pendidik</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Direktori Guru SMAN 24 Bandung</h2>
+                <p class="text-slate-600 text-xs sm:text-sm mt-2">Guru berkualitas dan berintegritas tinggi.</p>
+            </div>
 
-                <!-- Download Box -->
-                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 text-center space-y-3">
-                    <div class="text-3xl">📁</div>
-                    <h3 class="text-base font-bold text-slate-800">Placeholder Download Dokumen</h3>
-                    <p class="text-xs text-slate-500">
-                        Pusat unduhan formulir, panduan akademik, dan dokumen publik sekolah.
-                    </p>
-                </div>
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @forelse($teachers as $teacher)
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center space-y-3 card-hover-effect">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-emerald-800 text-white font-extrabold text-xl flex items-center justify-center shadow-md">
+                            {{ strtoupper(substr($teacher->name, 0, 1)) }}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">{{ $teacher->full_name }}</h4>
+                            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                {{ $teacher->subject }}
+                            </span>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-4 text-center py-8 text-xs text-slate-400">Belum ada data guru terdaftar.</div>
+                @endforelse
             </div>
         </div>
     </section>
 
-    <!-- SPMB Section (Seleksi Penerimaan Murid Baru: Pendaftar & Daftar Ulang) -->
+    <!-- Dynamic SPMB Section (Real Documents Data) -->
     <section id="spmb" class="py-16 bg-emerald-950 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
@@ -193,7 +196,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
                 <!-- Sub-menu Card 1: Pendaftar -->
                 <div id="spmb-pendaftar" class="bg-emerald-900/60 p-8 rounded-3xl border border-emerald-700/80 space-y-4 hover:border-amber-400/80 transition-all">
                     <div class="w-12 h-12 rounded-2xl bg-amber-500 text-emerald-950 flex items-center justify-center text-2xl font-bold">
@@ -202,13 +204,21 @@
                     <div>
                         <h3 class="text-xl font-bold text-amber-400">Pendaftar SPMB</h3>
                         <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                            Layanan portal pendaftaran bagi calon murid baru, cek status verifikasi pendaftaran, dan informasi berkas persyaratan SPMB SMA Negeri 24 Bandung.
+                            Layanan portal pendaftaran bagi calon murid baru dan informasi berkas persyaratan SPMB SMA Negeri 24 Bandung.
                         </p>
                     </div>
-                    <div class="pt-2">
-                        <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-950 border border-emerald-700 text-xs text-amber-300 font-semibold">
-                            <span>Status: Placeholder Modul Pendaftar</span>
-                        </span>
+
+                    <!-- List of Real SPMB Documents -->
+                    <div class="pt-2 space-y-2">
+                        <span class="text-[11px] font-bold text-amber-300 uppercase tracking-wider block">Dokumen Persyaratan:</span>
+                        @forelse($spmbDocuments as $doc)
+                            <div class="flex items-center justify-between bg-emerald-950/80 p-3 rounded-xl border border-emerald-800 text-xs">
+                                <span class="truncate font-semibold text-white max-w-[200px]">{{ $doc->title }}</span>
+                                <span class="text-[10px] text-amber-400 font-mono">({{ $doc->file_type ?? 'PDF' }})</span>
+                            </div>
+                        @empty
+                            <div class="text-xs text-slate-400">Belum ada dokumen SPMB diunggah.</div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -224,12 +234,11 @@
                         </p>
                     </div>
                     <div class="pt-2">
-                        <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-950 border border-emerald-700 text-xs text-emerald-300 font-semibold">
-                            <span>Status: Placeholder Modul Daftar Ulang</span>
-                        </span>
+                        <div class="bg-emerald-950/80 p-4 rounded-xl border border-emerald-800 text-xs text-emerald-200">
+                            <strong>Status Layanan:</strong> Verifikasi daftar ulang dilakukan di kampus SMAN 24 Bandung, Jl. A.H. Nasution No. 27.
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
