@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Public\AcademicController;
 use App\Http\Controllers\Public\ContactController;
 use App\Http\Controllers\Public\DownloadController;
+use App\Http\Controllers\Public\AnnouncementController;
+use App\Http\Controllers\Public\EventController;
 use App\Http\Controllers\Public\GalleryController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\NewsController;
@@ -24,6 +26,14 @@ Route::get('/profil', [ProfileController::class, 'index'])->name('profile');
 // News & Articles Routes
 Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+// Announcements Routes
+Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/pengumuman/{slug}', [AnnouncementController::class, 'show'])->name('announcements.show');
+
+// Agenda / Events Routes
+Route::get('/agenda', [EventController::class, 'index'])->name('events.index');
+Route::get('/agenda/{slug}', [EventController::class, 'show'])->name('events.show');
 
 // Academic & Teachers Directory Routes
 Route::get('/akademik/guru', [AcademicController::class, 'teachers'])->name('academic.teachers');

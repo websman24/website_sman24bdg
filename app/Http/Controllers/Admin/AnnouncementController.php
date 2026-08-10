@@ -16,12 +16,16 @@ class AnnouncementController extends Controller
     ) {}
 
     /**
-     * Display a listing of announcements.
+     * Display a listing of announcements with search and filter.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $announcements = $this->announcementService->getPaginatedAnnouncements(10);
-        return view('admin.announcements.index', compact('announcements'));
+        $search = $request->query('search');
+        $status = $request->query('status');
+
+        $announcements = $this->announcementService->getPaginatedAnnouncements(10, $search, $status);
+
+        return view('admin.announcements.index', compact('announcements', 'search', 'status'));
     }
 
     /**
@@ -42,9 +46,11 @@ class AnnouncementController extends Controller
             'content' => ['required', 'string'],
             'is_pinned' => ['nullable', 'boolean'],
             'status' => ['required', 'in:draft,published'],
+            'attachment_file_input' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,png,webp', 'max:5120'],
         ], [
             'title.required' => 'Judul pengumuman wajib diisi.',
             'content.required' => 'Konten pengumuman wajib diisi.',
+            'attachment_file_input.mimes' => 'Berkas lampiran harus berupa PDF, Word, atau gambar.',
         ]);
 
         $validated['is_pinned'] = $request->boolean('is_pinned');
@@ -72,9 +78,11 @@ class AnnouncementController extends Controller
             'content' => ['required', 'string'],
             'is_pinned' => ['nullable', 'boolean'],
             'status' => ['required', 'in:draft,published'],
+            'attachment_file_input' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,png,webp', 'max:5120'],
         ], [
             'title.required' => 'Judul pengumuman wajib diisi.',
             'content.required' => 'Konten pengumuman wajib diisi.',
+            'attachment_file_input.mimes' => 'Berkas lampiran harus berupa PDF, Word, atau gambar.',
         ]);
 
         $validated['is_pinned'] = $request->boolean('is_pinned');

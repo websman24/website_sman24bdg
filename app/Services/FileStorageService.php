@@ -13,6 +13,14 @@ class FileStorageService
      */
     public function uploadImage(UploadedFile $file, string $directory = 'images'): string
     {
+        return $this->uploadFile($file, $directory);
+    }
+
+    /**
+     * Upload any generic file to public storage disk.
+     */
+    public function uploadFile(UploadedFile $file, string $directory = 'files'): string
+    {
         $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs("uploads/{$directory}", $filename, 'public');
         return "storage/{$path}";
