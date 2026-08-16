@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\AcademicCalendar;
+use App\Models\Staff;
 use App\Models\Teacher;
 use Illuminate\View\View;
 
@@ -19,7 +20,7 @@ class AcademicController extends Controller
             ->orderBy('name')
             ->get();
 
-        $staffMembers = \App\Models\Staff::where('is_active', true)
+        $staffMembers = Staff::where('is_active', true)
             ->orderBy('order_position')
             ->orderBy('name')
             ->get();
@@ -33,6 +34,7 @@ class AcademicController extends Controller
     public function calendar(): View
     {
         $calendars = AcademicCalendar::orderBy('start_date', 'asc')->get();
+
         return view('public.academic.calendar', compact('calendars'));
     }
 }

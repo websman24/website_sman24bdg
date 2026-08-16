@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Announcement;
+use App\Models\Event;
+use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,7 +82,7 @@ class CmsModulesTest extends TestCase
         $this->assertDatabaseHas('documents', ['title' => 'Formulir Pendaftaran SPMB 2026']);
 
         // 5. Test Edit & Update for News, Announcement, Event
-        $news = \App\Models\News::first();
+        $news = News::first();
         $editNewsPage = $this->get("/admin/news/{$news->id}/edit");
         $editNewsPage->assertStatus(200);
 
@@ -93,7 +96,7 @@ class CmsModulesTest extends TestCase
         $updateNewsResponse->assertRedirect(route('admin.news.index'));
         $this->assertDatabaseHas('news', ['title' => 'Ujian Akhir Semester SMAN 24 Updated']);
 
-        $announcement = \App\Models\Announcement::first();
+        $announcement = Announcement::first();
         $editAnnPage = $this->get("/admin/announcements/{$announcement->id}/edit");
         $editAnnPage->assertStatus(200);
 
@@ -106,7 +109,7 @@ class CmsModulesTest extends TestCase
         $updateAnnResponse->assertRedirect(route('admin.announcements.index'));
         $this->assertDatabaseHas('announcements', ['title' => 'Pengumuman Libur Nasional Updated']);
 
-        $event = \App\Models\Event::create([
+        $event = Event::create([
             'author_id' => $admin->id,
             'title' => 'Rapat Guru SMAN 24',
             'slug' => 'rapat-guru-sman-24',

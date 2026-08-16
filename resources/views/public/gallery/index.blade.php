@@ -12,16 +12,16 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" x-data="{ activeTab: 'photos', videoModal: false, videoTitle: '', videoEmbedUrl: '' }">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 sm:space-y-10" x-data="{ activeTab: 'photos', videoModal: false, videoTitle: '', videoEmbedUrl: '' }">
     <!-- Navigation Tabs Switcher -->
     <div class="flex items-center justify-between border-b border-slate-200 pb-4">
-        <div class="flex gap-3">
-            <button @click="activeTab = 'photos'" :class="activeTab === 'photos' ? 'bg-emerald-800 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2">
+        <div class="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
+            <button @click="activeTab = 'photos'" :class="activeTab === 'photos' ? 'bg-emerald-800 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2">
                 <span>🖼️ Album Foto</span>
                 <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-950/40 text-amber-300">{{ $galleries->total() }}</span>
             </button>
-            <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-emerald-800 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2">
-                <span>🎥 Video Dokumentasi (YouTube)</span>
+            <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-emerald-800 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2">
+                <span>🎥 Video Dokumentasi</span>
                 <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-950/40 text-amber-300">{{ $videos->count() }}</span>
             </button>
         </div>

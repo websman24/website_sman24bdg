@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Services\AnnouncementService;
+use App\Traits\AuthorizesOwnership;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AnnouncementController extends Controller
 {
+    use AuthorizesOwnership;
     public function __construct(
         protected AnnouncementService $announcementService
     ) {}
@@ -65,6 +67,8 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement): View
     {
+        $this->authorizeOwnership($announcement);
+
         return view('admin.announcements.edit', compact('announcement'));
     }
 
@@ -73,6 +77,8 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement): RedirectResponse
     {
+        $this->authorizeOwnership($announcement);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
@@ -97,6 +103,8 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement): RedirectResponse
     {
+        $this->authorizeOwnership($announcement);
+
         $this->announcementService->deleteAnnouncement($announcement);
 
         return redirect()->route('admin.announcements.index')
@@ -105,21 +113,34 @@ class AnnouncementController extends Controller
 
     /**
      * Bulk delete selected announcements.
+     *
+     * Security: validates ids as array of integers before processing.
      */
     public function bulkDelete(Request $request): RedirectResponse
     {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
         $ids = $request->input('ids', []);
 
-        if (empty($ids) || !is_array($ids)) {
+        if (empty($ids)) {
             return redirect()->route('admin.announcements.index')->with('error', 'Tidak ada pengumuman yang dipilih.');
         }
 
         $items = Announcement::whereIn('id', $ids)->get();
+
+        // Check ownership before deleting
+        foreach ($items as $item) {
+            $this->authorizeOwnership($item);
+        }
+
         foreach ($items as $item) {
             $this->announcementService->deleteAnnouncement($item);
         }
 
         return redirect()->route('admin.announcements.index')
-            ->with('success', count($items) . ' pengumuman berhasil dihapus secara massal.');
+            ->with('success', count($items).' pengumuman berhasil dihapus secara massal.');
     }
 }

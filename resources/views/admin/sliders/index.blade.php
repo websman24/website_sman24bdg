@@ -51,11 +51,14 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <form action="{{ route('admin.sliders.destroy', $item) }}" method="POST" onsubmit="return confirm('Hapus slide ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 font-bold hover:bg-rose-100 transition-colors">Hapus</button>
-                            </form>
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('admin.sliders.edit', $item) }}" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">Edit</a>
+                                <form action="{{ route('admin.sliders.destroy', $item) }}" method="POST" onsubmit="return confirm('Hapus slide ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 font-bold hover:bg-rose-100 transition-colors">Hapus</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

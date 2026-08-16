@@ -94,7 +94,7 @@ class StaffController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'nip' => ['nullable', 'string', 'max:50', 'unique:staff,nip,' . $staff->id],
+            'nip' => ['nullable', 'string', 'max:50', 'unique:staff,nip,'.$staff->id],
             'position' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'in:L,P'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -150,7 +150,7 @@ class StaffController extends Controller
             $msg .= ", {$result['skipped']} baris dilewati (format tidak lengkap)";
         }
 
-        return redirect()->route('admin.staff.index')->with('success', $msg . '.');
+        return redirect()->route('admin.staff.index')->with('success', $msg.'.');
     }
 
     /**

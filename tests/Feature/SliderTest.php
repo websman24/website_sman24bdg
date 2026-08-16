@@ -54,8 +54,29 @@ class SliderTest extends TestCase
         $publicResponse->assertStatus(200);
         $publicResponse->assertSee('Banner Utama SMAN 24 Bandung');
 
-        // 4. Delete Slider
+        // 4. Edit & Update Slider
         $slider = Slider::where('title', 'Banner Utama SMAN 24 Bandung')->first();
+        $editFormResponse = $this->get("/admin/sliders/{$slider->id}/edit");
+        $editFormResponse->assertStatus(200);
+
+        $newImage = UploadedFile::fake()->image('hero_banner_new.jpg', 1920, 1080);
+        $updateResponse = $this->put("/admin/sliders/{$slider->id}", [
+            'title' => 'Banner Utama SMAN 24 Bandung (Updated)',
+            'subtitle' => 'Subjudul Banner Hero Baru',
+            'image_file' => $newImage,
+            'button_text' => 'Jelajahi',
+            'button_url' => '/berita',
+            'order_position' => 2,
+            'is_active' => '1',
+        ]);
+        $updateResponse->assertRedirect(route('admin.sliders.index'));
+        $this->assertDatabaseHas('sliders', [
+            'id' => $slider->id,
+            'title' => 'Banner Utama SMAN 24 Bandung (Updated)',
+            'subtitle' => 'Subjudul Banner Hero Baru',
+        ]);
+
+        // 5. Delete Slider
         $deleteResponse = $this->delete("/admin/sliders/{$slider->id}");
         $deleteResponse->assertRedirect(route('admin.sliders.index'));
         $this->assertDatabaseMissing('sliders', ['id' => $slider->id]);

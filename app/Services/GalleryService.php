@@ -24,7 +24,7 @@ class GalleryService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -37,7 +37,7 @@ class GalleryService
     public function createGallery(array $data, int $authorId): Gallery
     {
         $data['author_id'] = $authorId;
-        $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
+        $data['slug'] = Str::slug($data['title']).'-'.Str::random(5);
         $data['published_at'] = $data['published_at'] ?? now();
 
         if (isset($data['cover_image_file']) && $data['cover_image_file'] instanceof UploadedFile) {
@@ -54,7 +54,7 @@ class GalleryService
     public function updateGallery(Gallery $gallery, array $data): bool
     {
         if (isset($data['title']) && $data['title'] !== $gallery->title) {
-            $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
+            $data['slug'] = Str::slug($data['title']).'-'.Str::random(5);
         }
 
         if (isset($data['cover_image_file']) && $data['cover_image_file'] instanceof UploadedFile) {
@@ -75,6 +75,7 @@ class GalleryService
     {
         $imagePath = $this->fileStorageService->uploadImage($photo, "galleries/{$gallery->id}");
 
+        /** @var GalleryItem $item */
         $item = $gallery->items()->create([
             'image_path' => $imagePath,
             'caption' => $caption,
@@ -82,7 +83,7 @@ class GalleryService
         ]);
 
         // Auto-set cover image if none exists
-        if (!$gallery->cover_image) {
+        if (! $gallery->cover_image) {
             $gallery->update(['cover_image' => $imagePath]);
         }
 
@@ -106,6 +107,7 @@ class GalleryService
      */
     public function deleteGallery(Gallery $gallery): bool
     {
+        /** @var GalleryItem $item */
         foreach ($gallery->items as $item) {
             $this->deletePhotoItem($item);
         }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Staff;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class StaffService
@@ -21,8 +22,8 @@ class StaffService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('nip', 'like', "%{$search}%")
-                  ->orWhere('position', 'like', "%{$search}%");
+                    ->orWhere('nip', 'like', "%{$search}%")
+                    ->orWhere('position', 'like', "%{$search}%");
             });
         }
 
@@ -45,7 +46,7 @@ class StaffService
      */
     public function createStaff(array $data): Staff
     {
-        if (isset($data['photo_file']) && $data['photo_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['photo_file']) && $data['photo_file'] instanceof UploadedFile) {
             $data['photo'] = $this->fileStorageService->uploadImage($data['photo_file'], 'staff');
             unset($data['photo_file']);
         }
@@ -58,7 +59,7 @@ class StaffService
      */
     public function updateStaff(Staff $staff, array $data): bool
     {
-        if (isset($data['photo_file']) && $data['photo_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['photo_file']) && $data['photo_file'] instanceof UploadedFile) {
             if ($staff->photo) {
                 $this->fileStorageService->deleteFile($staff->photo);
             }

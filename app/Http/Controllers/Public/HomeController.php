@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Achievement;
 use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Event;
 use App\Models\Extracurricular;
 use App\Models\News;
 use App\Models\SchoolProfile;
+use App\Models\Setting;
 use App\Models\Slider;
+use App\Models\SpmbQuote;
 use App\Models\Teacher;
 use Illuminate\View\View;
 
@@ -21,15 +24,15 @@ class HomeController extends Controller
     public function index(): View
     {
         $schoolInfo = [
-            'name' => \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung'),
-            'address' => \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung'),
-            'phone' => \App\Models\Setting::getValue('school_phone', '(022) 7800540'),
-            'email' => \App\Models\Setting::getValue('school_email', 'info@sman24bdg.sch.id'),
-            'accreditation' => \App\Models\Setting::getValue('school_accreditation', 'A (Unggul)'),
-            'motto' => \App\Models\Setting::getValue('school_motto', 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global'),
-            'principal_name' => \App\Models\Setting::getValue('principal_name', 'Drs. H. Solihin, M.Pd.'),
-            'principal_title' => \App\Models\Setting::getValue('principal_title', 'Kepala SMA Negeri 24 Bandung'),
-            'principal_photo' => \App\Models\Setting::getValue('principal_photo'),
+            'name' => Setting::getValue('school_name', 'SMA Negeri 24 Bandung'),
+            'address' => Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27, Kota Bandung'),
+            'phone' => Setting::getValue('school_phone', '(022) 7800540'),
+            'email' => Setting::getValue('school_email', 'info@sman24bdg.sch.id'),
+            'accreditation' => Setting::getValue('school_accreditation', 'A (Unggul)'),
+            'motto' => Setting::getValue('school_motto', 'Cerdas, Berkarakter, Berbudaya, dan Berwawasan Global'),
+            'principal_name' => Setting::getValue('principal_name', 'Drs. H. Solihin, M.Pd.'),
+            'principal_title' => Setting::getValue('principal_title', 'Kepala SMA Negeri 24 Bandung'),
+            'principal_photo' => Setting::getValue('principal_photo'),
         ];
 
         $sliders = Slider::where('is_active', true)
@@ -55,7 +58,6 @@ class HomeController extends Controller
 
         $teachers = Teacher::where('is_active', true)
             ->orderBy('order_position')
-            ->take(4)
             ->get();
 
         $extracurriculars = Extracurricular::where('is_active', true)
@@ -66,9 +68,20 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
+        $spmbQuotes = SpmbQuote::where('is_active', true)
+            ->orderBy('order_position', 'asc')
+            ->get();
+
         $profiles = SchoolProfile::where('is_published', true)
             ->get()
             ->keyBy('key');
+
+        $stats = [
+            'total_students' => Setting::getValue('total_students', '1.000+'),
+            'total_teachers' => Teacher::where('is_active', true)->count(),
+            'accreditation' => Setting::getValue('school_accreditation', 'A (Unggul)'),
+            'total_achievements' => Achievement::count(),
+        ];
 
         return view('public.home', compact(
             'schoolInfo',
@@ -79,7 +92,9 @@ class HomeController extends Controller
             'teachers',
             'extracurriculars',
             'spmbDocuments',
-            'profiles'
+            'spmbQuotes',
+            'profiles',
+            'stats'
         ));
     }
 }

@@ -28,7 +28,8 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Isi Konten</label>
-                    <textarea name="content" rows="4" required class="form-input-custom">{{ old('content', $profile->content) }}</textarea>
+                    <input id="content_{{ $profile->id }}" type="hidden" name="content" value="{{ old('content', $profile->content) }}">
+                    <trix-editor input="content_{{ $profile->id }}" class="trix-content form-input-custom min-h-[150px] bg-white"></trix-editor>
                 </div>
 
                 <div class="flex justify-end">

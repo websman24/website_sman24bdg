@@ -30,7 +30,7 @@ class UserController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -72,6 +72,11 @@ class UserController extends Controller
             'role.required' => 'Role pengguna wajib dipilih.',
         ]);
 
+        // Security check: Only superadmin can create superadmin
+        if ($validated['role'] === 'superadmin' && ! auth()->user()->isSuperAdmin()) {
+            abort(403, 'Akses ditolak: Hanya Superadmin yang dapat membuat akun Superadmin baru.');
+        }
+
         $data = [
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -95,6 +100,11 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        // Security check: Only superadmin can edit another superadmin
+        if ($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin()) {
+            abort(403, 'Akses ditolak: Hanya Superadmin yang dapat mengedit akun Superadmin.');
+        }
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -117,12 +127,20 @@ class UserController extends Controller
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
+        // Security check: Only superadmin can manage superadmin role or accounts
+        if ($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin()) {
+            abort(403, 'Akses ditolak: Anda tidak dapat memodifikasi akun Superadmin.');
+        }
+        if ($validated['role'] === 'superadmin' && ! auth()->user()->isSuperAdmin()) {
+            abort(403, 'Akses ditolak: Anda tidak memiliki izin untuk memberikan role Superadmin.');
+        }
+
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->role = $validated['role'];
         $user->is_active = $request->has('is_active') ? $request->boolean('is_active') : $user->is_active;
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
 
@@ -144,6 +162,11 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        // Security check: Only superadmin can delete another superadmin
+        if ($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin()) {
+            abort(403, 'Akses ditolak: Hanya Superadmin yang dapat menghapus akun Superadmin.');
+        }
+
         if (auth()->id() === $user->id) {
             return redirect()->route('admin.users.index')
                 ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang digunakan saat ini.');
@@ -161,17 +184,39 @@ class UserController extends Controller
 
     /**
      * Bulk delete selected users.
+     *
+     * Security: validates ids as integers, prevents self-deletion,
+     * prevents deletion of last superadmin account.
      */
     public function bulkDelete(Request $request): RedirectResponse
     {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
         $ids = $request->input('ids', []);
 
-        if (empty($ids) || !is_array($ids)) {
+        if (empty($ids)) {
             return redirect()->route('admin.users.index')->with('error', 'Tidak ada data pengguna yang dipilih.');
         }
 
-        // Exclude current logged in user
-        $filteredIds = array_filter($ids, fn($id) => (int)$id !== auth()->id());
+        // Exclude current logged-in user from deletion
+        $filteredIds = array_filter($ids, fn ($id) => (int) $id !== auth()->id());
+
+        // Security check: Admin cannot delete superadmin accounts via bulk delete
+        $isSuperAdmin = auth()->user()->isSuperAdmin();
+
+        $superadminIds = User::whereIn('id', $filteredIds)->where('role', 'superadmin')->pluck('id')->toArray();
+        if (! empty($superadminIds)) {
+            if (! $isSuperAdmin) {
+                // If not superadmin, remove superadmin IDs silently
+                $filteredIds = array_filter($filteredIds, fn ($id) => ! in_array((int) $id, $superadminIds));
+            } else {
+                // Even for superadmin, superadmin accounts are only deletable one by one to prevent accidental mass lockout
+                $filteredIds = array_filter($filteredIds, fn ($id) => ! in_array((int) $id, $superadminIds));
+            }
+        }
 
         $users = User::whereIn('id', $filteredIds)->get();
         foreach ($users as $user) {
@@ -181,7 +226,14 @@ class UserController extends Controller
             $user->delete();
         }
 
-        return redirect()->route('admin.users.index')
-            ->with('success', count($filteredIds) . ' akun pengguna berhasil dihapus secara massal.');
+        $deletedCount = count($users);
+        $skippedCount = count($superadminIds);
+        $message = "{$deletedCount} akun pengguna berhasil dihapus secara massal.";
+
+        if ($skippedCount > 0) {
+            $message .= " {$skippedCount} akun superadmin dilewati (hapus manual satu per satu).";
+        }
+
+        return redirect()->route('admin.users.index')->with('success', $message);
     }
 }

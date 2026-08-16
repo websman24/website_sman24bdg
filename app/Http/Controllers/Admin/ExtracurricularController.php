@@ -29,8 +29,8 @@ class ExtracurricularController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('mentor_name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('mentor_name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -71,7 +71,7 @@ class ExtracurricularController extends Controller
             'logo_or_photo_file.image' => 'Logo / Foto harus berupa gambar.',
         ]);
 
-        $validated['slug'] = Str::slug($validated['name']) . '-' . Str::random(5);
+        $validated['slug'] = Str::slug($validated['name']).'-'.Str::random(5);
         $validated['is_active'] = $request->has('is_active') ? $request->boolean('is_active') : true;
 
         if ($request->hasFile('logo_or_photo_file')) {
@@ -113,7 +113,7 @@ class ExtracurricularController extends Controller
         ]);
 
         if ($validated['name'] !== $extracurricular->name) {
-            $validated['slug'] = Str::slug($validated['name']) . '-' . Str::random(5);
+            $validated['slug'] = Str::slug($validated['name']).'-'.Str::random(5);
         }
 
         $validated['is_active'] = $request->has('is_active') ? $request->boolean('is_active') : false;

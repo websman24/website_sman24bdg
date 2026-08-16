@@ -35,16 +35,27 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->boolean('remember');
 
-        if ($this->authService->attemptLogin($credentials, $remember)) {
-            $request->session()->regenerate();
+        $result = $this->authService->attemptLogin($credentials, $remember);
 
-            return redirect()->intended(route('admin.dashboard'))
-                ->with('success', 'Selamat datang kembali, ' . auth()->user()->name . '!');
+        // Account is inactive — show specific but non-revealing error
+        if ($result === 'inactive') {
+            return back()->withErrors([
+                'email' => 'Akun Anda telah dinonaktifkan. Hubungi administrator sistem.',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'Kombinasi email dan kata sandi tidak cocok.',
-        ])->onlyInput('email');
+        // Credentials did not match
+        if ($result === false) {
+            return back()->withErrors([
+                'email' => 'Kombinasi email dan kata sandi tidak cocok.',
+            ])->onlyInput('email');
+        }
+
+        // Success — regenerate session to prevent session fixation attacks
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('admin.dashboard'))
+            ->with('success', 'Selamat datang kembali, '.auth()->user()->name.'!');
     }
 
     /**
@@ -54,7 +65,7 @@ class AuthController extends Controller
     {
         $this->authService->logoutUser($request);
 
-        return redirect()->route('home')
+        return redirect()->route('admin.login')
             ->with('info', 'Anda telah keluar dari sistem.');
     }
 }

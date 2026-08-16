@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\News;
-use App\Models\NewsCategory;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -19,8 +19,8 @@ class NewsService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('excerpt', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%");
+                    ->orWhere('excerpt', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
             });
         }
 
@@ -48,10 +48,11 @@ class NewsService
     public function createNews(array $data, int $authorId): News
     {
         $data['author_id'] = $authorId;
-        $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
+        $data['slug'] = Str::slug($data['title']).'-'.Str::random(5);
         $data['published_at'] = $data['published_at'] ?? now();
+        $data['content'] = clean($data['content']);
 
-        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof UploadedFile) {
             $data['thumbnail'] = $this->fileStorageService->uploadImage($data['thumbnail_file'], 'news');
             unset($data['thumbnail_file']);
         }
@@ -65,10 +66,14 @@ class NewsService
     public function updateNews(News $news, array $data): bool
     {
         if (isset($data['title']) && $data['title'] !== $news->title) {
-            $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
+            $data['slug'] = Str::slug($data['title']).'-'.Str::random(5);
         }
 
-        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['content'])) {
+            $data['content'] = clean($data['content']);
+        }
+
+        if (isset($data['thumbnail_file']) && $data['thumbnail_file'] instanceof UploadedFile) {
             if ($news->thumbnail) {
                 $this->fileStorageService->deleteFile($news->thumbnail);
             }

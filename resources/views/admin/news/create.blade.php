@@ -66,7 +66,8 @@
 
         <div>
             <label for="content" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Isi Konten Berita</label>
-            <textarea id="content" name="content" rows="6" required placeholder="Tulis isi berita lengkap di sini..." class="form-input-custom">{{ old('content') }}</textarea>
+            <input id="content" type="hidden" name="content" value="{{ old('content') }}">
+            <trix-editor input="content" class="trix-content form-input-custom min-h-[150px]"></trix-editor>
             @error('content')
                 <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
             @enderror

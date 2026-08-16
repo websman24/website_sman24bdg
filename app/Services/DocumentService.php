@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Document;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class DocumentService
@@ -21,7 +22,7 @@ class DocumentService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -39,7 +40,7 @@ class DocumentService
     {
         $data['author_id'] = $authorId;
 
-        if (isset($data['document_file']) && $data['document_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['document_file']) && $data['document_file'] instanceof UploadedFile) {
             $uploadInfo = $this->fileStorageService->uploadDocument($data['document_file'], 'documents');
             $data['file_path'] = $uploadInfo['file_path'];
             $data['file_size'] = $uploadInfo['file_size'];
@@ -59,7 +60,7 @@ class DocumentService
      */
     public function updateDocument(Document $document, array $data): bool
     {
-        if (isset($data['document_file']) && $data['document_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['document_file']) && $data['document_file'] instanceof UploadedFile) {
             if ($document->file_path) {
                 $this->fileStorageService->deleteFile($document->file_path);
             }

@@ -1,0 +1,17 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+        - config/
+        - routes/
+
+    # Static Analysis Level (0 to 9). Set to level 5 for high code quality.
+    level: 5
+
+    excludePaths:
+        - storage/*
+        - bootstrap/cache/*
+        - routes/console.php

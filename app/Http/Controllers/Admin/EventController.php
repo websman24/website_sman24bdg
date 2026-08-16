@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Services\FileStorageService;
+use App\Traits\AuthorizesOwnership;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ use Illuminate\View\View;
 
 class EventController extends Controller
 {
+    use AuthorizesOwnership;
     public function __construct(
         protected FileStorageService $fileStorageService
     ) {}
@@ -29,8 +31,8 @@ class EventController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -72,7 +74,7 @@ class EventController extends Controller
         ]);
 
         $validated['author_id'] = auth()->id();
-        $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
+        $validated['slug'] = Str::slug($validated['title']).'-'.Str::random(5);
 
         if ($request->hasFile('banner_file')) {
             $validated['banner'] = $this->fileStorageService->uploadImage($request->file('banner_file'), 'events');
@@ -90,6 +92,8 @@ class EventController extends Controller
      */
     public function edit(Event $event): View
     {
+        $this->authorizeOwnership($event);
+
         return view('admin.events.edit', compact('event'));
     }
 
@@ -98,6 +102,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event): RedirectResponse
     {
+        $this->authorizeOwnership($event);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
@@ -114,7 +120,7 @@ class EventController extends Controller
         ]);
 
         if ($validated['title'] !== $event->title) {
-            $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
+            $validated['slug'] = Str::slug($validated['title']).'-'.Str::random(5);
         }
 
         if ($request->hasFile('banner_file')) {
@@ -136,6 +142,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event): RedirectResponse
     {
+        $this->authorizeOwnership($event);
+
         if ($event->banner) {
             $this->fileStorageService->deleteFile($event->banner);
         }
@@ -147,16 +155,29 @@ class EventController extends Controller
 
     /**
      * Bulk delete selected events.
+     *
+     * Security: validates ids as array of integers before processing.
      */
     public function bulkDelete(Request $request): RedirectResponse
     {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
         $ids = $request->input('ids', []);
 
-        if (empty($ids) || !is_array($ids)) {
+        if (empty($ids)) {
             return redirect()->route('admin.events.index')->with('error', 'Tidak ada agenda kegiatan yang dipilih.');
         }
 
         $events = Event::whereIn('id', $ids)->get();
+
+        // Check ownership before deleting
+        foreach ($events as $event) {
+            $this->authorizeOwnership($event);
+        }
+
         foreach ($events as $event) {
             if ($event->banner) {
                 $this->fileStorageService->deleteFile($event->banner);
@@ -165,6 +186,6 @@ class EventController extends Controller
         }
 
         return redirect()->route('admin.events.index')
-            ->with('success', count($events) . ' agenda kegiatan berhasil dihapus secara massal.');
+            ->with('success', count($events).' agenda kegiatan berhasil dihapus secara massal.');
     }
 }

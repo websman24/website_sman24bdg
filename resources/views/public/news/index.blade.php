@@ -36,7 +36,7 @@
                 <div>
                     @if($news->thumbnail)
                         <div class="w-full h-52 overflow-hidden bg-slate-100 relative">
-                            <img src="{{ asset($news->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <img src="{{ asset($news->thumbnail) }}" alt="{{ $news->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
                     @else
                         <div class="w-full h-52 bg-gradient-to-br from-emerald-900 via-emerald-800 to-slate-900 flex items-center justify-center relative p-6 text-center">

@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\NewsCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\NewsCategory>
+ * @extends Factory<NewsCategory>
  */
 class NewsCategoryFactory extends Factory
 {
@@ -18,6 +19,7 @@ class NewsCategoryFactory extends Factory
     public function definition(): array
     {
         $name = fake()->unique()->words(2, true);
+
         return [
             'name' => ucfirst($name),
             'slug' => Str::slug($name),

@@ -28,11 +28,39 @@ class User extends Authenticatable
     ];
 
     /**
-     * Check if user has admin role.
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_active' => true,
+        'role' => 'admin',
+        'avatar' => null,
+        'remember_token' => null,
+    ];
+
+    /**
+     * Check if user has a specific role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Check if user has any of the given roles.
+     */
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role, $roles, true);
+    }
+
+    /**
+     * Check if user has admin privileges (admin or superadmin).
      */
     public function isAdmin(): bool
     {
-        return in_array($this->role, ['admin', 'superadmin'], true);
+        return $this->hasAnyRole(['admin', 'superadmin']);
     }
 
     /**
@@ -40,7 +68,7 @@ class User extends Authenticatable
      */
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'superadmin';
+        return $this->hasRole('superadmin');
     }
 
     /**

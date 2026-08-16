@@ -13,13 +13,14 @@ use App\Models\NewsCategory;
 use App\Models\Page;
 use App\Models\SchoolProfile;
 use App\Models\Setting;
+use App\Models\Slider;
+use App\Models\SpmbQuote;
 use App\Models\Staff;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,15 +30,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Users
+        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', \Illuminate\Support\Str::random(16));
         $admin = User::updateOrCreate(
             ['email' => 'admin@sman24bdg.sch.id'],
             [
                 'name' => 'Administrator SMAN 24',
-                'password' => Hash::make('Password24!'),
-                'role' => 'admin',
+                'password' => Hash::make($adminPassword),
+                'role' => 'superadmin', // Should be superadmin since it's the root user
                 'is_active' => true,
             ]
         );
+        $this->command->warn("Admin Password: {$adminPassword} (Please save this and change it immediately)");
 
         // 2. School Profiles
         SchoolProfile::updateOrCreate(
@@ -55,6 +58,15 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Sambutan Kepala Sekolah SMAN 24 Bandung',
                 'content' => 'Selamat datang di Website Resmi SMA Negeri 24 Bandung. Kami berkomitmen memberikan layanan pendidikan terbaik bagi putra-putri bangsa di Kota Bandung.',
                 'meta_json' => ['headmaster_name' => 'Drs. H. Solihin, M.Pd.', 'nip' => '197505122000031001'],
+                'is_published' => true,
+            ]
+        );
+
+        SchoolProfile::updateOrCreate(
+            ['key' => 'sejarah'],
+            [
+                'title' => 'Sejarah SMA Negeri 24 Bandung',
+                'content' => 'SMA Negeri 24 Bandung didirikan dengan tujuan untuk memenuhi kebutuhan masyarakat akan pendidikan menengah atas yang berkualitas di wilayah Bandung Timur. Sejak awal berdirinya, sekolah ini telah banyak mencetak lulusan berprestasi.',
                 'is_published' => true,
             ]
         );
@@ -246,9 +258,43 @@ class DatabaseSeeder extends Seeder
             ['key' => 'principal_title'],
             ['value' => 'Kepala SMA Negeri 24 Bandung', 'group' => 'general', 'type' => 'text', 'label' => 'Jabatan Kepala Sekolah']
         );
+        Setting::updateOrCreate(
+            ['key' => 'total_students'],
+            ['value' => '1.000+', 'group' => 'general', 'type' => 'text', 'label' => 'Total Peserta Didik']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'spmb_quote'],
+            ['value' => 'Pendidikan adalah tiket ke masa depan, hari esok dimiliki oleh orang-orang yang mempersiapkannya hari ini. — SMAN 24 Bandung', 'group' => 'general', 'type' => 'text', 'label' => 'Kata Bijak Layanan SPMB']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'instagram_url'],
+            ['value' => 'https://www.instagram.com/sman24bdg', 'group' => 'contact', 'type' => 'text', 'label' => 'Instagram URL']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'facebook_url'],
+            ['value' => 'https://www.facebook.com/sman24bandung', 'group' => 'contact', 'type' => 'text', 'label' => 'Facebook URL']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'youtube_url'],
+            ['value' => 'https://www.youtube.com/@sman24bandung', 'group' => 'contact', 'type' => 'text', 'label' => 'YouTube URL']
+        );
+        Setting::updateOrCreate(
+            ['key' => 'tiktok_url'],
+            ['value' => 'https://www.tiktok.com/@sman24bdg', 'group' => 'contact', 'type' => 'text', 'label' => 'TikTok URL']
+        );
+
+        SpmbQuote::updateOrCreate(
+            ['id' => 1],
+            [
+                'quote_text' => 'Pendidikan adalah tiket ke masa depan, hari esok dimiliki oleh orang-orang yang mempersiapkannya hari ini.',
+                'author_source' => 'SMAN 24 Bandung',
+                'is_active' => true,
+                'order_position' => 1,
+            ]
+        );
 
         // 17. Default Hero Sliders
-        \App\Models\Slider::updateOrCreate(
+        Slider::updateOrCreate(
             ['title' => 'Selamat Datang di SMA Negeri 24 Bandung'],
             [
                 'subtitle' => 'Sekolah Berkarakter, Unggul dalam Prestasi Akademik & Non-Akademik, Berwawasan Global.',
@@ -260,7 +306,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        \App\Models\Slider::updateOrCreate(
+        Slider::updateOrCreate(
             ['title' => 'Penerimaan Murid Baru (SPMB) 2026/2027'],
             [
                 'subtitle' => 'Informasi Resmi Pendaftaran, Syarat Berkas, dan Alur Verifikasi Daftar Ulang.',

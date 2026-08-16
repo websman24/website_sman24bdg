@@ -1,6 +1,44 @@
 @extends('layouts.public.app')
 
 @section('title', $event->title . ' - Agenda SMAN 24 Bandung')
+@section('meta_description', Str::limit(strip_tags($event->description ?? $event->title), 160))
+@section('og_title', $event->title)
+@section('og_description', Str::limit(strip_tags($event->description ?? $event->title), 160))
+@section('og_image', asset($event->banner ?? \App\Models\Setting::getValue('school_logo', 'storage/uploads/settings/school_logo.png')))
+
+@section('extra_json_ld')
+<script type="application/ld+json">
+{
+  "{{ '@context' }}": "https://schema.org",
+  "{{ '@type' }}": "Event",
+  "name": "{{ addslashes($event->title) }}",
+  "startDate": "{{ $event->start_date?->toIso8601String() }}",
+  "endDate": "{{ $event->end_date?->toIso8601String() ?? $event->start_date?->toIso8601String() }}",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "{{ '@type' }}": "Place",
+    "name": "{{ addslashes($event->location ?? 'SMAN 24 Bandung') }}",
+    "address": {
+      "{{ '@type' }}": "PostalAddress",
+      "streetAddress": "{{ \App\Models\Setting::getValue('school_address', 'Jl. A.H. Nasution No. 27') }}",
+      "addressLocality": "Bandung",
+      "postalCode": "40614",
+      "addressCountry": "ID"
+    }
+  },
+  "image": [
+    "{{ asset($event->banner ?? \App\Models\Setting::getValue('school_logo', 'storage/uploads/settings/school_logo.png')) }}"
+  ],
+  "description": "{{ addslashes(Str::limit(strip_tags($event->description ?? $event->title), 200)) }}",
+  "organizer": {
+    "{{ '@type' }}": "Organization",
+    "name": "{{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }}",
+    "url": "{{ url('/') }}"
+  }
+}
+</script>
+@endsection
 
 @section('content')
 <!-- Page Header Banner -->
@@ -8,11 +46,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         <x-breadcrumb :items="['Agenda Sekolah' => route('events.index'), Str::limit($event->title, 25) => '']" />
         <div class="flex flex-wrap items-center gap-3 text-xs pt-1">
-            <span class="px-3 py-1 rounded-full font-extrabold text-[10px] uppercase border
-                @if($event->status === 'upcoming') bg-sky-100 text-sky-800 border-sky-300
-                @elseif($event->status === 'ongoing') bg-amber-100 text-amber-900 border-amber-300
-                @elseif($event->status === 'completed') bg-slate-100 text-slate-600 border-slate-300
-                @else bg-rose-100 text-rose-800 border-rose-300 @endif">
+            <span class="px-3 py-1 rounded-full font-extrabold text-[10px] uppercase border {{ $event->status === 'upcoming' ? 'bg-sky-100 text-sky-800 border-sky-300' : ($event->status === 'ongoing' ? 'bg-amber-100 text-amber-900 border-amber-300' : ($event->status === 'completed' ? 'bg-slate-100 text-slate-600 border-slate-300' : 'bg-rose-100 text-rose-800 border-rose-300')) }}">
                 {{ $event->status === 'upcoming' ? 'Mendatang' : ($event->status === 'ongoing' ? 'Berlangsung' : ($event->status === 'completed' ? 'Selesai' : 'Dibatalkan')) }}
             </span>
             <span class="text-amber-400 font-bold">📍 {{ $event->location }}</span>
@@ -26,7 +60,7 @@
     <x-card :hover="false" class="p-6 sm:p-10 space-y-8 text-slate-800 text-sm leading-relaxed">
         @if($event->banner)
             <div class="w-full max-h-[400px] rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-                <img src="{{ asset($event->banner) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                <img src="{{ asset($event->banner) }}" alt="{{ $event->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
             </div>
         @endif
 

@@ -40,7 +40,7 @@
                 <div>
                     @if($event->banner)
                         <div class="w-full h-44 overflow-hidden bg-slate-100 relative">
-                            <img src="{{ asset($event->banner) }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <img src="{{ asset($event->banner) }}" alt="{{ $event->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
                     @else
                         <div class="w-full h-28 bg-gradient-to-r from-emerald-900 to-slate-900 p-6 flex items-center justify-between text-white relative">

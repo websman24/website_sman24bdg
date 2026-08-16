@@ -38,7 +38,7 @@ class DashboardController extends Controller
         ];
 
         // Recent Activity Items Combined
-        $recentNews = News::with('author')->latest()->take(3)->get()->map(fn($item) => [
+        $recentNews = News::with('author')->latest()->take(3)->get()->map(fn ($item) => [
             'type' => 'Berita',
             'icon' => '📰',
             'title' => $item->title,
@@ -48,7 +48,7 @@ class DashboardController extends Controller
             'url' => route('admin.news.edit', $item),
         ]);
 
-        $recentAnnouncements = Announcement::with('author')->latest()->take(3)->get()->map(fn($item) => [
+        $recentAnnouncements = Announcement::with('author')->latest()->take(3)->get()->map(fn ($item) => [
             'type' => 'Pengumuman',
             'icon' => '📢',
             'title' => $item->title,
@@ -58,7 +58,7 @@ class DashboardController extends Controller
             'url' => route('admin.announcements.edit', $item),
         ]);
 
-        $recentEvents = Event::with('author')->latest()->take(3)->get()->map(fn($item) => [
+        $recentEvents = Event::with('author')->latest()->take(3)->get()->map(fn ($item) => [
             'type' => 'Agenda',
             'icon' => '📅',
             'title' => $item->title,
@@ -68,7 +68,7 @@ class DashboardController extends Controller
             'url' => route('admin.events.edit', $item),
         ]);
 
-        $recentGalleries = Gallery::with('author')->latest()->take(3)->get()->map(fn($item) => [
+        $recentGalleries = Gallery::with('author')->latest()->take(3)->get()->map(fn ($item) => [
             'type' => 'Galeri Foto',
             'icon' => '🖼️',
             'title' => $item->title,

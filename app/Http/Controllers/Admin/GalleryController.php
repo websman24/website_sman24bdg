@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\GalleryItem;
 use App\Services\GalleryService;
+use App\Traits\AuthorizesOwnership;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
+    use AuthorizesOwnership;
     public function __construct(
         protected GalleryService $galleryService
     ) {}
@@ -60,7 +62,8 @@ class GalleryController extends Controller
      */
     public function show(Gallery $gallery): View
     {
-        $gallery->load(['items' => fn($q) => $q->orderBy('order_position', 'asc')->latest()]);
+        $gallery->load(['items' => fn ($q) => $q->orderBy('order_position', 'asc')->latest()]);
+
         return view('admin.galleries.show', compact('gallery'));
     }
 
@@ -69,6 +72,8 @@ class GalleryController extends Controller
      */
     public function edit(Gallery $gallery): View
     {
+        $this->authorizeOwnership($gallery);
+
         return view('admin.galleries.edit', compact('gallery'));
     }
 
@@ -77,6 +82,8 @@ class GalleryController extends Controller
      */
     public function update(Request $request, Gallery $gallery): RedirectResponse
     {
+        $this->authorizeOwnership($gallery);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
@@ -97,6 +104,8 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery): RedirectResponse
     {
+        $this->authorizeOwnership($gallery);
+
         $this->galleryService->deleteGallery($gallery);
 
         return redirect()->route('admin.galleries.index')->with('success', 'Album galeri beserta seluruh foto di dalamnya berhasil dihapus.');
@@ -107,6 +116,8 @@ class GalleryController extends Controller
      */
     public function addItem(Request $request, Gallery $gallery): RedirectResponse
     {
+        $this->authorizeOwnership($gallery);
+
         $request->validate([
             'photo_file' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'caption' => ['nullable', 'string', 'max:255'],
@@ -126,6 +137,8 @@ class GalleryController extends Controller
      */
     public function deleteItem(Gallery $gallery, GalleryItem $item): RedirectResponse
     {
+        $this->authorizeOwnership($gallery);
+
         $this->galleryService->deletePhotoItem($item);
 
         return redirect()->route('admin.galleries.show', $gallery)
@@ -137,6 +150,8 @@ class GalleryController extends Controller
      */
     public function setCover(Gallery $gallery, GalleryItem $item): RedirectResponse
     {
+        $this->authorizeOwnership($gallery);
+
         $gallery->update(['cover_image' => $item->image_path]);
 
         return redirect()->route('admin.galleries.show', $gallery)

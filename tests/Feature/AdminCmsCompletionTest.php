@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Announcement;
-use App\Models\Event;
-use App\Models\News;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -6,6 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Masuk System - SMAN 24 Bandung</title>
 
+    <!-- Favicon & App Icon -->
+    @if(\App\Models\Setting::getValue('school_logo'))
+        <link rel="icon" type="image/png" href="{{ asset(\App\Models\Setting::getValue('school_logo')) }}">
+        <link rel="apple-touch-icon" href="{{ asset(\App\Models\Setting::getValue('school_logo')) }}">
+    @endif
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -18,9 +24,13 @@
         <!-- Header Brand -->
         <div class="text-center mb-8">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group mb-3">
-                <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center font-extrabold text-emerald-950 text-2xl shadow-xl group-hover:scale-105 transition-transform duration-200">
-                    24
-                </div>
+                @if(\App\Models\Setting::getValue('school_logo'))
+                    <img src="{{ asset(\App\Models\Setting::getValue('school_logo')) }}" alt="Logo Sekolah" class="w-12 h-12 object-contain bg-white/10 rounded-2xl p-1.5 border border-amber-400/40 shadow-xl group-hover:scale-105 transition-transform duration-200">
+                @else
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center font-extrabold text-emerald-950 text-2xl shadow-xl group-hover:scale-105 transition-transform duration-200">
+                        24
+                    </div>
+                @endif
                 <div class="text-left">
                     <span class="block text-xl font-extrabold text-white tracking-tight">SMAN 24 BANDUNG</span>
                     <span class="block text-xs font-medium text-emerald-200">Portal Masuk Administrator</span>

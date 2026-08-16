@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Services\NewsService;
+use App\Traits\AuthorizesOwnership;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class NewsController extends Controller
 {
+    use AuthorizesOwnership;
     public function __construct(
         protected NewsService $newsService
     ) {}
@@ -23,7 +25,7 @@ class NewsController extends Controller
     {
         $search = $request->query('search');
         $status = $request->query('status');
-        $categoryId = $request->query('category_id') ? (int)$request->query('category_id') : null;
+        $categoryId = $request->query('category_id') ? (int) $request->query('category_id') : null;
 
         $newsList = $this->newsService->getPaginatedNews(10, $search, $status, $categoryId);
         $categories = NewsCategory::all();
@@ -37,6 +39,7 @@ class NewsController extends Controller
     public function create(): View
     {
         $categories = NewsCategory::all();
+
         return view('admin.news.create', compact('categories'));
     }
 
@@ -66,19 +69,24 @@ class NewsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified news article.
+     * Show form to edit news.
      */
     public function edit(News $news): View
     {
+        $this->authorizeOwnership($news);
+
         $categories = NewsCategory::all();
+
         return view('admin.news.edit', compact('news', 'categories'));
     }
 
     /**
-     * Update the specified news article.
+     * Update news article.
      */
     public function update(Request $request, News $news): RedirectResponse
     {
+        $this->authorizeOwnership($news);
+
         $validated = $request->validate([
             'category_id' => ['required', 'exists:news_categories,id'],
             'title' => ['required', 'string', 'max:255'],
@@ -108,6 +116,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news): RedirectResponse
     {
+        $this->authorizeOwnership($news);
+
         $this->newsService->deleteNews($news);
 
         return redirect()->route('admin.news.index')
@@ -116,21 +126,34 @@ class NewsController extends Controller
 
     /**
      * Bulk delete selected news articles.
+     *
+     * Security: validates ids as array of integers before processing.
      */
     public function bulkDelete(Request $request): RedirectResponse
     {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
         $ids = $request->input('ids', []);
 
-        if (empty($ids) || !is_array($ids)) {
+        if (empty($ids)) {
             return redirect()->route('admin.news.index')->with('error', 'Tidak ada data berita yang dipilih.');
         }
 
         $newsItems = News::whereIn('id', $ids)->get();
+
+        // Check ownership before deleting
+        foreach ($newsItems as $news) {
+            $this->authorizeOwnership($news);
+        }
+
         foreach ($newsItems as $news) {
             $this->newsService->deleteNews($news);
         }
 
         return redirect()->route('admin.news.index')
-            ->with('success', count($newsItems) . ' berita berhasil dihapus secara massal.');
+            ->with('success', count($newsItems).' berita berhasil dihapus secara massal.');
     }
 }

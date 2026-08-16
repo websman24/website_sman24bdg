@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Services\DocumentService;
+use App\Traits\AuthorizesOwnership;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DocumentController extends Controller
 {
+    use AuthorizesOwnership;
     public function __construct(
         protected DocumentService $documentService
     ) {}
@@ -64,6 +66,8 @@ class DocumentController extends Controller
      */
     public function edit(Document $document): View
     {
+        $this->authorizeOwnership($document);
+
         return view('admin.documents.edit', compact('document'));
     }
 
@@ -72,6 +76,8 @@ class DocumentController extends Controller
      */
     public function update(Request $request, Document $document): RedirectResponse
     {
+        $this->authorizeOwnership($document);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'category' => ['required', 'string', 'max:100'],
@@ -94,6 +100,8 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document): RedirectResponse
     {
+        $this->authorizeOwnership($document);
+
         $this->documentService->deleteDocument($document);
 
         return redirect()->route('admin.documents.index')

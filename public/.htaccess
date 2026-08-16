@@ -23,3 +23,84 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# ============================================================
+# SECURITY HARDENING — SMA Negeri 24 Bandung
+# ============================================================
+
+# Disable server signature to hide Apache/PHP version info
+ServerSignature Off
+
+# Block direct access to sensitive file types and directories
+<FilesMatch "(^\.env|\.env\..+|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|pint\.json|phpstan\.neon|\.gitignore|\.gitattributes|artisan|webpack\.mix\.js|vite\.config\.js)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to hidden files and directories (starting with dot)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to backup files that might expose source code
+<FilesMatch "\.(bak|config|dist|fla|inc|log|psd|sh|sql|swp|orig|old|temp|tmp|~)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to PHP files inside storage/ and uploads/
+<IfModule mod_rewrite.c>
+    RewriteRule ^storage/.*\.php$ - [F,L]
+    RewriteRule ^uploads/.*\.php$ - [F,L]
+</IfModule>
+
+# Prevent execution of scripts in storage directories
+<IfModule mod_php.c>
+    <FilesMatch "^(storage|uploads)/.*\.(php|phtml|php3|php4|php5|php7|phar)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+# Security Headers (fallback if PHP middleware doesn't apply)
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # XSS Protection for older browsers
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Remove server identification headers
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+
+    # Permissions Policy — restrict dangerous browser features
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(self), payment=(), usb=()"
+</IfModule>
+
+# Prevent content type sniffing for uploads
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|pdf|doc|docx|xls|xlsx|zip)$">
+        Header set X-Content-Type-Options "nosniff"
+    </FilesMatch>
+</IfModule>
+
+# Disable ETags (can expose inode information)
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Force download for office documents (prevent browser execution)
+<FilesMatch "\.(doc|docx|xls|xlsx|ppt|pptx|zip|rar)$">
+    <IfModule mod_headers.c>
+        Header set Content-Disposition "attachment"
+    </FilesMatch>
+</FilesMatch>

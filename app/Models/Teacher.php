@@ -35,6 +35,7 @@ class Teacher extends Model
     public function getFullNameAttribute(): string
     {
         $parts = array_filter([$this->title_prefix, $this->name, $this->title_suffix]);
+
         return implode(' ', $parts);
     }
 }

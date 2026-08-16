@@ -16,6 +16,7 @@ class SchoolProfileController extends Controller
     public function index(): View
     {
         $profiles = SchoolProfile::all();
+
         return view('admin.profiles.index', compact('profiles'));
     }
 
@@ -28,6 +29,8 @@ class SchoolProfileController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
         ]);
+
+        $validated['content'] = clean($validated['content']);
 
         $profile->update($validated);
 

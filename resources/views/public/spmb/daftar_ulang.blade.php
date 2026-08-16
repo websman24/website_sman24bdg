@@ -7,6 +7,14 @@
 <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 text-white py-12 border-b border-emerald-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
         <x-breadcrumb :items="['SPMB' => '', 'Daftar Ulang' => '']" />
+        
+        <!-- Running Text Kata-Kata Bijak SPMB (Di atas judul, background transparan) -->
+        <div class="overflow-hidden bg-transparent py-1">
+            <marquee behavior="scroll" direction="left" scrollamount="4" style="font-family: 'News701 BT', 'Georgia', serif; font-size: 14px; color: #facc15; font-weight: 700; display: block;">
+                ✨ {{ \App\Models\Setting::getValue('spmb_quote', 'Pendidikan adalah tiket ke masa depan, hari esok dimiliki oleh orang-orang yang mempersiapkannya hari ini. — SMAN 24 Bandung') }} ✨
+            </marquee>
+        </div>
+
         <h1 class="text-3xl font-extrabold tracking-tight">Verifikasi & Daftar Ulang SPMB</h1>
         <p class="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">Layanan verifikasi berkas dan registrasi fisik bagi calon peserta didik yang dinyatakan diterima.</p>
     </div>

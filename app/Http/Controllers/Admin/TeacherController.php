@@ -97,7 +97,7 @@ class TeacherController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'nip' => ['nullable', 'string', 'max:50', 'unique:teachers,nip,' . $teacher->id],
+            'nip' => ['nullable', 'string', 'max:50', 'unique:teachers,nip,'.$teacher->id],
             'subject' => ['required', 'string', 'max:255'],
             'title_prefix' => ['nullable', 'string', 'max:50'],
             'title_suffix' => ['nullable', 'string', 'max:50'],
@@ -136,12 +136,19 @@ class TeacherController extends Controller
 
     /**
      * Bulk delete selected teacher records.
+     *
+     * Security: validates ids as array of integers before processing.
      */
     public function bulkDelete(Request $request): RedirectResponse
     {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
         $ids = $request->input('ids', []);
 
-        if (empty($ids) || !is_array($ids)) {
+        if (empty($ids)) {
             return redirect()->route('admin.teachers.index')->with('error', 'Tidak ada data pendidik yang dipilih.');
         }
 
@@ -151,7 +158,7 @@ class TeacherController extends Controller
         }
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', count($teachers) . ' data pendidik berhasil dihapus secara massal.');
+            ->with('success', count($teachers).' data pendidik berhasil dihapus secara massal.');
     }
 
     /**
@@ -176,7 +183,7 @@ class TeacherController extends Controller
             $msg .= ", {$result['skipped']} baris dilewati (format tidak lengkap)";
         }
 
-        return redirect()->route('admin.teachers.index')->with('success', $msg . '.');
+        return redirect()->route('admin.teachers.index')->with('success', $msg.'.');
     }
 
     /**

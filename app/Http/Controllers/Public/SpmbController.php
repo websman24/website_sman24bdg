@@ -14,6 +14,7 @@ class SpmbController extends Controller
     public function pendaftar(): View
     {
         $spmbDocuments = Document::where('category', 'SPMB')->get();
+
         return view('public.spmb.pendaftar', compact('spmbDocuments'));
     }
 

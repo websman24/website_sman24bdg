@@ -21,8 +21,8 @@ class StudentController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('mentor_name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('mentor_name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -50,8 +50,8 @@ class StudentController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('winner_name', 'like', "%{$search}%")
-                  ->orWhere('event_name', 'like', "%{$search}%");
+                    ->orWhere('winner_name', 'like', "%{$search}%")
+                    ->orWhere('event_name', 'like', "%{$search}%");
             });
         }
 

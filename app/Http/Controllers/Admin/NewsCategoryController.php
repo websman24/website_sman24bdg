@@ -17,6 +17,7 @@ class NewsCategoryController extends Controller
     public function index(): View
     {
         $categories = NewsCategory::withCount('news')->orderBy('name')->paginate(10);
+
         return view('admin.news_categories.index', compact('categories'));
     }
 
@@ -55,7 +56,7 @@ class NewsCategoryController extends Controller
     public function update(Request $request, NewsCategory $newsCategory): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:news_categories,name,' . $newsCategory->id],
+            'name' => ['required', 'string', 'max:255', 'unique:news_categories,name,'.$newsCategory->id],
             'description' => ['nullable', 'string', 'max:500'],
         ], [
             'name.required' => 'Nama kategori berita wajib diisi.',
@@ -79,7 +80,7 @@ class NewsCategoryController extends Controller
     {
         if ($newsCategory->news()->count() > 0) {
             return redirect()->route('admin.news-categories.index')
-                ->with('error', 'Kategori tidak dapat dihapus karena masih digunakan oleh ' . $newsCategory->news()->count() . ' berita.');
+                ->with('error', 'Kategori tidak dapat dihapus karena masih digunakan oleh '.$newsCategory->news()->count().' berita.');
         }
 
         $newsCategory->delete();

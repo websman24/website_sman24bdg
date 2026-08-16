@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Gallery;
 use App\Models\SchoolProfile;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -34,7 +37,7 @@ class AdminCmsSuiteTest extends TestCase
         $settingsResponse = $this->get('/admin/settings');
         $settingsResponse->assertStatus(200);
 
-        $principalPhoto = \Illuminate\Http\UploadedFile::fake()->image('principal.jpg', 600, 600);
+        $principalPhoto = UploadedFile::fake()->image('principal.jpg', 600, 600);
 
         $updateSettings = $this->post('/admin/settings', [
             'school_name' => 'SMA Negeri 24 Bandung Custom',
@@ -44,8 +47,8 @@ class AdminCmsSuiteTest extends TestCase
             'principal_photo_file' => $principalPhoto,
         ]);
         $updateSettings->assertRedirect(route('admin.settings.index'));
-        $this->assertEquals('(022) 7800540-UPDATED', \App\Models\Setting::getValue('school_phone'));
-        $this->assertEquals('Drs. H. Solihin, M.Pd.', \App\Models\Setting::getValue('principal_name'));
+        $this->assertEquals('(022) 7800540-UPDATED', Setting::getValue('school_phone'));
+        $this->assertEquals('Drs. H. Solihin, M.Pd.', Setting::getValue('principal_name'));
 
         $publicHome = $this->get('/');
         $publicHome->assertSee('(022) 7800540-UPDATED');
@@ -102,7 +105,7 @@ class AdminCmsSuiteTest extends TestCase
             'title' => 'Album Purna Krida 2026',
             'description' => 'Dokumentasi acara pelepasan siswa',
         ]);
-        $gallery = \App\Models\Gallery::where('title', 'Album Purna Krida 2026')->first();
+        $gallery = Gallery::where('title', 'Album Purna Krida 2026')->first();
         $galStore->assertRedirect(route('admin.galleries.show', $gallery));
         $this->assertDatabaseHas('galleries', ['title' => 'Album Purna Krida 2026']);
 
