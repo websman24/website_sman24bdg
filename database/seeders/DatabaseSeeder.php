@@ -29,18 +29,50 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Users
-        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', \Illuminate\Support\Str::random(16));
+        // 1. Users Default Roles
+        $defaultPassword = env('ADMIN_DEFAULT_PASSWORD', 'Password24!');
+
+        $superadmin = User::updateOrCreate(
+            ['email' => 'superadmin@sman24bdg.sch.id'],
+            [
+                'name' => 'Super Administrator',
+                'password' => Hash::make($defaultPassword),
+                'role' => 'superadmin',
+                'is_active' => true,
+            ]
+        );
+
         $admin = User::updateOrCreate(
             ['email' => 'admin@sman24bdg.sch.id'],
             [
                 'name' => 'Administrator SMAN 24',
-                'password' => Hash::make($adminPassword),
-                'role' => 'superadmin', // Should be superadmin since it's the root user
+                'password' => Hash::make($defaultPassword),
+                'role' => 'admin',
                 'is_active' => true,
             ]
         );
-        $this->command->warn("Admin Password: {$adminPassword} (Please save this and change it immediately)");
+
+        User::updateOrCreate(
+            ['email' => 'editor@sman24bdg.sch.id'],
+            [
+                'name' => 'Tim Humas & Redaksi',
+                'password' => Hash::make($defaultPassword),
+                'role' => 'editor',
+                'is_active' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'guru@sman24bdg.sch.id'],
+            [
+                'name' => 'Guru & Tenaga Pendidik',
+                'password' => Hash::make($defaultPassword),
+                'role' => 'guru',
+                'is_active' => true,
+            ]
+        );
+
+        $this->command->info("Akun Superadmin, Admin, Editor, & Guru berhasil disiapkan dengan password: {$defaultPassword}");
 
         // 2. School Profiles
         SchoolProfile::updateOrCreate(
