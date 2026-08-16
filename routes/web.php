@@ -79,6 +79,5 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 
-Route::middleware('auth')->group(function () {
-    Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
-});
+Route::match(['GET', 'POST'], '/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+Route::match(['GET', 'POST'], '/logout', fn () => redirect()->route('admin.logout'));

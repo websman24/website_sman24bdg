@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <a href="{{ asset($announcement->attachment_file) }}" target="_blank" download class="w-full sm:w-auto text-center px-4 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all whitespace-nowrap">
-                    ⬇️ Unduh Berkas
+                    ⬇️ Unduh Berkas Lampiran
                 </a>
             </div>
         @endif

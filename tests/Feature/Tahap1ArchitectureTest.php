@@ -86,7 +86,7 @@ class Tahap1ArchitectureTest extends TestCase
 
         $response = $this->post('/admin/logout');
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('admin.login'));
         $this->assertGuest();
     }
 }

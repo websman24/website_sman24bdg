@@ -33,12 +33,28 @@ return Application::configure(basePath: dirname(__DIR__))
             'role'  => \App\Http\Middleware\RoleMiddleware::class,
         ]);
 
+        // Exclude logout routes from strict CSRF token validation to prevent 419 on session expiry
+        $middleware->validateCsrfTokens(except: [
+            'admin/logout',
+            'logout',
+        ]);
+
         // Apply security headers to all web responses globally
         $middleware->web(append: [
             SecurityHeadersMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Handle 419 Page Expired (CSRF Token Mismatch) — redirect to login with notification
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Sesi Anda telah berakhir. Silakan masuk kembali.'], 419);
+            }
+
+            return redirect()->route('admin.login')
+                ->with('warning', 'Sesi Anda telah berakhir. Silakan masuk kembali.');
+        });
+
         // Handle 404 Not Found — show branded error page instead of default
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->expectsJson()) {

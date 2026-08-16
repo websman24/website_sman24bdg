@@ -109,7 +109,8 @@
                     </a>
                 </div>
 
-                <!-- Dropdown 1: Konten Publikasi -->
+                <!-- Dropdown 1: Konten Publikasi (Superadmin, Admin, Editor) -->
+                @if(auth()->user() && auth()->user()->hasAnyRole(['superadmin', 'admin', 'editor']))
                 <div class="space-y-1">
                     <button @click="openPublikasi = !openPublikasi" 
                             type="button"
@@ -123,11 +124,11 @@
                         <svg class="w-3.5 h-3.5 transition-transform duration-200 text-slate-400" :class="openPublikasi ? 'rotate-180 text-amber-400' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="openPublikasi" 
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
-                         style="display: none;">
+                          x-transition:enter="transition ease-out duration-150"
+                          x-transition:enter-start="opacity-0 -translate-y-1"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
+                          style="display: none;">
                         <a href="{{ route('admin.news.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.news.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             <span>Berita Sekolah</span>
@@ -144,6 +145,7 @@
                             <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span>Agenda Kegiatan</span>
                         </a>
+                        @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.sliders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.sliders.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span>Hero Image Slider</span>
@@ -152,10 +154,13 @@
                             <svg class="w-3.5 h-3.5 text-amber-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                             <span>Running Text SPMB</span>
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
-                <!-- Dropdown 2: Data Sekolah & Kesiswaan -->
+                <!-- Dropdown 2: Data Sekolah & Kesiswaan (Superadmin, Admin) -->
+                @if(auth()->user() && auth()->user()->isAdmin())
                 <div class="space-y-1">
                     <button @click="openAkademik = !openAkademik" 
                             type="button"
@@ -169,11 +174,11 @@
                         <svg class="w-3.5 h-3.5 transition-transform duration-200 text-slate-400" :class="openAkademik ? 'rotate-180 text-amber-400' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="openAkademik" 
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
-                         style="display: none;">
+                          x-transition:enter="transition ease-out duration-150"
+                          x-transition:enter-start="opacity-0 -translate-y-1"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
+                          style="display: none;">
                         <a href="{{ route('admin.profiles.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.profiles.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                             <span>Profil & Visi Misi</span>
@@ -196,6 +201,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
 
                 <!-- Dropdown 3: Media & Dokumen -->
                 <div class="space-y-1">
@@ -211,11 +217,12 @@
                         <svg class="w-3.5 h-3.5 transition-transform duration-200 text-slate-400" :class="openMedia ? 'rotate-180 text-amber-400' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="openMedia" 
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
-                         style="display: none;">
+                          x-transition:enter="transition ease-out duration-150"
+                          x-transition:enter-start="opacity-0 -translate-y-1"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
+                          style="display: none;">
+                        @if(auth()->user() && auth()->user()->hasAnyRole(['superadmin', 'admin', 'editor']))
                         <a href="{{ route('admin.galleries.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.galleries.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             <span>Galeri Foto</span>
@@ -224,6 +231,7 @@
                             <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span>Video YouTube</span>
                         </a>
+                        @endif
                         <a href="{{ route('admin.documents.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.documents.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             <span>Dokumen & SPMB</span>
@@ -231,7 +239,8 @@
                     </div>
                 </div>
 
-                <!-- Dropdown 4: Sistem & Pengaturan -->
+                <!-- Dropdown 4: Sistem & Pengaturan (Superadmin, Admin) -->
+                @if(auth()->user() && auth()->user()->isAdmin())
                 <div class="space-y-1">
                     <button @click="openSistem = !openSistem" 
                             type="button"
@@ -245,11 +254,11 @@
                         <svg class="w-3.5 h-3.5 transition-transform duration-200 text-slate-400" :class="openSistem ? 'rotate-180 text-amber-400' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="openSistem" 
-                         x-transition:enter="transition ease-out duration-150"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
-                         style="display: none;">
+                          x-transition:enter="transition ease-out duration-150"
+                          x-transition:enter-start="opacity-0 -translate-y-1"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          class="mt-1 pl-3 pr-1 space-y-1 border-l-2 border-emerald-800/60 ml-4 py-1"
+                          style="display: none;">
                         <a href="{{ route('admin.users.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] transition-all {{ request()->routeIs('admin.users.*') ? 'bg-emerald-800 text-white font-extrabold shadow-sm' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200' }}">
                             <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                             <span>Pengguna & Hak Akses</span>
@@ -260,6 +269,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
 
             </nav>
 
