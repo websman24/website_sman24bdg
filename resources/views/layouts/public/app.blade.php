@@ -66,8 +66,8 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <!-- Sticky Header Wrapper (Topbar + Glassmorphism Navigation Bar) -->
-    <header class="sticky top-0 z-50 w-full shadow-sm" x-data="{ mobileMenuOpen: false }">
+    <!-- Fixed Header (Topbar + Glassmorphism Navigation Bar) -->
+    <header class="fixed top-0 inset-x-0 z-50 w-full shadow-md bg-white" x-data="{ mobileMenuOpen: false }">
         
         <!-- Premium Topbar Contact & Announcement Info -->
         <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-950 text-emerald-100 text-xs py-2 px-4 border-b border-emerald-900/60 shadow-inner">
@@ -306,8 +306,8 @@
         </div>
     </header>
 
-    <!-- Page Content Container -->
-    <main class="flex-grow">
+    <!-- Page Content Container with Offset for Fixed Header -->
+    <main class="flex-grow pt-[128px] sm:pt-[116px]">
         @yield('content')
     </main>
 
