@@ -129,6 +129,33 @@ class StaffController extends Controller
     }
 
     /**
+     * Bulk delete selected staff records.
+     *
+     * Security: validates ids as array of integers before processing.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'min:1'],
+        ]);
+
+        $ids = $request->input('ids', []);
+
+        if (empty($ids)) {
+            return redirect()->route('admin.staff.index')->with('error', 'Tidak ada data tenaga kependidikan yang dipilih.');
+        }
+
+        $staffList = Staff::whereIn('id', $ids)->get();
+        foreach ($staffList as $staff) {
+            $this->staffService->deleteStaff($staff);
+        }
+
+        return redirect()->route('admin.staff.index')
+            ->with('success', count($staffList).' data tenaga kependidikan berhasil dihapus secara massal.');
+    }
+
+    /**
      * Import staff from Excel/CSV file.
      */
     public function import(Request $request): RedirectResponse

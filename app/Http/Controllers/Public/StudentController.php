@@ -5,11 +5,30 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Achievement;
 use App\Models\Extracurricular;
+use App\Models\OsisMember;
+use App\Models\OsisProfile;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StudentController extends Controller
 {
+    /**
+     * Display Public OSIS & MPK Page.
+     */
+    public function osis(): View
+    {
+        $profile = OsisProfile::current();
+        $members = OsisMember::where('is_active', true)
+            ->orderBy('order_position', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $bphMembers = $members->where('department', 'bph');
+        $sekbidMembers = $members->filter(fn ($m) => str_starts_with($m->department, 'sekbid_'));
+        $mpkMembers = $members->where('department', 'mpk');
+
+        return view('public.student.osis', compact('profile', 'members', 'bphMembers', 'sekbidMembers', 'mpkMembers'));
+    }
     /**
      * Display Extracurriculars List with search and category filter.
      */

@@ -1,14 +1,14 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Detail Pendidik - ' . $teacher->full_name)
+@section('title', 'Detail Guru - ' . $teacher->full_name)
 @section('breadcrumb', 'Detail Guru')
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
     <div class="flex items-center justify-between bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div>
-            <h2 class="text-xl font-bold text-slate-900">Detail Pendidik / Guru</h2>
-            <p class="text-xs text-slate-500 mt-1">Informasi lengkap profil tenaga pendidik SMAN 24 Bandung.</p>
+            <h2 class="text-xl font-bold text-slate-900">Detail Guru</h2>
+            <p class="text-xs text-slate-500 mt-1">Informasi lengkap profil guru SMAN 24 Bandung.</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('admin.teachers.edit', $teacher) }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-sm transition-all">

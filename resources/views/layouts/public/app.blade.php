@@ -156,8 +156,29 @@
                     <nav class="hidden lg:flex items-center gap-5 xl:gap-6 text-xs font-bold text-slate-700">
                         <a href="{{ route('home') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('home') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Beranda</a>
                         <a href="{{ route('profile') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('profile') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Profil</a>
-                        <a href="{{ route('academic.teachers') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('academic.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Akademik</a>
-                        <a href="{{ route('student.extracurriculars') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('student.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Kesiswaan</a>
+                        <!-- Kesiswaan Dropdown Menu -->
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                            <button class="flex items-center gap-1 hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('student.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">
+                                <span>Kesiswaan</span>
+                                <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            
+                            <div x-show="open" 
+                                 x-transition:enter="transition ease-out duration-150"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 class="absolute left-0 mt-0 w-52 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50">
+                                <a href="{{ route('student.osis') }}" class="block px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-indigo-50 hover:text-indigo-800 transition-colors">
+                                    🏛️ OSIS & MPK
+                                </a>
+                                <a href="{{ route('student.extracurriculars') }}" class="block px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition-colors">
+                                    ⚽ Ekstrakurikuler
+                                </a>
+                                <a href="{{ route('student.achievements') }}" class="block px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-amber-50 hover:text-amber-800 transition-colors">
+                                    🏆 Prestasi Siswa
+                                </a>
+                            </div>
+                        </div>
                         <a href="{{ route('news.index') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('news.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Informasi</a>
                         <a href="{{ route('gallery.index') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('gallery.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Galeri</a>
                         <a href="{{ route('download.index') }}" class="hover:text-emerald-800 transition-colors py-2 {{ request()->routeIs('download.*') ? 'text-emerald-800 font-extrabold border-b-2 border-emerald-800' : '' }}">Download</a>
@@ -223,12 +244,23 @@
                 <a href="{{ route('profile') }}" class="flex items-center gap-3 py-3 px-3 rounded-xl text-sm font-bold {{ request()->routeIs('profile') ? 'bg-emerald-50 text-emerald-800 font-extrabold' : 'text-slate-700 hover:bg-slate-50' }}">
                     <span>🏛️</span> <span>Profil Sekolah</span>
                 </a>
-                <a href="{{ route('academic.teachers') }}" class="flex items-center gap-3 py-3 px-3 rounded-xl text-sm font-bold {{ request()->routeIs('academic.*') ? 'bg-emerald-50 text-emerald-800 font-extrabold' : 'text-slate-700 hover:bg-slate-50' }}">
-                    <span>👨‍🏫</span> <span>Akademik & Guru</span>
-                </a>
-                <a href="{{ route('student.extracurriculars') }}" class="flex items-center gap-3 py-3 px-3 rounded-xl text-sm font-bold {{ request()->routeIs('student.*') ? 'bg-emerald-50 text-emerald-800 font-extrabold' : 'text-slate-700 hover:bg-slate-50' }}">
-                    <span>🏆</span> <span>Kesiswaan & Ekstra</span>
-                </a>
+                <!-- Mobile Kesiswaan Section -->
+                <div class="py-2.5 px-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5">
+                    <span class="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                        <span>🏆</span> Kesiswaan & Ekstra
+                    </span>
+                    <div class="grid grid-cols-1 gap-1 pt-1">
+                        <a href="{{ route('student.osis') }}" class="flex items-center gap-2 py-2 px-3 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:bg-indigo-50 hover:text-indigo-800 transition-colors shadow-xs">
+                            <span>🏛️</span> OSIS & MPK
+                        </a>
+                        <a href="{{ route('student.extracurriculars') }}" class="flex items-center gap-2 py-2 px-3 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 transition-colors shadow-xs">
+                            <span>⚽</span> Ekstrakurikuler
+                        </a>
+                        <a href="{{ route('student.achievements') }}" class="flex items-center gap-2 py-2 px-3 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:bg-amber-50 hover:text-amber-800 transition-colors shadow-xs">
+                            <span>🏆</span> Prestasi Siswa
+                        </a>
+                    </div>
+                </div>
                 <a href="{{ route('news.index') }}" class="flex items-center gap-3 py-3 px-3 rounded-xl text-sm font-bold {{ request()->routeIs('news.*') ? 'bg-emerald-50 text-emerald-800 font-extrabold' : 'text-slate-700 hover:bg-slate-50' }}">
                     <span>📰</span> <span>Informasi & Berita</span>
                 </a>
@@ -374,9 +406,10 @@
                     <ul class="space-y-2.5 text-xs sm:text-sm">
                         <li><a href="{{ route('home') }}" class="hover:text-amber-400 transition-colors">Beranda</a></li>
                         <li><a href="{{ route('profile') }}" class="hover:text-amber-400 transition-colors">Profil Sekolah</a></li>
-                        <li><a href="{{ route('academic.teachers') }}" class="hover:text-amber-400 transition-colors">Guru & Pendidik</a></li>
-                        <li><a href="{{ route('news.index') }}" class="hover:text-amber-400 transition-colors">Berita & Informasi</a></li>
-                        <li><a href="{{ route('gallery.index') }}" class="hover:text-amber-400 transition-colors">Galeri Foto & Video</a></li>
+                        <li><a href="{{ route('student.osis') }}" class="hover:text-amber-400 transition-colors">OSIS & MPK</a></li>
+                        <li><a href="{{ route('student.extracurriculars') }}" class="hover:text-amber-400 transition-colors">Ekstrakurikuler</a></li>
+                        <li><a href="{{ route('student.achievements') }}" class="hover:text-amber-400 transition-colors">Prestasi Siswa</a></li>
+                        <li><a href="{{ route('academic.teachers') }}" class="hover:text-amber-400 transition-colors">Guru & Tendik</a></li>
                     </ul>
                 </div>
 

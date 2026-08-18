@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\OsisController;
 use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
@@ -70,6 +71,7 @@ Route::middleware('role:superadmin,admin')->group(function () {
     Route::post('/teachers/import', [TeacherController::class, 'import'])->name('teachers.import');
     Route::resource('teachers', TeacherController::class);
 
+    Route::post('/staff/bulk-delete', [StaffController::class, 'bulkDelete'])->name('staff.bulk_delete');
     Route::get('/staff/template', [StaffController::class, 'downloadTemplate'])->name('staff.template');
     Route::post('/staff/import', [StaffController::class, 'import'])->name('staff.import');
     Route::resource('staff', StaffController::class);
@@ -78,6 +80,16 @@ Route::middleware('role:superadmin,admin')->group(function () {
     Route::resource('sliders', SliderController::class);
     Route::resource('achievements', AchievementController::class);
     Route::resource('extracurriculars', ExtracurricularController::class);
+    
+    // OSIS Management (Phase 1 & 2)
+    Route::get('/osis', [OsisController::class, 'index'])->name('osis.index');
+    Route::post('/osis/profile', [OsisController::class, 'updateProfile'])->name('osis.profile.update');
+    Route::post('/osis/members/bulk-delete', [OsisController::class, 'bulkDeleteMembers'])->name('osis.members.bulk_delete');
+    Route::get('/osis/members/create', [OsisController::class, 'createMember'])->name('osis.members.create');
+    Route::post('/osis/members', [OsisController::class, 'storeMember'])->name('osis.members.store');
+    Route::get('/osis/members/{member}/edit', [OsisController::class, 'editMember'])->name('osis.members.edit');
+    Route::put('/osis/members/{member}', [OsisController::class, 'updateMember'])->name('osis.members.update');
+    Route::delete('/osis/members/{member}', [OsisController::class, 'destroyMember'])->name('osis.members.destroy');
 
     Route::post('/spmb-quotes/{spmb_quote}/toggle', [SpmbQuoteController::class, 'toggleActive'])->name('spmb-quotes.toggle');
     Route::resource('spmb-quotes', SpmbQuoteController::class);

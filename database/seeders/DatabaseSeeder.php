@@ -10,6 +10,8 @@ use App\Models\Event;
 use App\Models\Extracurricular;
 use App\Models\News;
 use App\Models\NewsCategory;
+use App\Models\OsisMember;
+use App\Models\OsisProfile;
 use App\Models\Page;
 use App\Models\SchoolProfile;
 use App\Models\Setting;
@@ -349,5 +351,103 @@ class DatabaseSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+
+        // 18. OSIS Profile & Sample Members (Phase 1 & 2)
+        OsisProfile::updateOrCreate(
+            ['id' => 1],
+            [
+                'cabinet_name' => 'Kabinet Cakra Baskara',
+                'period' => '2025/2026',
+                'tagline' => 'Bersinergi, Berkarakter, Menginspirasi',
+                'vision' => 'Mewujudkan OSIS SMAN 24 Bandung sebagai wadah aspirasi dan pengembangan potensi siswa yang berakhlak mulia, cerdas, kreatif, dan berwawasan global.',
+                'mission' => "1. Menumbuhkan keimanan dan ketaqwaan kepada Tuhan YME dalam setiap kegiatan.\n2. Mendorong peningkatan prestasi akademik dan non-akademik siswa.\n3. Mengembangkan kreativitas, inovasi, dan jiwa kepemimpinan siswa.\n4. Menjalin komunikasi harmonis antara siswa, pihak sekolah, dan alumni.",
+                'leader_name' => 'Muhammad Rizky Pratama',
+                'leader_welcome' => 'Selamat datang di portal informasi OSIS SMAN 24 Bandung. Kami mengundang seluruh siswa untuk aktif berpartisipasi dalam setiap kegiatan positif demi kemajuan bersama.',
+                'instagram_url' => 'https://instagram.com/osis24bdg',
+                'tiktok_url' => 'https://tiktok.com/@osis24bdg',
+                'youtube_url' => 'https://youtube.com/@osis24bdg',
+            ]
+        );
+
+        // Sample BPH & Sekbid Members
+        $sampleMembers = [
+            [
+                'name' => 'Muhammad Rizky Pratama',
+                'position' => 'Ketua OSIS',
+                'department' => 'bph',
+                'class_grade' => 'XI MIPA 1',
+                'instagram' => '@rizky.pratama',
+                'motto' => 'Pemimpin adalah pelayan bagi sesama.',
+                'order_position' => 1,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Nabila Az-Zahra',
+                'position' => 'Wakil Ketua OSIS',
+                'department' => 'bph',
+                'class_grade' => 'XI IPS 2',
+                'instagram' => '@nabila.azzahra',
+                'motto' => 'Bekerja dengan hati, menginspirasi dengan aksi.',
+                'order_position' => 2,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Fajar Ramadhan',
+                'position' => 'Sekretaris Umum',
+                'department' => 'bph',
+                'class_grade' => 'XI MIPA 3',
+                'instagram' => '@fajar.rmdhn',
+                'motto' => 'Tertib administrasi, lancar organisasi.',
+                'order_position' => 3,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Salma Putri Hidayat',
+                'position' => 'Bendahara Umum',
+                'department' => 'bph',
+                'class_grade' => 'XI MIPA 2',
+                'instagram' => '@salma.ph',
+                'motto' => 'Transparan, akuntabel, dan amanah.',
+                'order_position' => 4,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Dimas Arya Putra',
+                'position' => 'Ketua Sekbid 1 (Keagamaan)',
+                'department' => 'sekbid_1',
+                'class_grade' => 'X-2',
+                'instagram' => '@dimas.arya',
+                'motto' => 'Menjadikan iman sebagai fondasi utama.',
+                'order_position' => 5,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Aisyah Putri Maharani',
+                'position' => 'Ketua Sekbid 9 (Medkref & TIK)',
+                'department' => 'sekbid_9',
+                'class_grade' => 'XI MIPA 4',
+                'instagram' => '@aisyah.creatives',
+                'motto' => 'Kreativitas tanpa batas di era digital.',
+                'order_position' => 6,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Bagas Kurniawan',
+                'position' => 'Ketua MPK',
+                'department' => 'mpk',
+                'class_grade' => 'XII MIPA 1',
+                'instagram' => '@bagas.krn',
+                'motto' => 'Mengawal aspirasi demi keadilan bersama.',
+                'order_position' => 7,
+                'is_active' => true,
+            ],
+        ];
+
+        foreach ($sampleMembers as $m) {
+            OsisMember::updateOrCreate(
+                ['name' => $m['name']],
+                $m
+            );
+        }
     }
 }

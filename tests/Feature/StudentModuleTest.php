@@ -103,6 +103,11 @@ class StudentModuleTest extends TestCase
         $publicAchievement->assertSee('Juara 1 Olimpiade Sains Matematika');
         $publicAchievement->assertSee('Ahmad Fauzi & Tim');
 
+        // 3. OSIS Admin Page
+        $osisResponse = $this->get('/admin/osis');
+        $osisResponse->assertStatus(200);
+        $osisResponse->assertSee('Manajemen OSIS & MPK', false);
+
         // Delete Operations
         $deleteEkskul = $this->delete("/admin/extracurriculars/{$ekskul->id}");
         $deleteEkskul->assertRedirect(route('admin.extracurriculars.index'));

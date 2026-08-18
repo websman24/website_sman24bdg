@@ -6,7 +6,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
     <div class="flex items-center justify-between bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h2 class="text-xl font-bold text-slate-900">Edit Data Guru / Pendidik</h2>
+        <h2 class="text-xl font-bold text-slate-900">Edit Data Guru</h2>
         <a href="{{ route('admin.teachers.index') }}" class="text-xs font-semibold text-slate-600 hover:text-slate-900">
             &larr; Kembali ke Daftar Guru
         </a>
@@ -87,7 +87,7 @@
         </div>
 
         <div>
-            <label for="photo_file" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Foto Pendidik (JPG/PNG/WEBP, Max 2MB)</label>
+            <label for="photo_file" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Foto Guru (JPG/PNG/WEBP, Max 2MB)</label>
             @if($teacher->photo)
                 <div class="mb-3 flex items-center gap-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
                     <img src="{{ asset($teacher->photo) }}" alt="{{ $teacher->full_name }}" class="w-16 h-16 object-cover rounded-xl border border-emerald-800 shadow-sm">

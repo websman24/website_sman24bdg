@@ -47,6 +47,7 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::get('/akademik/kalender', [AcademicController::class, 'calendar'])->name('academic.calendar');
 
     // Student & Extracurriculars Routes
+    Route::get('/kesiswaan/osis', [StudentController::class, 'osis'])->name('student.osis');
     Route::get('/kesiswaan/ekstrakurikuler', [StudentController::class, 'extracurriculars'])->name('student.extracurriculars');
     Route::get('/kesiswaan/prestasi', [StudentController::class, 'achievements'])->name('student.achievements');
 

@@ -45,6 +45,7 @@ class PublicPagesTest extends TestCase
             '/berita/berita-pengujian-public-page',
             '/akademik/guru',
             '/akademik/kalender',
+            '/kesiswaan/osis',
             '/kesiswaan/ekstrakurikuler',
             '/kesiswaan/prestasi',
             '/galeri',

@@ -1,22 +1,19 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Manajemen Data Guru & Pendidik - SMAN 24 Bandung')
-@section('breadcrumb', 'Data Guru & Pendidik')
+@section('title', 'Manajemen Data Guru - SMAN 24 Bandung')
+@section('breadcrumb', 'Data Guru')
 
 @section('content')
 <div class="space-y-6" x-data="{ showImportModal: false }">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div>
-            <h2 class="text-xl font-bold text-slate-900">Manajemen Data Guru & Tenaga Pendidik</h2>
-            <p class="text-xs text-slate-500 mt-1">Kelola direktori guru, NIP, mata pelajaran yang diampu, gelar, dan foto pendidik SMAN 24 Bandung.</p>
+            <h2 class="text-xl font-bold text-slate-900">Manajemen Data Guru</h2>
+            <p class="text-xs text-slate-500 mt-1">Kelola direktori guru, NIP, mata pelajaran yang diampu, gelar, dan foto guru SMAN 24 Bandung.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
             <button @click="showImportModal = true" type="button" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-sm transition-all">
                 📥 Impor Excel / CSV
             </button>
-            <a href="{{ route('admin.staff.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors">
-                👔 Kelola Tendik
-            </a>
             <a href="{{ route('admin.teachers.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-sm transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Guru Baru
@@ -99,7 +96,7 @@
             <table class="w-full text-left text-xs">
                 <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
                     <tr>
-                        <th class="px-6 py-4">Foto & Pendidik</th>
+                        <th class="px-6 py-4">Foto & Guru</th>
                         <th class="px-6 py-4">NIP</th>
                         <th class="px-6 py-4">Mata Pelajaran</th>
                         <th class="px-6 py-4">Kontak</th>
@@ -150,7 +147,7 @@
                                     <a href="{{ route('admin.teachers.edit', $item) }}" class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 font-bold transition-colors">
                                         Edit
                                     </a>
-                                    <form action="{{ route('admin.teachers.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pendidik ini?')">
+                                    <form action="{{ route('admin.teachers.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data guru ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold transition-colors">
@@ -163,7 +160,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="px-6 py-12 text-center text-slate-400">
-                                Tidak ada data pendidik ditemukan.
+                                Tidak ada data guru ditemukan.
                             </td>
                         </tr>
                     @endforelse

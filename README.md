@@ -10,7 +10,7 @@ Portal Website Resmi **SMA Negeri 24 Bandung** (*Jl. A.H. Nasution No. 27, Kota 
    - **Profil Sekolah**: Sejarah Singkat, Visi & Misi, dan Identitas Sekolah.
    - **Berita & Informasi**: Pencarian berita, filter per kategori, paginasi, hitung jumlah tayangan (*views counter*), dan berita terkait.
    - **Akademik**: Direktori Guru & Tenaga Kependidikan (NIP, Gelar, Mapel) dan Kalender Akademik per Semester.
-   - **Kesiswaan**: Daftar Ekstrakurikuler (jadwal & pembina) dan Prestasi Siswa (Tingkat Kota, Provinsi, Nasional, Internasional).
+   - **Kesiswaan**: Sub-menu dropdown mencakup **OSIS & MPK** (Profil Kabinet, Visi-Misi, Sambutan Ketua OSIS, Struktur BPH & Sekbid 1-10), **Ekstrakurikuler** (jadwal & pembina), dan **Prestasi Siswa** (Tingkat Kota, Provinsi, Nasional, Internasional).
    - **Galeri Media**: Album foto kegiatan dan embed galeri video YouTube resmi sekolah.
    - **Pusat Unduhan**: Unduh berkas dokumen & formulir resmi dengan pelacak jumlah unduhan (*download counter*).
    - **Layanan SPMB**: Informasi pendaftaran murid baru & alur verifikasi daftar ulang.
@@ -18,8 +18,9 @@ Portal Website Resmi **SMA Negeri 24 Bandung** (*Jl. A.H. Nasution No. 27, Kota 
 
 2. **Portal Administrasi CMS (`/admin`)**:
    - **Pengaturan Website Dinamis**: Kelola Nama Sekolah, Alamat, Telepon, Email, NPSN, dan Akreditasi.
-   - **Manajemen Konten CMS**: Berita, Pengumuman, Agenda Sekolah, Profil Sekolah, Guru & Tendik, Prestasi, Ekstrakurikuler, Galeri Foto, Video YouTube, dan Dokumen SPMB.
-   - **Upload Handling**: Upload foto guru, thumbnail berita, dan berkas PDF/DOCX/ZIP.
+   - **Manajemen Sekolah & Kesiswaan**: Menu terpisah untuk **Guru** (CRUD, Import CSV, Template), **Tendik** (CRUD, Import CSV, Template), **OSIS & MPK** (Profil Kabinet & CRUD Pengurus BPH/Sekbid), **Prestasi**, dan **Ekstrakurikuler**.
+   - **Manajemen Konten CMS**: Berita, Kategori Berita, Pengumuman, Agenda Sekolah, Galeri Foto, Video YouTube, dan Dokumen Unduhan.
+   - **Upload Handling**: Upload foto guru/tendik, foto pengurus OSIS, banner kabinet, thumbnail berita, dan berkas PDF/DOCX/ZIP.
    - **Real-time Dashboard Metrics**: Statistik angka riil dari MySQL untuk publikasi dan aktivitas.
 
 ---

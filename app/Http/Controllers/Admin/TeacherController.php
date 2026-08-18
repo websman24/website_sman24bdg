@@ -71,7 +71,7 @@ class TeacherController extends Controller
         $this->teacherService->createTeacher($validated);
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Data pendidik baru berhasil ditambahkan.');
+            ->with('success', 'Data guru baru berhasil ditambahkan.');
     }
 
     /**
@@ -111,7 +111,7 @@ class TeacherController extends Controller
         ], [
             'name.required' => 'Nama guru wajib diisi.',
             'subject.required' => 'Mata pelajaran yang diampu wajib diisi.',
-            'nip.unique' => 'NIP sudah terdaftar pada pendidik lain.',
+            'nip.unique' => 'NIP sudah terdaftar pada guru lain.',
             'photo_file.image' => 'Foto harus berupa berkas gambar.',
         ]);
 
@@ -120,7 +120,7 @@ class TeacherController extends Controller
         $this->teacherService->updateTeacher($teacher, $validated);
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Data pendidik berhasil diperbarui.');
+            ->with('success', 'Data guru berhasil diperbarui.');
     }
 
     /**
@@ -131,7 +131,7 @@ class TeacherController extends Controller
         $this->teacherService->deleteTeacher($teacher);
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', 'Data pendidik berhasil dihapus.');
+            ->with('success', 'Data guru berhasil dihapus.');
     }
 
     /**
@@ -149,7 +149,7 @@ class TeacherController extends Controller
         $ids = $request->input('ids', []);
 
         if (empty($ids)) {
-            return redirect()->route('admin.teachers.index')->with('error', 'Tidak ada data pendidik yang dipilih.');
+            return redirect()->route('admin.teachers.index')->with('error', 'Tidak ada data guru yang dipilih.');
         }
 
         $teachers = Teacher::whereIn('id', $ids)->get();
@@ -158,7 +158,7 @@ class TeacherController extends Controller
         }
 
         return redirect()->route('admin.teachers.index')
-            ->with('success', count($teachers).' data pendidik berhasil dihapus secara massal.');
+            ->with('success', count($teachers).' data guru berhasil dihapus secara massal.');
     }
 
     /**
