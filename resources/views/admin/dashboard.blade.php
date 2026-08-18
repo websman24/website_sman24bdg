@@ -250,58 +250,59 @@
         </div>
 
         <!-- Grafik Kunjungan Web (Kanan: 5 Kolom) -->
-        <div class="xl:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-xl space-y-4">
-            <!-- Card Header -->
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="xl:col-span-5 bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+            <!-- Card Header (Matching Aktivitas Terbaru) -->
+            <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 p-6 text-white flex items-center justify-between gap-4 border-b border-emerald-800/50">
                 <div>
-                    <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
-                        <span>📈</span>
-                        <span>Grafik Kunjungan Web</span>
+                    <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+                        <span>📈 Grafik Kunjungan Web</span>
                     </h3>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Tren trafik 14 hari terakhir (Line Chart)</p>
+                    <p class="text-xs text-slate-300 mt-0.5">Tren trafik 14 hari terakhir (Line Chart)</p>
                 </div>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-200">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                    Live
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-emerald-900/90 text-amber-300 border border-amber-400/40 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    Live Tracking
                 </span>
             </div>
 
-            <!-- 1. Canvas Line Chart -->
-            <div class="relative h-60 w-full">
-                <canvas id="visitorChart"></canvas>
-            </div>
-
-            <!-- 2. Keterangan & Legenda (Di Bawah Grafik) -->
-            <div class="pt-3 border-t border-slate-100 space-y-3">
-                <!-- Legenda Grafik -->
-                <div class="flex items-center justify-center gap-5 text-xs">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3.5 h-1 bg-emerald-600 rounded-full"></span>
-                        <span class="text-[11px] text-slate-700 font-bold">Total Kunjungan</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3.5 h-1 bg-indigo-500 rounded-full border-t border-dashed border-indigo-400"></span>
-                        <span class="text-[11px] text-slate-700 font-bold">Pengunjung Unik</span>
-                    </div>
+            <div class="p-6 space-y-4">
+                <!-- 1. Canvas Line Chart -->
+                <div class="relative h-60 w-full">
+                    <canvas id="visitorChart"></canvas>
                 </div>
 
-                <!-- Mini Keterangan & Ringkasan Metrik -->
-                <div class="grid grid-cols-2 gap-2.5 pt-1">
-                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-                        <span class="text-[10px] font-bold uppercase text-slate-400 block">Kunjungan Hari Ini</span>
-                        <span class="text-base font-black text-emerald-800">{{ number_format($visitorStats['today_views'] ?? 0) }}</span>
-                        <span class="text-[10px] text-slate-500 block">({{ number_format($visitorStats['today_unique'] ?? 0) }} unik)</span>
+                <!-- 2. Keterangan & Legenda (Di Bawah Grafik) -->
+                <div class="pt-3 border-t border-slate-100 space-y-3">
+                    <!-- Legenda Grafik -->
+                    <div class="flex items-center justify-center gap-5 text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3.5 h-1 bg-emerald-600 rounded-full"></span>
+                            <span class="text-[11px] text-slate-700 font-bold">Total Kunjungan</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3.5 h-1 bg-indigo-500 rounded-full border-t border-dashed border-indigo-400"></span>
+                            <span class="text-[11px] text-slate-700 font-bold">Pengunjung Unik</span>
+                        </div>
                     </div>
-                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-                        <span class="text-[10px] font-bold uppercase text-slate-400 block">Total Kunjungan</span>
-                        <span class="text-base font-black text-indigo-900">{{ number_format($visitorStats['total_views'] ?? 0) }}</span>
-                        <span class="text-[10px] text-slate-500 block">seluruh waktu</span>
-                    </div>
-                </div>
 
-                <p class="text-[10px] text-slate-400 text-center leading-relaxed">
-                    * Data grafik diperbarui secara real-time berdasarkan aktivitas pengunjung pada portal sekolah.
-                </p>
+                    <!-- Mini Keterangan & Ringkasan Metrik -->
+                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-[10px] font-bold uppercase text-slate-400 block">Kunjungan Hari Ini</span>
+                            <span class="text-base font-black text-emerald-800">{{ number_format($visitorStats['today_views'] ?? 0) }}</span>
+                            <span class="text-[10px] text-slate-500 block">({{ number_format($visitorStats['today_unique'] ?? 0) }} unik)</span>
+                        </div>
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-[10px] font-bold uppercase text-slate-400 block">Total Kunjungan</span>
+                            <span class="text-base font-black text-indigo-900">{{ number_format($visitorStats['total_views'] ?? 0) }}</span>
+                            <span class="text-[10px] text-slate-500 block">seluruh waktu</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-slate-400 text-center leading-relaxed">
+                        * Data grafik diperbarui secara real-time berdasarkan aktivitas pengunjung pada portal sekolah.
+                    </p>
+                </div>
             </div>
         </div>
 
