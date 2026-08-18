@@ -162,7 +162,7 @@
                             </div>
 
                             <div class="border-t border-emerald-800/80 pt-4 space-y-3">
-                                <p class="text-xs sm:text-sm text-slate-200 leading-relaxed italic line-clamp-3">
+                                <p class="text-xs sm:text-sm text-white font-medium leading-relaxed italic line-clamp-3">
                                     "{{ Str::limit(strip_tags($profiles['sambutan_kepala_sekolah']->content ?? 'Selamat datang di website resmi SMA Negeri 24 Bandung. Kami berkomitmen untuk terus meningkatkan mutu pendidikan, membangun karakter peserta didik yang berakhlak mulia, cerdas, dan siap bersaing di tingkat global.'), 180) }}"
                                 </p>
                                 <div class="pt-1">
@@ -235,8 +235,8 @@
                         </div>
 
                         <div class="space-y-3">
-                            <div class="p-4 sm:p-5 rounded-2xl bg-emerald-900/40 border border-emerald-700/50">
-                                <p class="text-xs sm:text-sm md:text-base text-slate-200 leading-relaxed italic line-clamp-4">
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-900/70 border border-emerald-500/40 shadow-inner">
+                                <p class="text-xs sm:text-sm md:text-base text-white font-medium leading-relaxed italic line-clamp-4">
                                     "{{ Str::limit(strip_tags($profiles['sambutan_kepala_sekolah']->content ?? 'Selamat datang di website resmi SMA Negeri 24 Bandung. Kami berkomitmen untuk terus meningkatkan mutu pendidikan, membangun karakter peserta didik yang berakhlak mulia, cerdas, dan siap bersaing di tingkat global.'), 260) }}"
                                 </p>
                             </div>

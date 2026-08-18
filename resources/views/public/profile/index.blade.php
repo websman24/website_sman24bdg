@@ -32,8 +32,8 @@
         </div>
 
         <div class="relative space-y-4">
-            <div class="bg-emerald-900/40 p-5 sm:p-7 rounded-2xl border border-emerald-700/50">
-                <div class="prose prose-invert max-w-none text-slate-100 text-sm sm:text-base leading-relaxed italic space-y-4 transition-all duration-300 [&_p]:text-slate-100 [&_p]:leading-relaxed [&_span]:!text-slate-100 [&_strong]:text-amber-300 [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_h4]:text-white [&_ul]:text-slate-100 [&_ol]:text-slate-100 [&_li]:text-slate-100 [&_a]:text-amber-300 [&_a]:underline"
+            <div class="bg-slate-900/70 p-5 sm:p-7 rounded-2xl border border-emerald-500/40 shadow-inner">
+                <div class="prose prose-invert max-w-none text-white text-sm sm:text-base leading-relaxed italic space-y-4 transition-all duration-300 [&_*]:!text-white [&_strong]:!text-amber-300 [&_a]:!text-amber-300 [&_a]:underline"
                      :class="expanded ? '' : 'line-clamp-4'">
                     {!! clean($profiles['sambutan_kepala_sekolah']->content ?? 'Selamat datang di website resmi SMA Negeri 24 Bandung. Kami berkomitmen untuk terus meningkatkan mutu pendidikan, membangun karakter peserta didik yang berakhlak mulia, cerdas, dan siap bersaing di tingkat global.') !!}
                 </div>
