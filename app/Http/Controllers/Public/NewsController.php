@@ -55,7 +55,8 @@ class NewsController extends Controller
         // Increment views count safely
         $news->increment('views_count');
 
-        $relatedQuery = News::where('id', '!=', $news->id)
+        $relatedQuery = News::with(['category', 'author'])
+            ->where('id', '!=', $news->id)
             ->where('status', 'published');
 
         if ($news->category_id) {
