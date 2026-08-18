@@ -132,7 +132,7 @@ class NewsModuleTest extends TestCase
         // 10. Test Admin Dashboard Visitor Analytics & Chart
         $dashboardResp = $this->get('/admin');
         $dashboardResp->assertStatus(200);
-        $dashboardResp->assertSee('Grafik & Analisis Pengunjung Website', false);
+        $dashboardResp->assertSee('Grafik Kunjungan Web');
         $dashboardResp->assertSee('visitorChart');
 
         // 11. Delete News

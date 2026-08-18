@@ -32,144 +32,7 @@
         </div>
     </div>
 
-    <!-- 2. GRAFIK & STATISTIK PENGUNJUNG WEBSITE -->
-    <div class="space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-                <h3 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
-                    <span>📈</span>
-                    <span>Grafik & Analisis Pengunjung Website</span>
-                </h3>
-                <p class="text-xs text-slate-500">Tren trafik kunjungan publik dalam 14 hari terakhir dan halaman paling diminati.</p>
-            </div>
-            <div class="flex items-center gap-2 text-xs">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-bold border border-emerald-300">
-                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
-                    Live Tracking Aktif
-                </span>
-            </div>
-        </div>
-
-        <!-- Metric Quick Mini Cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-                <div class="flex items-center justify-between text-slate-400">
-                    <span class="text-[11px] font-bold uppercase tracking-wider">Hari Ini</span>
-                    <span class="text-lg">☀️</span>
-                </div>
-                <div class="text-2xl font-black text-slate-900">
-                    {{ number_format($visitorStats['today_views'] ?? 0) }}
-                </div>
-                <div class="text-[11px] text-emerald-700 font-semibold">
-                    {{ number_format($visitorStats['today_unique'] ?? 0) }} pengunjung unik
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-                <div class="flex items-center justify-between text-slate-400">
-                    <span class="text-[11px] font-bold uppercase tracking-wider">7 Hari Terakhir</span>
-                    <span class="text-lg">📅</span>
-                </div>
-                <div class="text-2xl font-black text-indigo-900">
-                    {{ number_format($visitorStats['week_views'] ?? 0) }}
-                </div>
-                <div class="text-[11px] text-slate-500 font-medium">
-                    Total kunjungan sepekan
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-                <div class="flex items-center justify-between text-slate-400">
-                    <span class="text-[11px] font-bold uppercase tracking-wider">30 Hari Terakhir</span>
-                    <span class="text-lg">🗓️</span>
-                </div>
-                <div class="text-2xl font-black text-teal-900">
-                    {{ number_format($visitorStats['month_views'] ?? 0) }}
-                </div>
-                <div class="text-[11px] text-slate-500 font-medium">
-                    Total kunjungan sebulan
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-                <div class="flex items-center justify-between text-slate-400">
-                    <span class="text-[11px] font-bold uppercase tracking-wider">Total Kunjungan</span>
-                    <span class="text-lg">🌐</span>
-                </div>
-                <div class="text-2xl font-black text-emerald-900">
-                    {{ number_format($visitorStats['total_views'] ?? 0) }}
-                </div>
-                <div class="text-[11px] text-slate-500 font-medium">
-                    Akumulasi seluruh halaman
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Chart & Top Pages Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Line Chart Box (2 cols) -->
-            <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <div>
-                        <h4 class="text-sm font-extrabold text-slate-900">Grafik Kunjungan 14 Hari Terakhir</h4>
-                        <p class="text-[11px] text-slate-400">Perbandingan Total Pageviews vs Pengunjung Unik</p>
-                    </div>
-                    <div class="flex items-center gap-3 text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-                            <span class="text-[11px] text-slate-600 font-bold">Total Kunjungan</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
-                            <span class="text-[11px] text-slate-600 font-bold">Pengunjung Unik</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative h-64 sm:h-72 w-full">
-                    <canvas id="visitorChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Top 5 Visited Pages (1 col) -->
-            <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
-                <div>
-                    <div class="border-b border-slate-100 pb-3">
-                        <h4 class="text-sm font-extrabold text-slate-900">Halaman Terpopuler</h4>
-                        <p class="text-[11px] text-slate-400">Halaman dengan intensitas kunjungan tertinggi</p>
-                    </div>
-
-                    <div class="divide-y divide-slate-100 mt-2">
-                        @forelse($topPages as $page)
-                            <div class="py-2.5 flex items-center justify-between text-xs gap-2">
-                                <div class="min-w-0 flex-1">
-                                    <span class="font-bold text-slate-800 truncate block font-mono text-[11px]">
-                                        /{{ ltrim($page->page_url, '/') ?: 'beranda' }}
-                                    </span>
-                                    <span class="text-[10px] text-slate-400">
-                                        {{ number_format($page->unique_visitors) }} pengunjung unik
-                                    </span>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold font-mono text-xs shrink-0 border border-emerald-200">
-                                    {{ number_format($page->total_views) }} hits
-                                </span>
-                            </div>
-                        @empty
-                            <div class="py-6 text-center text-xs text-slate-400">
-                                Belum ada log kunjungan halaman.
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 text-center">
-                    Data diperbarui otomatis setiap pengunjung membuka web.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. 4 KARTU STATISTIK MODUL UTAMA: Background Berwarna Khusus -->
+    <!-- 2. 4 KARTU STATISTIK UTAMA: Background Berwarna Khusus -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- 📰 Card 1: Berita Artikel (Rich Emerald Gradient Background) -->
@@ -253,7 +116,7 @@
         </div>
     </div>
 
-    <!-- 4. STATISTIK SEKUNDER: KARTU BERWARNA VOLL GRADIENT -->
+    <!-- 3. STATISTIK SEKUNDER: KARTU BERWARNA VOLL GRADIENT -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
         <!-- Pengumuman Card (Rose Gradient) -->
         <div class="bg-gradient-to-br from-rose-600 to-rose-800 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-rose-500/40">
@@ -300,87 +163,139 @@
         </div>
     </div>
 
-    <!-- 5. TABEL AKTIVITAS TERBARU (RECENT ACTIVITY FEED) -->
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-        <!-- Table Header -->
-        <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 p-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-800/50">
-            <div>
-                <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
-                    <span>⚡ Aktivitas Terbaru Sistem</span>
-                </h3>
-                <p class="text-xs text-slate-300 mt-0.5">Daftar publikasi dan perbaruan data konten terkini SMAN 24 Bandung.</p>
+    <!-- 4. AKTIVITAS TERBARU & GRAFIK PENGUNJUNG (SIDE BY SIDE / RESPONSIF) -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        
+        <!-- Tabel Aktivitas Terbaru (Kiri: 7 Kolom) -->
+        <div class="xl:col-span-7 bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+            <!-- Table Header -->
+            <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 p-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-800/50">
+                <div>
+                    <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+                        <span>⚡ Aktivitas Terbaru Sistem</span>
+                    </h3>
+                    <p class="text-xs text-slate-300 mt-0.5">Daftar publikasi dan perbaruan data konten terkini.</p>
+                </div>
+                
+                <!-- Quick Actions Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ route('admin.news.create') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-600 transition-colors shadow-sm">
+                        + Berita
+                    </a>
+                    <a href="{{ route('admin.events.create') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-900 hover:bg-indigo-800 text-white border border-indigo-700 transition-colors shadow-sm">
+                        + Agenda
+                    </a>
+                    <a href="{{ route('admin.teachers.create') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-900 hover:bg-cyan-800 text-white border border-cyan-700 transition-colors shadow-sm">
+                        + Guru
+                    </a>
+                    <a href="{{ route('admin.galleries.create') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-900 hover:bg-amber-800 text-amber-200 border border-amber-700 transition-colors shadow-sm">
+                        + Galeri
+                    </a>
+                </div>
             </div>
-            
-            <!-- Quick Actions Buttons -->
-            <div class="flex flex-wrap gap-2">
-                <a href="{{ route('admin.news.create') }}" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-600 transition-colors shadow-sm">
-                    + Berita
-                </a>
-                <a href="{{ route('admin.events.create') }}" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-900 hover:bg-indigo-800 text-white border border-indigo-700 transition-colors shadow-sm">
-                    + Agenda
-                </a>
-                <a href="{{ route('admin.teachers.create') }}" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-cyan-900 hover:bg-cyan-800 text-white border border-cyan-700 transition-colors shadow-sm">
-                    + Guru
-                </a>
-                <a href="{{ route('admin.galleries.create') }}" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-900 hover:bg-amber-800 text-amber-200 border border-amber-700 transition-colors shadow-sm">
-                    + Galeri
-                </a>
+
+            <div class="overflow-x-auto max-h-[460px] overflow-y-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold sticky top-0 z-10">
+                        <tr>
+                            <th class="px-4 py-3.5">Modul</th>
+                            <th class="px-4 py-3.5">Judul Konten</th>
+                            <th class="px-4 py-3.5">Penulis</th>
+                            <th class="px-4 py-3.5">Waktu</th>
+                            <th class="px-4 py-3.5 text-center">Status</th>
+                            <th class="px-4 py-3.5 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($recentActivities as $act)
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="px-4 py-3 font-bold text-slate-900">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase
+                                        @if($act['type'] === 'Berita') bg-emerald-100 text-emerald-900 border border-emerald-300
+                                        @elseif($act['type'] === 'Agenda') bg-indigo-100 text-indigo-900 border border-indigo-300
+                                        @elseif($act['type'] === 'Pengumuman') bg-rose-100 text-rose-900 border border-rose-300
+                                        @else bg-amber-100 text-amber-900 border border-amber-300 @endif">
+                                        <span>{{ $act['icon'] }}</span>
+                                        <span>{{ $act['type'] }}</span>
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 font-bold text-slate-900 max-w-[180px] truncate text-xs">
+                                    {{ $act['title'] }}
+                                </td>
+                                <td class="px-4 py-3 text-slate-600 font-medium truncate max-w-[100px]">
+                                    {{ $act['author'] }}
+                                </td>
+                                <td class="px-4 py-3 font-mono text-[11px] text-slate-500 whitespace-nowrap">
+                                    {{ $act['time']->diffForHumans() }}
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-slate-100 text-slate-800 border border-slate-300">
+                                        {{ $act['status'] }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-right">
+                                    <a href="{{ $act['url'] }}" class="px-2.5 py-1 rounded-lg bg-emerald-900 text-white hover:bg-emerald-800 font-bold transition-colors shadow-xs text-[11px]">
+                                        Buka &rarr;
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-12 text-center text-slate-400">Belum ada aktivitas tercatat.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-                <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
-                    <tr>
-                        <th class="px-6 py-4">Tipe Modul</th>
-                        <th class="px-6 py-4">Judul Konten</th>
-                        <th class="px-6 py-4">Pengubah / Penulis</th>
-                        <th class="px-6 py-4">Waktu</th>
-                        <th class="px-6 py-4 text-center">Status</th>
-                        <th class="px-6 py-4 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    @forelse($recentActivities as $act)
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="px-6 py-4 font-bold text-slate-900">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase
-                                    @if($act['type'] === 'Berita') bg-emerald-100 text-emerald-900 border border-emerald-300
-                                    @elseif($act['type'] === 'Agenda') bg-indigo-100 text-indigo-900 border border-indigo-300
-                                    @elseif($act['type'] === 'Pengumuman') bg-rose-100 text-rose-900 border border-rose-300
-                                    @else bg-amber-100 text-amber-900 border border-amber-300 @endif">
-                                    <span>{{ $act['icon'] }}</span>
-                                    <span>{{ $act['type'] }}</span>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 font-bold text-slate-900 max-w-xs truncate text-sm">
-                                {{ $act['title'] }}
-                            </td>
-                            <td class="px-6 py-4 text-slate-600 font-medium">
-                                {{ $act['author'] }}
-                            </td>
-                            <td class="px-6 py-4 font-mono text-[11px] text-slate-500">
-                                {{ $act['time']->diffForHumans() }}
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="px-2.5 py-1 rounded-full text-[9px] font-extrabold uppercase bg-slate-100 text-slate-800 border border-slate-300">
-                                    {{ $act['status'] }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <a href="{{ $act['url'] }}" class="px-3.5 py-1.5 rounded-lg bg-emerald-900 text-white hover:bg-emerald-800 font-bold transition-colors shadow-xs">
-                                    Buka &rarr;
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-slate-400">Belum ada aktivitas tercatat.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <!-- Grafik Kunjungan Web (Kanan: 5 Kolom) -->
+        <div class="xl:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>📈</span>
+                        <span>Grafik Kunjungan Web</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Tren trafik 14 hari terakhir (Pageviews & Pengunjung Unik)</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-200">
+                    Live
+                </span>
+            </div>
+
+            <!-- Mini Summary Metric Badges -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 text-center">
+                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Kunjungan Hari Ini</span>
+                    <span class="text-lg font-black text-emerald-800">{{ number_format($visitorStats['today_views'] ?? 0) }}</span>
+                    <span class="text-[10px] text-slate-500 block">({{ number_format($visitorStats['today_unique'] ?? 0) }} unik)</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 text-center">
+                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Total Kunjungan</span>
+                    <span class="text-lg font-black text-indigo-900">{{ number_format($visitorStats['total_views'] ?? 0) }}</span>
+                    <span class="text-[10px] text-slate-500 block">seluruh waktu</span>
+                </div>
+            </div>
+
+            <!-- Chart Legends -->
+            <div class="flex items-center justify-center gap-4 text-xs pt-1">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+                    <span class="text-[11px] text-slate-600 font-bold">Total Kunjungan</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+                    <span class="text-[11px] text-slate-600 font-bold">Pengunjung Unik</span>
+                </div>
+            </div>
+
+            <!-- Canvas Chart -->
+            <div class="relative h-64 w-full">
+                <canvas id="visitorChart"></canvas>
+            </div>
         </div>
+
     </div>
 
 </div>
@@ -412,15 +327,15 @@
                         pointBackgroundColor: '#059669',
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
                     },
                     {
                         label: 'Pengunjung Unik',
                         data: uniqueData,
                         borderColor: '#6366f1',
                         backgroundColor: 'rgba(99, 102, 241, 0.08)',
-                        borderWidth: 2.5,
+                        borderWidth: 2,
                         borderDash: [4, 4],
                         fill: true,
                         tension: 0.35,
@@ -449,8 +364,8 @@
                         bodyColor: '#f8fafc',
                         borderColor: '#334155',
                         borderWidth: 1,
-                        padding: 10,
-                        cornerRadius: 12,
+                        padding: 8,
+                        cornerRadius: 10,
                     }
                 },
                 scales: {
@@ -460,7 +375,7 @@
                         },
                         ticks: {
                             font: {
-                                size: 10,
+                                size: 9,
                                 weight: '600'
                             },
                             color: '#94a3b8'
@@ -474,7 +389,7 @@
                         ticks: {
                             stepSize: 1,
                             font: {
-                                size: 10
+                                size: 9
                             },
                             color: '#94a3b8'
                         }
