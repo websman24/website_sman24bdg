@@ -39,9 +39,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'logout',
         ]);
 
-        // Apply security headers to all web responses globally
+        // Apply security headers and visitor tracking to all web responses globally
         $middleware->web(append: [
             SecurityHeadersMiddleware::class,
+            \App\Http\Middleware\TrackVisitor::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -33,6 +33,12 @@ Route::middleware('throttle:60,1')->group(function () {
     // News & Articles Routes
     Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
     Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
+    Route::post('/berita/{slug}/komentar', [NewsController::class, 'storeComment'])->name('news.comments.store');
+
+    // Informasi Aliases (for direct Indonesian URL navigation)
+    Route::get('/informasi', [NewsController::class, 'index']);
+    Route::get('/informasi/{slug}', [NewsController::class, 'show']);
+    Route::post('/informasi/{slug}/komentar', [NewsController::class, 'storeComment']);
 
     // Announcements Routes
     Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');

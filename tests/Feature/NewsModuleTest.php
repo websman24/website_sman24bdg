@@ -111,7 +111,31 @@ class NewsModuleTest extends TestCase
         $publicIndex3 = $this->get('/berita');
         $publicIndex3->assertSee('Rencana Pelaksanaan KSN 2026 SMAN 24 Official');
 
-        // 9. Delete News
+        // 9. Test Reader Comment Submission (Fitur Komentar Berita)
+        $commentResp = $this->post("/berita/{$publishedArticle->slug}/komentar", [
+            'name' => 'Budi Setiawan',
+            'email' => 'budi@example.com',
+            'comment' => 'Artikel yang sangat menginspirasi! Maju terus SMAN 24 Bandung.',
+        ]);
+        $commentResp->assertRedirect(route('news.show', $publishedArticle->slug).'#comments');
+        $this->assertDatabaseHas('news_comments', [
+            'news_id' => $publishedArticle->id,
+            'name' => 'Budi Setiawan',
+            'comment' => 'Artikel yang sangat menginspirasi! Maju terus SMAN 24 Bandung.',
+        ]);
+
+        $detailWithComment = $this->get("/berita/{$publishedArticle->slug}");
+        $detailWithComment->assertStatus(200);
+        $detailWithComment->assertSee('Budi Setiawan');
+        $detailWithComment->assertSee('Artikel yang sangat menginspirasi! Maju terus SMAN 24 Bandung.');
+
+        // 10. Test Admin Dashboard Visitor Analytics & Chart
+        $dashboardResp = $this->get('/admin');
+        $dashboardResp->assertStatus(200);
+        $dashboardResp->assertSee('Grafik & Analisis Pengunjung Website', false);
+        $dashboardResp->assertSee('visitorChart');
+
+        // 11. Delete News
         $deleteResp = $this->delete("/admin/news/{$draftArticle->id}");
         $deleteResp->assertRedirect(route('admin.news.index'));
         $this->assertDatabaseMissing('news', ['id' => $draftArticle->id]);

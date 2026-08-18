@@ -25,7 +25,8 @@
         document.addEventListener("trix-file-accept", function(event) {
             event.preventDefault();
         });
-    </script>
+    <!-- Chart.js CDN for Admin Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -357,5 +358,6 @@
 
     </div>
 
+    @stack('scripts')
 </body>
 </html>

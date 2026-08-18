@@ -17,7 +17,7 @@
                 Selamat Datang, {{ auth()->user()->name ?? 'Admin' }}!
             </h2>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Kelola data berita, agenda, pendidik, galeri foto, dokumen, serta akun administrator {{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }}.
+                Kelola data berita, agenda, pendidik, galeri foto, dokumen, serta analitik trafik pengunjung {{ \App\Models\Setting::getValue('school_name', 'SMA Negeri 24 Bandung') }}.
             </p>
         </div>
 
@@ -32,7 +32,144 @@
         </div>
     </div>
 
-    <!-- 2. 4 KARTU STATISTIK UTAMA: Background Berwarna Khusus -->
+    <!-- 2. GRAFIK & STATISTIK PENGUNJUNG WEBSITE -->
+    <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+                <h3 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+                    <span>📈</span>
+                    <span>Grafik & Analisis Pengunjung Website</span>
+                </h3>
+                <p class="text-xs text-slate-500">Tren trafik kunjungan publik dalam 14 hari terakhir dan halaman paling diminati.</p>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-bold border border-emerald-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+                    Live Tracking Aktif
+                </span>
+            </div>
+        </div>
+
+        <!-- Metric Quick Mini Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-[11px] font-bold uppercase tracking-wider">Hari Ini</span>
+                    <span class="text-lg">☀️</span>
+                </div>
+                <div class="text-2xl font-black text-slate-900">
+                    {{ number_format($visitorStats['today_views'] ?? 0) }}
+                </div>
+                <div class="text-[11px] text-emerald-700 font-semibold">
+                    {{ number_format($visitorStats['today_unique'] ?? 0) }} pengunjung unik
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-[11px] font-bold uppercase tracking-wider">7 Hari Terakhir</span>
+                    <span class="text-lg">📅</span>
+                </div>
+                <div class="text-2xl font-black text-indigo-900">
+                    {{ number_format($visitorStats['week_views'] ?? 0) }}
+                </div>
+                <div class="text-[11px] text-slate-500 font-medium">
+                    Total kunjungan sepekan
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-[11px] font-bold uppercase tracking-wider">30 Hari Terakhir</span>
+                    <span class="text-lg">🗓️</span>
+                </div>
+                <div class="text-2xl font-black text-teal-900">
+                    {{ number_format($visitorStats['month_views'] ?? 0) }}
+                </div>
+                <div class="text-[11px] text-slate-500 font-medium">
+                    Total kunjungan sebulan
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-[11px] font-bold uppercase tracking-wider">Total Kunjungan</span>
+                    <span class="text-lg">🌐</span>
+                </div>
+                <div class="text-2xl font-black text-emerald-900">
+                    {{ number_format($visitorStats['total_views'] ?? 0) }}
+                </div>
+                <div class="text-[11px] text-slate-500 font-medium">
+                    Akumulasi seluruh halaman
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chart & Top Pages Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Line Chart Box (2 cols) -->
+            <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div>
+                        <h4 class="text-sm font-extrabold text-slate-900">Grafik Kunjungan 14 Hari Terakhir</h4>
+                        <p class="text-[11px] text-slate-400">Perbandingan Total Pageviews vs Pengunjung Unik</p>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+                            <span class="text-[11px] text-slate-600 font-bold">Total Kunjungan</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+                            <span class="text-[11px] text-slate-600 font-bold">Pengunjung Unik</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative h-64 sm:h-72 w-full">
+                    <canvas id="visitorChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top 5 Visited Pages (1 col) -->
+            <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                <div>
+                    <div class="border-b border-slate-100 pb-3">
+                        <h4 class="text-sm font-extrabold text-slate-900">Halaman Terpopuler</h4>
+                        <p class="text-[11px] text-slate-400">Halaman dengan intensitas kunjungan tertinggi</p>
+                    </div>
+
+                    <div class="divide-y divide-slate-100 mt-2">
+                        @forelse($topPages as $page)
+                            <div class="py-2.5 flex items-center justify-between text-xs gap-2">
+                                <div class="min-w-0 flex-1">
+                                    <span class="font-bold text-slate-800 truncate block font-mono text-[11px]">
+                                        /{{ ltrim($page->page_url, '/') ?: 'beranda' }}
+                                    </span>
+                                    <span class="text-[10px] text-slate-400">
+                                        {{ number_format($page->unique_visitors) }} pengunjung unik
+                                    </span>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-extrabold font-mono text-xs shrink-0 border border-emerald-200">
+                                    {{ number_format($page->total_views) }} hits
+                                </span>
+                            </div>
+                        @empty
+                            <div class="py-6 text-center text-xs text-slate-400">
+                                Belum ada log kunjungan halaman.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 text-center">
+                    Data diperbarui otomatis setiap pengunjung membuka web.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 4 KARTU STATISTIK MODUL UTAMA: Background Berwarna Khusus -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- 📰 Card 1: Berita Artikel (Rich Emerald Gradient Background) -->
@@ -116,7 +253,7 @@
         </div>
     </div>
 
-    <!-- 3. STATISTIK SEKUNDER: KARTU BERWARNA VOLL GRADIENT -->
+    <!-- 4. STATISTIK SEKUNDER: KARTU BERWARNA VOLL GRADIENT -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
         <!-- Pengumuman Card (Rose Gradient) -->
         <div class="bg-gradient-to-br from-rose-600 to-rose-800 p-4 rounded-2xl text-white shadow-md hover:shadow-xl transition-all flex items-center justify-between border border-rose-500/40">
@@ -163,7 +300,7 @@
         </div>
     </div>
 
-    <!-- 4. TABEL AKTIVITAS TERBARU (RECENT ACTIVITY FEED) -->
+    <!-- 5. TABEL AKTIVITAS TERBARU (RECENT ACTIVITY FEED) -->
     <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
         <!-- Table Header -->
         <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 p-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-800/50">
@@ -248,3 +385,103 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('visitorChart');
+        if (!ctx) return;
+
+        const labels = @json($chartLabels);
+        const viewsData = @json($chartViewsData);
+        const uniqueData = @json($chartUniqueData);
+
+        new Chart(ctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Total Kunjungan',
+                        data: viewsData,
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.12)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#059669',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                    },
+                    {
+                        label: 'Pengunjung Unik',
+                        data: uniqueData,
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                        borderWidth: 2.5,
+                        borderDash: [4, 4],
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#6366f1',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#f8fafc',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        padding: 10,
+                        cornerRadius: 12,
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 10,
+                                weight: '600'
+                            },
+                            color: '#94a3b8'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9'
+                        },
+                        ticks: {
+                            stepSize: 1,
+                            font: {
+                                size: 10
+                            },
+                            color: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

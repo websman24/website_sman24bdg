@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Models\Extracurricular;
 use App\Models\News;
 use App\Models\NewsCategory;
+use App\Models\NewsComment;
 use App\Models\OsisMember;
 use App\Models\OsisProfile;
 use App\Models\Page;
@@ -21,6 +22,7 @@ use App\Models\Staff;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\VisitorLog;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -448,6 +450,51 @@ class DatabaseSeeder extends Seeder
                 ['name' => $m['name']],
                 $m
             );
+        }
+
+        // 19. Sample News Comments
+        $sampleNews = News::first();
+        if ($sampleNews) {
+            NewsComment::updateOrCreate(
+                ['news_id' => $sampleNews->id, 'name' => 'Fathan Al-Ghifari'],
+                [
+                    'email' => 'fathan@alumni.sman24bdg.sch.id',
+                    'comment' => 'Selamat atas peluncuran website resmi terbaru SMA Negeri 24 Bandung! Tampilannya sangat modern, responsif, dan informatif.',
+                    'is_approved' => true,
+                    'created_at' => now()->subHours(5),
+                ]
+            );
+
+            NewsComment::updateOrCreate(
+                ['news_id' => $sampleNews->id, 'name' => 'Zahra Amelia'],
+                [
+                    'email' => 'zahra.amelia@gmail.com',
+                    'comment' => 'Keren sekali websitenya! Memudahkan calon siswa dan orang tua untuk melihat informasi kegiatan sekolah.',
+                    'is_approved' => true,
+                    'created_at' => now()->subHours(2),
+                ]
+            );
+        }
+
+        // 20. Sample 14-Day Visitor Analytics
+        if (VisitorLog::count() === 0) {
+            $pages = ['/', 'berita', 'profil', 'akademik/guru', 'kesiswaan/osis', 'kesiswaan/ekstrakurikuler', 'spmb/pendaftar'];
+            $sampleIps = ['192.168.1.10', '192.168.1.15', '192.168.1.20', '192.168.1.25', '180.252.16.88', '114.125.72.102', '125.160.10.45', '182.253.90.11'];
+
+            for ($daysAgo = 13; $daysAgo >= 0; $daysAgo--) {
+                $vDate = now()->subDays($daysAgo)->toDateString();
+                $dailyHits = rand(25, 60);
+
+                for ($h = 0; $h < $dailyHits; $h++) {
+                    VisitorLog::create([
+                        'ip_address' => $sampleIps[array_rand($sampleIps)],
+                        'page_url' => $pages[array_rand($pages)],
+                        'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                        'visit_date' => $vDate,
+                        'created_at' => now()->subDays($daysAgo)->addMinutes(rand(10, 1400)),
+                    ]);
+                }
+            }
         }
     }
 }

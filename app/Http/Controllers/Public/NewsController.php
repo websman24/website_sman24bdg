@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use App\Models\NewsCategory;
+use App\Models\NewsComment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -41,25 +43,61 @@ class NewsController extends Controller
     }
 
     /**
-     * Display a single news detail article.
+     * Display a single news detail article with comments.
      */
     public function show(string $slug): View
     {
-        $news = News::with(['category', 'author'])
+        $news = News::with(['category', 'author', 'comments'])
             ->where('slug', $slug)
             ->where('status', 'published')
             ->firstOrFail();
 
-        // Increment views count
+        // Increment views count safely
         $news->increment('views_count');
 
-        $relatedNews = News::where('category_id', $news->category_id)
-            ->where('id', '!=', $news->id)
-            ->where('status', 'published')
-            ->latest('published_at')
+        $relatedQuery = News::where('id', '!=', $news->id)
+            ->where('status', 'published');
+
+        if ($news->category_id) {
+            $relatedQuery->where('category_id', $news->category_id);
+        }
+
+        $relatedNews = $relatedQuery->latest('published_at')
             ->take(3)
             ->get();
 
         return view('public.news.show', compact('news', 'relatedNews'));
+    }
+
+    /**
+     * Store reader comment on a news article.
+     */
+    public function storeComment(Request $request, string $slug): RedirectResponse
+    {
+        $news = News::where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['nullable', 'email', 'max:150'],
+            'comment' => ['required', 'string', 'min:3', 'max:1000'],
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama maksimal 100 karakter.',
+            'email.email' => 'Format email tidak valid.',
+            'comment.required' => 'Isi komentar wajib diisi.',
+            'comment.min' => 'Komentar minimal 3 karakter.',
+            'comment.max' => 'Komentar maksimal 1000 karakter.',
+        ]);
+
+        $validated['news_id'] = $news->id;
+        $validated['is_approved'] = true;
+        $validated['comment'] = strip_tags($validated['comment']);
+
+        NewsComment::create($validated);
+
+        return redirect()->to(route('news.show', $news->slug).'#comments')
+            ->with('comment_success', 'Komentar Anda berhasil dikirim dan dipublikasikan.');
     }
 }

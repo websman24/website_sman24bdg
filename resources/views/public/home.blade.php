@@ -327,7 +327,7 @@
                                     <div class="space-y-3">
                                         <div class="flex items-center justify-between text-xs">
                                             <span class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-800 text-white text-[10px] uppercase shadow-xs">
-                                                {{ $news->category->name ?? 'Umum' }}
+                                                {{ $news->category?->name ?? 'Umum' }}
                                             </span>
                                             <span class="text-slate-400 text-[11px] font-mono">{{ $news->published_at?->format('d M Y') }}</span>
                                         </div>
