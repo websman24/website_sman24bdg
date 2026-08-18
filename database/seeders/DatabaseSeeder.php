@@ -34,7 +34,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Users Default Roles
-        $defaultPassword = env('ADMIN_DEFAULT_PASSWORD', 'Password24!');
+        // SECURITY: Never use a hardcoded default password in production.
+        // Set ADMIN_DEFAULT_PASSWORD in your .env file.
+        // If not set, a cryptographically random password is generated and printed once.
+        $defaultPassword = env('ADMIN_DEFAULT_PASSWORD');
+
+        if (empty($defaultPassword)) {
+            $defaultPassword = bin2hex(random_bytes(16)); // 32-char random hex
+            $this->command->warn('⚠  ADMIN_DEFAULT_PASSWORD not set in .env!');
+            $this->command->warn("⚠  Generated random password for all seeded accounts: {$defaultPassword}");
+            $this->command->warn('⚠  Save this password NOW — it will not be shown again.');
+        }
+
 
         $superadmin = User::updateOrCreate(
             ['email' => 'superadmin@sman24bdg.sch.id'],

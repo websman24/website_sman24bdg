@@ -8,7 +8,9 @@ use App\Services\FileStorageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -59,7 +61,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
             'role' => ['required', 'in:superadmin,admin,editor,guru'],
             'avatar_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ], [
@@ -67,8 +77,6 @@ class UserController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email ini sudah terdaftar.',
             'password.required' => 'Kata sandi wajib diisi.',
-            'password.min' => 'Kata sandi minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'role.required' => 'Role pengguna wajib dipilih.',
         ]);
 
@@ -90,6 +98,15 @@ class UserController extends Controller
         }
 
         User::create($data);
+
+        Log::info('[AUDIT] Admin user created', [
+            'actor_id'   => auth()->id(),
+            'actor_role' => auth()->user()->role,
+            'new_user'   => $validated['email'],
+            'role'       => $validated['role'],
+            'ip'         => request()->ip(),
+            'timestamp'  => now()->toIso8601String(),
+        ]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Akun pengguna administrator baru berhasil ditambahkan.');
@@ -116,15 +133,21 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'nullable',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
+            ],
             'role' => ['required', 'in:superadmin,admin,editor,guru'],
             'avatar_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ], [
             'name.required' => 'Nama pengguna wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email ini sudah digunakan oleh akun lain.',
-            'password.min' => 'Kata sandi minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
         // Security check: Only superadmin can manage superadmin role or accounts
@@ -153,6 +176,16 @@ class UserController extends Controller
 
         $user->save();
 
+        Log::info('[AUDIT] Admin user updated', [
+            'actor_id'      => auth()->id(),
+            'actor_role'    => auth()->user()->role,
+            'target_id'     => $user->id,
+            'target_email'  => $user->email,
+            'password_changed' => ! empty($validated['password']),
+            'ip'            => request()->ip(),
+            'timestamp'     => now()->toIso8601String(),
+        ]);
+
         return redirect()->route('admin.users.index')
             ->with('success', 'Informasi akun pengguna berhasil diperbarui.');
     }
@@ -177,6 +210,15 @@ class UserController extends Controller
         }
 
         $user->delete();
+
+        Log::warning('[AUDIT] Admin user deleted', [
+            'actor_id'    => auth()->id(),
+            'actor_role'  => auth()->user()->role,
+            'deleted_id'  => $user->id,
+            'deleted_email' => $user->email,
+            'ip'          => request()->ip(),
+            'timestamp'   => now()->toIso8601String(),
+        ]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Akun pengguna berhasil dihapus.');

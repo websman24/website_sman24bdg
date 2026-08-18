@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -11,6 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Adds HTTP security headers to all responses to protect against common
  * web vulnerabilities: XSS, clickjacking, MIME sniffing, and data injection.
+ *
+ * Security improvements in this version:
+ * - Removed 'unsafe-eval' from CSP script-src (reduces XSS attack surface)
+ * - Added per-request CSP nonce for inline scripts
+ * - Added X-Robots-Tag: noindex for admin routes
+ * - HSTS now includes 'preload' directive
+ * - Strengthened Permissions-Policy
  */
 class SecurityHeadersMiddleware
 {
@@ -45,6 +53,11 @@ class SecurityHeadersMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Generate a per-request CSP nonce and share it with the application container
+        // so Blade templates can reference it via app('csp-nonce')
+        $nonce = Str::random(32);
+        app()->instance('csp-nonce', $nonce);
+
         $response = $next($request);
 
         // Skip binary / file download responses
@@ -52,7 +65,7 @@ class SecurityHeadersMiddleware
             return $response;
         }
 
-        $this->applySecurityHeaders($response, $request);
+        $this->applySecurityHeaders($response, $request, $nonce);
 
         return $response;
     }
@@ -60,12 +73,12 @@ class SecurityHeadersMiddleware
     /**
      * Apply all security headers to the response.
      */
-    private function applySecurityHeaders(Response $response, Request $request): void
+    private function applySecurityHeaders(Response $response, Request $request, string $nonce): void
     {
         // 1. Content-Security-Policy
         // Skip CSP in local development to avoid breaking Vite HMR and inline styles
-        if (!app()->environment('local')) {
-            $response->headers->set('Content-Security-Policy', $this->buildCsp());
+        if (! app()->environment('local')) {
+            $response->headers->set('Content-Security-Policy', $this->buildCsp($nonce));
         }
 
         // 2. X-Frame-Options — prevent clickjacking
@@ -84,30 +97,41 @@ class SecurityHeadersMiddleware
         $response->headers->set('X-XSS-Protection', '1; mode=block');
 
         // 7. Strict-Transport-Security (HSTS) — HTTPS only, in production
+        // includes 'preload' to support HSTS preload list submission
         if ($request->isSecure() || app()->environment('production')) {
             $response->headers->set(
                 'Strict-Transport-Security',
-                'max-age=31536000; includeSubDomains'
+                'max-age=31536000; includeSubDomains; preload'
             );
         }
 
-        // 8. Remove server information headers that expose internals
+        // 8. X-Robots-Tag — prevent admin area from being indexed by search engines
+        if ($request->is('admin*')) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+
+        // 9. Remove server information headers that expose internals
         $response->headers->remove('X-Powered-By');
         $response->headers->remove('Server');
     }
 
     /**
      * Build the Content-Security-Policy header value.
+     *
+     * Key security decisions:
+     * - 'unsafe-inline' is kept for style-src (required for Tailwind/inline styles)
+     * - 'unsafe-eval' has been REMOVED from script-src (was present before, reduces XSS risk)
+     * - Nonce is passed for inline scripts that genuinely need it
      */
-    private function buildCsp(): string
+    private function buildCsp(string $nonce): string
     {
         $fontSources = implode(' ', self::TRUSTED_FONTS);
         $scriptSources = implode(' ', self::TRUSTED_SCRIPTS);
         $frameSources = implode(' ', self::TRUSTED_FRAMES);
 
         $connectSrc = "connect-src 'self'";
-        if (!app()->environment('production')) {
-            // Allow Vite HMR in local development
+        if (! app()->environment('production')) {
+            // Allow Vite HMR in local/staging development
             $scriptSources .= " http://localhost:5173 http://127.0.0.1:5173 http://[::1]:5173";
             $styleSources = $fontSources . " http://localhost:5173 http://127.0.0.1:5173 http://[::1]:5173";
             $connectSrc .= " ws://localhost:5173 ws://127.0.0.1:5173 ws://[::1]:5173 wss:";
@@ -117,7 +141,8 @@ class SecurityHeadersMiddleware
 
         $directives = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' {$scriptSources}",
+            // 'unsafe-eval' intentionally removed — use nonce for inline scripts instead
+            "script-src 'self' 'unsafe-inline' 'nonce-{$nonce}' {$scriptSources}",
             "style-src 'self' 'unsafe-inline' {$styleSources}",
             "font-src 'self' {$fontSources}",
             "img-src 'self' data: blob: https:",
@@ -138,6 +163,8 @@ class SecurityHeadersMiddleware
 
     /**
      * Build the Permissions-Policy header value.
+     *
+     * Explicitly disable features that this school website does not need.
      */
     private function buildPermissionsPolicy(): string
     {
@@ -150,6 +177,10 @@ class SecurityHeadersMiddleware
             'fullscreen=(self)',
             'display-capture=()',
             'interest-cohort=()',
+            'accelerometer=()',
+            'gyroscope=()',
+            'magnetometer=()',
+            'ambient-light-sensor=()',
         ]);
     }
 

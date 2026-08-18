@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\AuditLogMiddleware;
 use App\Http\Middleware\SecurityHeadersMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware(['web', 'auth', AdminMiddleware::class, 'throttle:120,1'])
+            Route::middleware(['web', 'auth', AdminMiddleware::class, 'throttle:120,1', AuditLogMiddleware::class])
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
@@ -31,12 +32,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'role'  => \App\Http\Middleware\RoleMiddleware::class,
-        ]);
-
-        // Exclude logout routes from strict CSRF token validation to prevent 419 on session expiry
-        $middleware->validateCsrfTokens(except: [
-            'admin/logout',
-            'logout',
         ]);
 
         // Apply security headers and visitor tracking to all web responses globally

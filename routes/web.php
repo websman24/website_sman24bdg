@@ -86,5 +86,6 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 
-Route::match(['GET', 'POST'], '/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
-Route::match(['GET', 'POST'], '/logout', fn () => redirect()->route('admin.logout'));
+// Logout is POST-only to prevent CSRF logout attacks via crafted GET links
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+Route::post('/logout', fn () => redirect()->route('admin.logout'));
