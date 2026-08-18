@@ -64,10 +64,21 @@ class NewsController extends Controller
         }
 
         $relatedNews = $relatedQuery->latest('published_at')
-            ->take(3)
+            ->take(4)
             ->get();
 
-        return view('public.news.show', compact('news', 'relatedNews'));
+        $latestNews = News::with(['category', 'author'])
+            ->where('id', '!=', $news->id)
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        $categories = NewsCategory::withCount(['news' => function ($q) {
+            $q->where('status', 'published');
+        }])->get();
+
+        return view('public.news.show', compact('news', 'relatedNews', 'latestNews', 'categories'));
     }
 
     /**
